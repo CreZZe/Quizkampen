@@ -25,6 +25,8 @@ public class Quizkampen extends Application {
                 System.out.println("Hello World!");
             }
         });
+
+        System.out.println("Hej");
         
         System.out.println("ASDASD");
         
