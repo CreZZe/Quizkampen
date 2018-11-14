@@ -13,7 +13,7 @@ import javafx.stage.Stage;
  * @author 224Mi
  */
 public class Quizkampen extends Application {
-    // testing testing marcus dj
+    // testing testing marcus dj 2
     @Override
     public void start(Stage primaryStage) {
         Button btn = new Button();
