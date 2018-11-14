@@ -21,7 +21,7 @@ public class Quizkampen extends Application {
         btn.setText("Say 'Hello World'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
                 //marcus version 4
-            asdasdasdaszcv
+       
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Hello World!");
