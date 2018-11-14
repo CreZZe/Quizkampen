@@ -26,9 +26,15 @@ public class Quizkampen extends Application {
             }
         });
 
+        while (asdasd) {
+            
         System.out.println("Hej");
         
         System.out.println("ASDASD");
+        for (asd) {
+            
+        }
+        }
         
         StackPane root = new StackPane();
         root.getChildren().add(btn);
