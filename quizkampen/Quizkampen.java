@@ -25,6 +25,8 @@ public class Quizkampen extends Application {
                 System.out.println("Hello World!");
             }
         });
+
+        System.out.println("Hej");
         
         StackPane root = new StackPane();
         root.getChildren().add(btn);
