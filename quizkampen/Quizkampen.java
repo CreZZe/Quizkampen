@@ -13,19 +13,21 @@ import javafx.stage.Stage;
  * @author 224Mi
  */
 public class Quizkampen extends Application {
+    // testing testing marcus dj igen
     
     @Override
     public void start(Stage primaryStage) {
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
-            
+                //marcus version 4
+       
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Hello World!");
             }
         });
-
+        
         StackPane root = new StackPane();
         root.getChildren().add(btn);
         
