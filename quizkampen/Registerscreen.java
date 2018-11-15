@@ -1,6 +1,7 @@
 
 package quizkampen;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,35 +19,43 @@ public class Registerscreen {
     public Registerscreen(Stage window, Scene startScene) {
         root = new BorderPane();
         
-        HBox registerText = new HBox();
         HBox exitButton = new HBox();
         
-        VBox content = new VBox(40);
-        VBox usernameContent = new VBox(10);
-        VBox passwordContent = new VBox(10);
+        
+        VBox content = new VBox(20);
+        VBox typeContent = new VBox(10);
+        typeContent.getStyleClass().add("typeContent");
+        VBox usernameContent = new VBox(5);
+        VBox passwordContent = new VBox(5);
+        VBox emailContent = new VBox(5);
         
         Label registerLabel = new Label("Registrering");
-        Label usernameLabel = new Label("Ange ett användarnamn");
-        Label passwordLabel = new Label("Ange ett lösenord");
+        registerLabel.getStyleClass().add("headerLabel");
+        Label usernameLabel = new Label("Användarnamn");
+        Label passwordLabel = new Label("Lösenord");
+        Label emailLabel = new Label("E-post");
         
         TextField usernameField = new TextField();
         TextField passwordField = new TextField();
+        TextField emailField = new TextField();
         
         Button submit = new Button("Spara användare");
         Button exit = new Button("<");
         
+        submit.getStyleClass().add("loginButtons");
+
         //Actionhandler för tillbaka knappen
         exit.setOnAction(e -> window.setScene(startScene));
         
-        registerText.getChildren().add(registerLabel); 
-        content.getChildren().addAll(usernameContent, passwordContent, submit);
+        content.getChildren().add(typeContent);
+        typeContent.getChildren().addAll(registerLabel, usernameContent, passwordContent, emailContent, submit);
         usernameContent.getChildren().addAll(usernameLabel, usernameField);
         passwordContent.getChildren().addAll(passwordLabel, passwordField);
+        emailContent.getChildren().addAll(emailLabel, emailField);
         exitButton.getChildren().add(exit);
         
-        registerText.setAlignment(Pos.CENTER);
         
-        root.setTop(registerText);
+        //root.setTop(registerText);
         root.setCenter(content);
         root.setBottom(exitButton);
     }

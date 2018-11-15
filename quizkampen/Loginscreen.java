@@ -18,34 +18,41 @@ public class Loginscreen {
     public Loginscreen(Stage window, Scene startScene) {
         root = new BorderPane();
         
-        HBox loginText = new HBox();
         HBox exitButton = new HBox();
+        HBox buttons = new HBox(68);
         
-        VBox content = new VBox(40);
-        VBox usernameContent = new VBox(10);
-        VBox passwordContent = new VBox(10);
+        VBox content = new VBox(20);
+        VBox typeContent = new VBox(15);
+        typeContent.getStyleClass().add("typeContent");
+        VBox usernameContent = new VBox(5);
+        VBox passwordContent = new VBox(5);
         
         Label loginLabel = new Label("Logga in");
-        Label usernameLabel = new Label("Ange ett användarnamn");
-        Label passwordLabel = new Label("Ange ett lösenord");
+        loginLabel.getStyleClass().add("headerLabel");
+        Label usernameLabel = new Label("Användarnamn");
+        Label passwordLabel = new Label("Lösenord");
         
         TextField usernameField = new TextField();
         TextField passwordField = new TextField();
         
         Button loginButton = new Button("Logga in");
+        Button forgotLogin = new Button("Glömt lösenord");
         Button exit = new Button("<");
+        
+        loginButton.getStyleClass().add("loginButtons");
+        forgotLogin.getStyleClass().add("loginButtons");
         
         exit.setOnAction(e -> window.setScene(startScene));
         
         exitButton.getChildren().add(exit);
-        loginText.getChildren().add(loginLabel);
-        content.getChildren().addAll(usernameContent, passwordContent, loginButton);
+        buttons.getChildren().addAll(loginButton, forgotLogin);
+        
+        content.getChildren().add(typeContent);
+        typeContent.getChildren().addAll(loginLabel, usernameContent, passwordContent, buttons);
         usernameContent.getChildren().addAll(usernameLabel, usernameField);
         passwordContent.getChildren().addAll(passwordLabel, passwordField);
         
-        loginText.setAlignment(Pos.CENTER);
         
-        root.setTop(loginText);
         root.setCenter(content);
         root.setBottom(exitButton);
     }
