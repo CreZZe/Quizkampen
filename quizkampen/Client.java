@@ -2,7 +2,6 @@
  * Javautveckling 2018
  */
 package quizkampen;
-asdasd
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,8 +30,11 @@ public class Client {
         cin = new BufferedReader(new InputStreamReader(System.in));
         try {
 
+            System.out.println("trying to connect to port: " + port);
             ip = InetAddress.getLocalHost();
+            System.out.println(ip);
             server = new Socket(ip, port);
+            
             System.out.println("connected to server " + ip + ": " + port);
 
             toServer = new PrintWriter(new OutputStreamWriter(server.getOutputStream()), true);
@@ -44,7 +46,7 @@ public class Client {
         } catch (IOException exa) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, exa);
 
-        }
+        }   
 
     }
 
