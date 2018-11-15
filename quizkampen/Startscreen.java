@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 public class Startscreen {
     
     Stage window;
+    Scene startScene;
     BorderPane root;
     
     int windowWidth;
@@ -23,7 +24,6 @@ public class Startscreen {
         this.window = window;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        
         
         root = new BorderPane();
                 
@@ -44,12 +44,12 @@ public class Startscreen {
         
         // Add actionhandling
         login.setOnAction(e -> {
-            Scene loginScene = new Scene(new Loginscreen().getGUI(), windowWidth, windowHeight);
+            Scene loginScene = new Scene(new Loginscreen(window, startScene).getGUI(), windowWidth, windowHeight);
             loginScene.getStylesheets().add("Styling.css");
             window.setScene(loginScene);
         });
         register.setOnAction(e -> {
-            Scene registerScene = new Scene(new Registerscreen().getGUI(), windowWidth, windowHeight);
+            Scene registerScene = new Scene(new Registerscreen(window, startScene).getGUI(), windowWidth, windowHeight);
             registerScene.getStylesheets().add("Styling.css");
             window.setScene(registerScene);
         });
@@ -78,6 +78,9 @@ public class Startscreen {
         exitButton.setAlignment(Pos.BOTTOM_RIGHT);
     }
 
+    public void setScene(Scene startScene) {
+        this.startScene = startScene;
+    }
     
     //Return GUI to be displayed on screen
     public BorderPane getGUI() {

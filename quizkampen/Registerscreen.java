@@ -15,7 +15,7 @@ public class Registerscreen {
 
     BorderPane root;
     
-    public Registerscreen() {
+    public Registerscreen(Stage window, Scene startScene) {
         root = new BorderPane();
         
         HBox registerText = new HBox();
@@ -35,6 +35,7 @@ public class Registerscreen {
         Button exit = new Button("<");
         
         //Actionhandler för tillbaka knappen
+        exit.setOnAction(e -> window.setScene(startScene));
         
         registerText.getChildren().add(registerLabel); 
         content.getChildren().addAll(usernameContent, passwordContent);

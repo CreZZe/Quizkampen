@@ -1,6 +1,8 @@
 package quizkampen;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -34,8 +36,12 @@ public class Quizkampen extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
                 
-        startingScene = new Scene(new Startscreen(window, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+        Startscreen s = new Startscreen(window, windowWidth, windowHeight);        
+        
+        startingScene = new Scene(s.getGUI(), windowWidth, windowHeight);
+        s.setScene(startingScene);
         startingScene.getStylesheets().add("Styling.css");
+        
         
         
         
