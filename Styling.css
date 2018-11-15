@@ -1,0 +1,26 @@
+/* 
+    Created on : 2018-nov-14, 19:32:12
+    Author     : 224Mi
+*/
+
+.root {
+    -fx-background-color: cyan;
+    -fx-padding: 30;
+}
+
+.button {
+   -fx-font: 22px "monospace";
+   -fx-font-weight: bold;
+   -fx-background-color: yellow;
+   -fx-border-color: black;
+   -fx-border-radius: 3px;
+}
+
+.startingWelcome {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+}
+
+.centerButtons {
+    -fx-min-width: 200px;
+}
