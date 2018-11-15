@@ -1,20 +1,8 @@
 package quizkampen;
 
-import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -36,6 +24,11 @@ public class Quizkampen extends Application {
     public void start(Stage primaryStage) {
         window = primaryStage;
                 
+        
+        javafx.scene.text.Font.getFamilies();        
+        
+        System.out.println(Font.getFamilies());
+        
         Startscreen s = new Startscreen(window, windowWidth, windowHeight);        
         
         startingScene = new Scene(s.getGUI(), windowWidth, windowHeight);

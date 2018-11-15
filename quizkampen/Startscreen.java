@@ -34,10 +34,12 @@ public class Startscreen {
 
         
         // Create buttonelements & styling
+        Button nySpela = new Button("SPELA GRATIS");
         Button login = new Button("INLOGGNING");
         Button register = new Button("REGISTRERING");
         Button exit = new Button("EXIT");
         
+        nySpela.getStyleClass().add("centerButtons");
         login.getStyleClass().add("centerButtons");
         register.getStyleClass().add("centerButtons");
         
@@ -62,7 +64,7 @@ public class Startscreen {
         
         // Add the elements to the top, center and bottom boxes
         text.getChildren().add(startingWelcome);
-        buttons.getChildren().addAll(login, register, exit);
+        buttons.getChildren().addAll(nySpela, login, register, exit);
         exitButton.getChildren().add(exit);
 
         

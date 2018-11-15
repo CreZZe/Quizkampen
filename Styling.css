@@ -4,23 +4,53 @@
 */
 
 .root {
-    -fx-background-color: cyan;
+    //-fx-background-color: cyan;
+    -fx-background-image: url("blue_stripes.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 400 550;
     -fx-padding: 30;
 }
 
 .button {
-   -fx-font: 22px "monospace";
+   -fx-font: 22px "Arial";
    -fx-font-weight: bold;
-   -fx-background-color: yellow;
-   -fx-border-color: black;
+   -fx-background-color: rgba(0, 140, 175, 0.9);
    -fx-border-radius: 3px;
+   -fx-background-radius: 3px;
+}
+
+.button:hover {
+    -fx-opacity: 85%;
+    -fx-cursor: hand;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
 }
 
 .startingWelcome {
     -fx-font-size: 25px;
     -fx-font-weight: bold;
+    -fx-text-fill: white;
 }
 
 .centerButtons {
     -fx-min-width: 200px;
+}
+
+.typeContent {
+    -fx-border-color: gray;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+    -fx-background-color: rgba(0, 35, 0, 0.4);
+}
+
+.headerLabel {
+    -fx-font-size: 20px;
+}
+
+.loginButtons {
+    -fx-font-size: 16px;
 }
