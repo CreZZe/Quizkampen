@@ -32,13 +32,14 @@ public class Loginscreen {
         TextField usernameField = new TextField();
         TextField passwordField = new TextField();
         
+        Button loginButton = new Button("Logga in");
         Button exit = new Button("<");
         
         exit.setOnAction(e -> window.setScene(startScene));
         
         exitButton.getChildren().add(exit);
         loginText.getChildren().add(loginLabel);
-        content.getChildren().addAll(usernameContent, passwordContent);
+        content.getChildren().addAll(usernameContent, passwordContent, loginButton);
         usernameContent.getChildren().addAll(usernameLabel, usernameField);
         passwordContent.getChildren().addAll(passwordLabel, passwordField);
         

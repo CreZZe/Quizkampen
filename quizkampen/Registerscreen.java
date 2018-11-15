@@ -32,13 +32,14 @@ public class Registerscreen {
         TextField usernameField = new TextField();
         TextField passwordField = new TextField();
         
+        Button submit = new Button("Spara användare");
         Button exit = new Button("<");
         
         //Actionhandler för tillbaka knappen
         exit.setOnAction(e -> window.setScene(startScene));
         
         registerText.getChildren().add(registerLabel); 
-        content.getChildren().addAll(usernameContent, passwordContent);
+        content.getChildren().addAll(usernameContent, passwordContent, submit);
         usernameContent.getChildren().addAll(usernameLabel, usernameField);
         passwordContent.getChildren().addAll(passwordLabel, passwordField);
         exitButton.getChildren().add(exit);
