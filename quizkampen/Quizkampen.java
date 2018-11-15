@@ -1,11 +1,20 @@
 package quizkampen;
 
+import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -15,27 +24,30 @@ import javafx.stage.Stage;
 public class Quizkampen extends Application {
     // testing testing marcus dj igen
     
+    
+    Stage window;
+    
+    Scene startingScene;
+    
+    int windowWidth = 400;
+    int windowHeight = 550;
+    
     @Override
     public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-                //marcus version 4
-       
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
+        window = primaryStage;
+                
+        Startscreen s = new Startscreen(window, windowWidth, windowHeight);        
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        startingScene = new Scene(s.getGUI(), windowWidth, windowHeight);
+        s.setScene(startingScene);
+        startingScene.getStylesheets().add("Styling.css");
         
-        Scene scene = new Scene(root, 300, 250);
         
-        primaryStage.setTitle("Hello World!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        
+        
+        window.setTitle("Quizkampen");
+        window.setScene(startingScene);
+        window.show();
     }
 
     /**
