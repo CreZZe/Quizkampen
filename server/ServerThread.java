@@ -2,7 +2,7 @@
  * Javautveckling 2018
  */
 
-package quizkampen;
+package server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class serverThread implements Runnable{
+public class ServerThread implements Runnable{
 
     private Socket client;
     private PrintWriter toClient;
@@ -23,7 +23,7 @@ public class serverThread implements Runnable{
     private String input = "";
     private Thread thread;
 
-    public serverThread(Socket s) {
+    public ServerThread(Socket s) {
         client = s;
         thread = new Thread(this);
         thread.start();
@@ -39,12 +39,11 @@ public class serverThread implements Runnable{
 
             while ((input = fromClient.readLine()) != null) {
 
-//           output = protocol.processInput(input);
                 toClient.println(input);
 
             }
         } catch (IOException ex) {
-            Logger.getLogger(serverThread.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
