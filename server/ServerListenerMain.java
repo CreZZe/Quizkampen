@@ -6,124 +6,55 @@ package server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author nikalsh
+ */
 public class ServerListenerMain {
-
-    ServerProtocol p = new ServerProtocol();
-
-    List<ClientSocket> clientList;
-    List<GameRoomThread> roomList;
 
     private int port = 0;
     private ServerSocket listener;
-//    private ClientSocket clientSocket;
+    private BufferedReader cin;
+    private String cinput = "";
+    private Lobby lobby;
 
-//    private BufferedReader fromClient;
-    private String input = "";
-    private String output = "";
-
-    private BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
-
-    public void enableCIN() {
-
-    }
-
-//    public void println(Object o) {
-//
-//        System.out.println(o);
-//    }
     public ServerListenerMain(int port) throws IOException {
+
+        lobby = new Lobby();
         this.port = port;
-        clientList = new ArrayList<>();
         listener = new ServerSocket(this.port);
-        enableCIN();
+        enableConsoleInput();
 
         while (true) {
+            ClientHandler clientSocket = new ClientHandler(listener.accept());
+            System.out.println("ServerListener: New socket: " + clientSocket.getSocket().getInetAddress());
+            lobby.add(clientSocket);
+        }
+    }
+
+    //Enables server in/output, useful for implementing commands
+    //i e list all current lobbies, game rooms and their corresponding active threads
+    public void enableConsoleInput() throws UnsupportedEncodingException {
+        cin = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
+
+        Thread cinThread = new Thread(() -> {
+
             try {
 
-                roomList = new ArrayList<>();
-                ClientSocket clientSocket = new ClientSocket(listener.accept());
-
-                System.out.println("ServerListener: New socket: " + clientSocket.getSocket().getInetAddress());
-
-                clientList.add(clientSocket);
-
-                Thread newServerThread = new Thread(() -> {
-
-                    //IGNORE
-                    try {
-
-                        System.out.println(Thread.currentThread());
-                        while ((input = clientSocket.readLine()) != null) {
-
-                            System.out.println(input);
-                            if (input.equalsIgnoreCase("new game")) {
-
-                                System.out.println("roomlistEmpty: " + roomList.isEmpty());
-                                if (roomList.isEmpty()) {
-
-                                    GameRoomThread room = new GameRoomThread();
-                                    roomList.add(room);
-
-                                    clientSocket.putInGameRoom();
-                                    clientList.remove(clientSocket);
-                                    room.addPlayer(clientSocket);
-                                    System.out.println("putting " + clientSocket + " in room " + room + "#players: " + room.num());
-
-                                    clientSocket.pauseThread();
-
-                                } else {
-                                    for (GameRoomThread room : roomList) {
-                                        System.out.println(room);
-                                        System.out.println(room.hasEmptySpot());
-                                        if (room.hasEmptySpot()) {
-
-                                            clientSocket.putInGameRoom();
-                                            room.addPlayer(clientSocket);
-                                            clientList.remove(clientSocket);
-
-//                                              clientSocket.wait();
-                                            System.out.println("putting " + clientSocket + " in room " + room + " #players: " + room.num());
-
-                                            clientSocket.pauseThread();
-
-                                        }
-                                    }
-                                }
-
-                            }
-
-                            //end of ignore
-                            //SEND CLIENT INPUT TO ALL OTHER CLIENTS
-                            for (int j = 0; j < clientList.size(); j++) {
-                                if (!clientList.get(j).equals(clientSocket)) {
-                                    clientList.get(j).println(input);
-                                }
-                            }
-
-                        }
-
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                });
-                newServerThread.setName("LobbyThread");
-                newServerThread.start();
+                while ((cinput = cin.readLine()) != null) {
+                    System.out.println(Colors.colorize(cinput, "green"));
+                }
 
             } catch (IOException ex) {
                 Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        }
+        });
+        cinThread.start();
     }
 
     public static void main(String[] args) throws IOException {

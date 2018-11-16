@@ -11,24 +11,22 @@ import java.net.Socket;
  *
  * @author nikalsh
  */
-public class ClientSocket {
+public class ClientHandler {
 
     private Socket clientSocket;
     private PrintWriter toClient;
     private BufferedReader fromClient;
     private boolean isNowPlaying;
 
-    public ClientSocket(Socket socket) throws IOException {
+    public ClientHandler(Socket socket) throws IOException {
 
         clientSocket = socket;
         toClient = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
-        fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), "UTF-8"));
     }
 
     public void println(String input) {
-
-        toClient.println(clientSocket.hashCode() + ": " + input);
-
+        toClient.println(input);
     }
 
     public String readLine() throws IOException {
@@ -43,7 +41,10 @@ public class ClientSocket {
         isNowPlaying = true;
     }
 
-    public void putInLobby() {
+    public synchronized void putInLobby() {
+        System.out.println(Thread.currentThread());
+        Thread.currentThread().interrupt();
+        this.notify();
         isNowPlaying = false;
     }
 
@@ -52,8 +53,6 @@ public class ClientSocket {
     }
 
     public synchronized void pauseThread() {
-        // This guard only loops once for each special event, which may not
-        // be the event we're waiting for.
         while (isNowPlaying) {
             try {
                 this.wait();

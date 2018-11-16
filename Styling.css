@@ -4,7 +4,7 @@
 */
 
 .root {
-    //-fx-background-color: cyan;
+    /*-fx-background-color: cyan;*/
     -fx-background-image: url("blue_stripes.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 400 550;
