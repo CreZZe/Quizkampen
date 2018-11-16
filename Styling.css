@@ -4,7 +4,6 @@
 */
 
 .root {
-    /*-fx-background-color: cyan;*/
     -fx-background-image: url("blue_stripes.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 400 550;
@@ -17,11 +16,16 @@
    -fx-background-color: rgba(0, 140, 175, 0.9);
    -fx-border-radius: 3px;
    -fx-background-radius: 3px;
+   -fx-text-fill: white;
 }
 
 .button:hover {
     -fx-opacity: 85%;
     -fx-cursor: hand;
+}
+
+.button:pressed {
+    -fx-opacity: 60%;
 }
 
 .label {
@@ -53,4 +57,13 @@
 
 .loginButtons {
     -fx-font-size: 16px;
+}
+
+.text-field {
+    -fx-background-color: rgba(110, 185, 140, 0.7);
+    -fx-font-size: 14px;
+}
+
+.text-field:focused {
+    -fx-background-color: rgba(150, 225, 180, 0.7);
 }
