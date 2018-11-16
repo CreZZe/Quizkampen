@@ -17,120 +17,12 @@ import java.util.logging.Logger;
 
 public class ServerListenerMain {
 
-    public class ClientSocket {
+    ServerProtocol p = new ServerProtocol();
 
-        private Socket clientSocket;
-        private PrintWriter toClient;
-        private BufferedReader fromClient;
-        private boolean clientIsInLobby = true;
-
-        public ClientSocket(Socket s) throws IOException {
-
-            clientSocket = s;
-            toClient = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
-            fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        }
-
-        public void println(String s) {
-            if (clientIsInLobby) {
-                toClient.println(clientSocket.hashCode() + ": " + s);
-            }
-        }
-
-        public Socket getSocket() {
-            return this.clientSocket;
-        }
-
-        public String readLine() throws IOException {
-            return fromClient.readLine();
-        }
-
-        public void softRemoveFromLobby() {
-            clientIsInLobby = false;
-        }
-
-        public boolean isInLobby() {
-            return clientIsInLobby;
-        }
-
-    }
-
-    public class GameRoom{
-
-        int playerCount = 0;
-        List<ClientSocket>  gameClientList;
-        ClientSocket currSock;
-        String input = "";
-
-        public GameRoom(ClientSocket socket) {
-            gameClientList = new ArrayList<>();
-            gameClientList.add(socket);
-            playerCount++;
-            ClientSocket currSock = socket;
-            currSock.println("now talking in room " + this + "current # clients: " + playerCount);
-            Thread thread = new Thread(() -> {
-
-                
-                    try {
-                        while ((input = currSock.readLine()) != null) {
-
-                             for (int j = 0; j < gameClientList.size(); j++) {
-                                    if (!gameClientList.get(j).equals(currSock)) {
-                                        gameClientList.get(j).println(input);
-                                    }
-                                }
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                
-
-            });
-            thread.start();
-
-        }
-
-        public void addPlayer(ClientSocket socket) {
-            gameClientList.add(socket);
-            ClientSocket currSock = socket;
-            playerCount++;
-            currSock.println("now talking in room " + this + "current # clients: " + playerCount);
-            Thread thread = new Thread(() -> {
-                
-                
-                    try {
-                        while ((input = currSock.readLine()) != null) {
-
-                            for (int j = 0; j < gameClientList.size(); j++) {
-                                    if (!gameClientList.get(j).equals(currSock)) {
-                                        gameClientList.get(j).println(input);
-                                    }
-                                }
-
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                
-            
-            });
-            thread.start();
-
-        }
-
-        public boolean hasEmptySpot() {
-
-            return (playerCount < 2);
-        }
-    }
-
-    List<PrintWriter> printList;
     List<ClientSocket> clientList;
-    List<GameRoom> roomList;
+    List<GameRoomThread> roomList;
 
-    private int port = 55555;
+    private int port = 0;
     private ServerSocket listener;
 //    private ClientSocket clientSocket;
 
@@ -138,9 +30,22 @@ public class ServerListenerMain {
     private String input = "";
     private String output = "";
 
-    public ServerListenerMain() throws IOException {
+    private BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
+
+    public void enableCIN() {
+
+    }
+
+//    public void println(Object o) {
+//
+//        System.out.println(o);
+//    }
+    public ServerListenerMain(int port) throws IOException {
+        this.port = port;
         clientList = new ArrayList<>();
-        listener = new ServerSocket(port);
+        listener = new ServerSocket(this.port);
+        enableCIN();
+
         while (true) {
             try {
 
@@ -152,42 +57,55 @@ public class ServerListenerMain {
                 clientList.add(clientSocket);
 
                 Thread newServerThread = new Thread(() -> {
+
+                    //IGNORE
                     try {
 
+                        System.out.println(Thread.currentThread());
                         while ((input = clientSocket.readLine()) != null) {
-                            System.out.println(input);
 
+                            System.out.println(input);
                             if (input.equalsIgnoreCase("new game")) {
+
                                 System.out.println("roomlistEmpty: " + roomList.isEmpty());
                                 if (roomList.isEmpty()) {
+
+                                    GameRoomThread room = new GameRoomThread();
+                                    roomList.add(room);
+
+                                    clientSocket.putInGameRoom();
                                     clientList.remove(clientSocket);
-                                    roomList.add(new GameRoom(clientSocket));
-//                                    clientSocket.softRemoveFromLobby();
-//                                    while (!clientSocket.isInLobby()) {
-//                                        this.wait();
-//                                    }
+                                    room.addPlayer(clientSocket);
+                                    System.out.println("putting " + clientSocket + " in room " + room + "#players: " + room.num());
+
+                                    clientSocket.pauseThread();
+
                                 } else {
-                                    for (GameRoom room : roomList) {
+                                    for (GameRoomThread room : roomList) {
                                         System.out.println(room);
                                         System.out.println(room.hasEmptySpot());
                                         if (room.hasEmptySpot()) {
-                                            clientList.remove(clientSocket);
-                                            System.out.println(clientSocket + " added to " + room);
+
+                                            clientSocket.putInGameRoom();
                                             room.addPlayer(clientSocket);
-//                                            clientSocket.softRemoveFromLobby();
-//                                            while (!clientSocket.isInLobby()) {
-//                                                this.wait();
-//                                            }
+                                            clientList.remove(clientSocket);
+
+//                                              clientSocket.wait();
+                                            System.out.println("putting " + clientSocket + " in room " + room + " #players: " + room.num());
+
+                                            clientSocket.pauseThread();
+
                                         }
                                     }
                                 }
 
-                            } else {
+                            }
 
-                                for (int j = 0; j < clientList.size(); j++) {
-                                    if (!clientList.get(j).equals(clientSocket)) {
-                                        clientList.get(j).println(input);
-                                    }
+                            //end of ignore
+                            //SEND CLIENT INPUT TO ALL OTHER CLIENTS
+                            for (int j = 0; j < clientList.size(); j++) {
+                                if (!clientList.get(j).equals(clientSocket)) {
+                                    clientList.get(j).println(input);
                                 }
                             }
 
@@ -196,10 +114,9 @@ public class ServerListenerMain {
                     } catch (IOException ex) {
                         Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
                     }
-//                    catch (InterruptedException ex) {
-//                        Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
+
                 });
+                newServerThread.setName("LobbyThread");
                 newServerThread.start();
 
             } catch (IOException ex) {
@@ -210,7 +127,7 @@ public class ServerListenerMain {
     }
 
     public static void main(String[] args) throws IOException {
-        ServerListenerMain server = new ServerListenerMain();
+        ServerListenerMain server = new ServerListenerMain(55555);
     }
 
 }
