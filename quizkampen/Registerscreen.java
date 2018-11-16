@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -23,6 +24,7 @@ public class Registerscreen {
         
         
         VBox content = new VBox(20);
+        content.setPadding(new Insets(40, 10, 0, 10));
         VBox typeContent = new VBox(10);
         typeContent.getStyleClass().add("typeContent");
         VBox usernameContent = new VBox(5);
@@ -36,7 +38,7 @@ public class Registerscreen {
         Label emailLabel = new Label("E-post");
         
         TextField usernameField = new TextField();
-        TextField passwordField = new TextField();
+        PasswordField passwordField = new PasswordField();
         TextField emailField = new TextField();
         
         Button submit = new Button("Spara användare");

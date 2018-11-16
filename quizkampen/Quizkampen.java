@@ -1,5 +1,6 @@
 package quizkampen;
 
+import java.io.File;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -23,20 +24,12 @@ public class Quizkampen extends Application {
     @Override
     public void start(Stage primaryStage) {
         window = primaryStage;
-                
-        
-        javafx.scene.text.Font.getFamilies();        
-        
-        System.out.println(Font.getFamilies());
-        
+                                
         Startscreen s = new Startscreen(window, windowWidth, windowHeight);        
         
         startingScene = new Scene(s.getGUI(), windowWidth, windowHeight);
         s.setScene(startingScene);
-        startingScene.getStylesheets().add("Styling.css");
-        
-        
-        
+        startingScene.getStylesheets().add("Styling.css");        
         
         window.setTitle("Quizkampen");
         window.setScene(startingScene);
