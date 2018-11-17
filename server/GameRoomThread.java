@@ -1,66 +1,42 @@
 package server;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author nikalsh
  */
-public class GameRoomThread {
+public class GameRoomThread extends Thread {
 
-    int playerCount = 0;
-    List<ClientSocket> gameClientList;
-//    ClientSocket currSock;
-    String input = "";
-    int threadCounter = 0;
+    private ClientHandler gameClientSocket;
+    private List<ClientHandler> gameClientList;
+    private String input = "";
+    private int roomId;
 
-    public GameRoomThread() {
-        gameClientList = new ArrayList<>();
-
-    
-
+    public GameRoomThread(ClientHandler currSock, int roomId) {
+        gameClientSocket = currSock;
     }
 
-    public void addPlayer(ClientSocket socket) {
-        gameClientList.add(socket);
-        ClientSocket currSock = socket;
-        playerCount++;
-        threadCounter++;
+    @Override
+    public void run() {
 
-        currSock.println("now talking in room " + this + "current # clients: " + playerCount);
-        Thread thread = new Thread(() -> {
+        try {
+            System.out.println(Thread.currentThread());
+            while ((input = gameClientSocket.readLine()) != null) {
+                gameClientList = GameRoom.getClientList();
 
-            try {
-                while ((input = currSock.readLine()) != null) {
-
-                    for (int j = 0; j < gameClientList.size(); j++) {
-                            if (!gameClientList.get(j).equals(currSock)) {
+                System.out.format("Room %s: %s: %s\r\n", roomId, gameClientSocket.hashCode(), input);
+                for (int j = 0; j < gameClientList.size(); j++) {
+                    if (!gameClientList.get(j).equals(gameClientSocket)) {
                         gameClientList.get(j).println(input);
-                            }
                     }
-
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
+
             }
+        } catch (Exception ex) {
 
-        });
-        thread.setName("GameRoom: " + threadCounter);
-        thread.start();
+        }
 
     }
 
-    public boolean hasEmptySpot() {
-
-        return (playerCount < 2);
-    }
-    
-    public int num(){
-        
-        return playerCount;
-    }
 }

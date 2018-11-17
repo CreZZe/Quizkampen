@@ -11,10 +11,12 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//teest 
+/**
+ *
+ * @author nikalsh
+ */
 public class Client {
 
     private Socket server;
@@ -23,9 +25,7 @@ public class Client {
     private int port = 55555;
     private PrintWriter toServer;
     private BufferedReader fromServer;
-    private LocalDateTime nu = LocalDateTime.now();
-
-    BufferedReader cin;
+    private BufferedReader cin;
 
     public Client() throws IOException, InterruptedException {
         cin = new BufferedReader(new InputStreamReader(System.in));
@@ -35,11 +35,9 @@ public class Client {
             ip = InetAddress.getLocalHost();
             System.out.println(ip);
             server = new Socket(ip, port);
-            
             System.out.println("connected to server " + ip + ": " + port);
-
-            toServer = new PrintWriter(new OutputStreamWriter(server.getOutputStream()), true);
-            fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
+            toServer = new PrintWriter(new OutputStreamWriter(server.getOutputStream(), "UTF-8"), true);
+            fromServer = new BufferedReader(new InputStreamReader(server.getInputStream(), "UTF-8"));
             sendAndRecieveLoop();
 
         } catch (UnknownHostException ex) {
@@ -47,24 +45,21 @@ public class Client {
         } catch (IOException exa) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, exa);
 
-        }   
+        }
 
     }
 
     public void sendAndRecieveLoop() throws IOException, InterruptedException {
 
         Thread listenerThread = new Thread(() -> {
-
             while (true) {
-
                 try {
+
                     System.out.println(fromServer.readLine());
                 } catch (IOException ex) {
                     Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
-
         });
         listenerThread.start();
 
@@ -80,6 +75,7 @@ public class Client {
         }
 
     }
+
     public static void main(String[] args) throws IOException, InterruptedException {
         Client client = new Client();
     }
