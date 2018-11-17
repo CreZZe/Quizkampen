@@ -1,6 +1,12 @@
 
 package quizkampen;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,9 +21,16 @@ import javafx.stage.Stage;
 
 public class Registerscreen {
 
+    UserHandler handler;
+    
     BorderPane root;
     
+    TextField usernameField;
+    PasswordField passwordField;
+    TextField mailField;
+    
     public Registerscreen(Stage window, Scene startScene) {
+        handler = new UserHandler();
         root = new BorderPane();
         
         HBox exitButton = new HBox();
@@ -37,9 +50,9 @@ public class Registerscreen {
         Label passwordLabel = new Label("Lösenord");
         Label emailLabel = new Label("E-post");
         
-        TextField usernameField = new TextField();
-        PasswordField passwordField = new PasswordField();
-        TextField emailField = new TextField();
+        usernameField = new TextField();
+        passwordField = new PasswordField();
+        mailField = new TextField();
         
         Button submit = new Button("Spara användare");
         Button exit = new Button("<");
@@ -47,13 +60,42 @@ public class Registerscreen {
         submit.getStyleClass().add("loginButtons");
 
         //Actionhandler för tillbaka knappen
+        usernameField.setOnAction(e -> {
+            try {
+                register();
+            } catch (IOException ex) {
+                Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        passwordField.setOnAction(e -> {
+            try {
+                register();
+            } catch (IOException ex) {
+                Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        mailField.setOnAction(e -> {
+            try {
+                register();
+            } catch (IOException ex) {
+                Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        submit.setOnAction(e -> {
+            try {
+                register();
+            } catch (IOException ex) {
+                Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
         exit.setOnAction(e -> window.setScene(startScene));
         
         content.getChildren().add(typeContent);
         typeContent.getChildren().addAll(registerLabel, usernameContent, passwordContent, emailContent, submit);
         usernameContent.getChildren().addAll(usernameLabel, usernameField);
         passwordContent.getChildren().addAll(passwordLabel, passwordField);
-        emailContent.getChildren().addAll(emailLabel, emailField);
+        emailContent.getChildren().addAll(emailLabel, mailField);
         exitButton.getChildren().add(exit);
         
         
@@ -64,5 +106,28 @@ public class Registerscreen {
     
     public BorderPane getGUI() {
         return root;
+    }
+    
+    private void register() throws IOException {
+        try (PrintWriter write = new PrintWriter(
+                            new FileWriter(
+                            new File("src/users.txt"), true))) {
+        
+            String user = usernameField.getText();
+            String pass = passwordField.getText();
+            String mail = mailField.getText();
+
+            if (handler.register(user, pass, mail)) {
+                write.println(user);
+                write.println(pass);
+                write.println(mail);
+                
+                usernameField.setText("");
+                passwordField.setText("");
+                mailField.setText("");
+            }
+            else
+                System.out.println("Användarnamnet eller mailadressen är redan upptagen!");
+        }
     }
 }

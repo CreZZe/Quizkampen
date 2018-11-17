@@ -48,13 +48,9 @@ public class Startscreen {
         
         // Add actionhandling
         login.setOnAction(e -> {
-            try {
-                Scene loginScene = new Scene(new Loginscreen(window, startScene).getGUI(), windowWidth, windowHeight);
-                loginScene.getStylesheets().add("Styling.css");
-                window.setScene(loginScene);
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Scene loginScene = new Scene(new Loginscreen(window, startScene).getGUI(), windowWidth, windowHeight);
+            loginScene.getStylesheets().add("Styling.css");
+            window.setScene(loginScene);
         });
         register.setOnAction(e -> {
             Scene registerScene = new Scene(new Registerscreen(window, startScene).getGUI(), windowWidth, windowHeight);
