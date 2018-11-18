@@ -99,6 +99,9 @@ public class Loginscreen {
         String user = usernameField.getText();
         String pass = passwordField.getText();
         
-        handler.login(user, pass);
+        if (handler.login(user, pass))
+            System.out.println("Inloggad");
+        else
+            System.out.println("Fel inlogg!");
     }
 }
