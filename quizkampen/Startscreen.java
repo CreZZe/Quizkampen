@@ -52,7 +52,8 @@ public class Startscreen {
                 Scene loginScene = new Scene(new Loginscreen(window, startScene).getGUI(), windowWidth, windowHeight);
                 loginScene.getStylesheets().add("Styling.css");
                 window.setScene(loginScene);
-            } catch (FileNotFoundException ex) {
+            }
+            catch (FileNotFoundException ex) {
                 Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
