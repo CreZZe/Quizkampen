@@ -48,13 +48,6 @@ public class Startscreen {
         
         // Add actionhandling
         login.setOnAction(e -> {
-<<<<<<< HEAD
-
-=======
-            Scene loginScene = new Scene(new Loginscreen(window, startScene).getGUI(), windowWidth, windowHeight);
-            loginScene.getStylesheets().add("Styling.css");
-            window.setScene(loginScene);
->>>>>>> 7b29f4c05c6133bbbcdf43357cec7946d2703f3b
         });
         register.setOnAction(e -> {
             Scene registerScene = new Scene(new Registerscreen(window, startScene).getGUI(), windowWidth, windowHeight);

@@ -24,7 +24,7 @@ public class LobbyThread extends Thread {
         NGRequestListeners = new ArrayList<>();
         NGRequestListeners.add(listener);
     }
-
+    
     @Override
     public void run() {
 
@@ -42,6 +42,7 @@ public class LobbyThread extends Thread {
                         NGRequestListener.addToGameRoom(clientSocket);
 
                     });
+
                 } else {
                     for (int j = 0; j < clientList.size(); j++) {
                         if (!clientList.get(j).equals(clientSocket)) {
