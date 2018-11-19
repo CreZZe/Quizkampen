@@ -101,7 +101,15 @@ public class Loginscreen {
         
         if (handler.login(user, pass))
             System.out.println("Inloggad");
-        else
-            System.out.println("Fel inlogg!");
+        else {
+            usernameField.setStyle(""
+                    + "-fx-border-color: red;"
+                    + "-fx-border-radius: 3px;");
+            passwordField.setStyle(""
+                    + "-fx-border-color: red;"
+                    + "-fx-border-radius: 3px;");
+        }
+            
+            
     }
 }

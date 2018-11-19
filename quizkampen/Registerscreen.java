@@ -25,9 +25,13 @@ public class Registerscreen {
     
     BorderPane root;
     
+    VBox typeContent;
+    
     TextField usernameField;
     PasswordField passwordField;
     TextField mailField;
+    
+    Label alreadyInUse;
     
     public Registerscreen(Stage window, Scene startScene) {
         handler = new UserHandler();
@@ -38,11 +42,14 @@ public class Registerscreen {
         
         VBox content = new VBox(20);
         content.setPadding(new Insets(40, 10, 0, 10));
-        VBox typeContent = new VBox(10);
+        typeContent = new VBox(10);
         typeContent.getStyleClass().add("typeContent");
         VBox usernameContent = new VBox(5);
         VBox passwordContent = new VBox(5);
         VBox emailContent = new VBox(5);
+        
+        alreadyInUse = new Label("Användaren är upptagen!");
+        alreadyInUse.getStyleClass().add("alreadyInUse");
         
         Label registerLabel = new Label("Registrering");
         registerLabel.getStyleClass().add("headerLabel");
@@ -116,18 +123,51 @@ public class Registerscreen {
             String user = usernameField.getText();
             String pass = passwordField.getText();
             String mail = mailField.getText();
+            
+            usernameField.setStyle(""
+                                + "-fx-border: none;");
+            passwordField.setStyle(""
+                                + "-fx-border: none;");
+            mailField.setStyle(""
+                                + "-fx-border: none;");
+            
+            typeContent.getChildren().remove(alreadyInUse);
+            
+            if (handler.validateFields(user, pass, mail)) {
+                if (handler.validateMail(mail)) {
+                    if (handler.register(user, pass, mail)) {
+                        write.println(user);
+                        write.println(pass);
+                        write.println(mail);
 
-            if (handler.register(user, pass, mail)) {
-                write.println(user);
-                write.println(pass);
-                write.println(mail);
-                
-                usernameField.setText("");
-                passwordField.setText("");
-                mailField.setText("");
+                        usernameField.setText("");
+                        passwordField.setText("");
+                        mailField.setText("");                        
+                    }
+                    else { //Ha en kontroll som kanske kontrollerar om det är specifikt mailadressen eller användarnamnet som är upptaget
+                        typeContent.getChildren().add(1, alreadyInUse);
+                    }
+                }
+                else {
+                    if (!handler.validateMail(mail)) {
+                        mailField.setStyle(""
+                                + "-fx-border-color: red;"
+                                + "-fx-border-radius: 3px;");
+                    }
+                }
             }
-            else
-                System.out.println("Användarnamnet eller mailadressen är redan upptagen!");
+            else {
+                if (usernameField.getText().equals(""))
+                    usernameField.setStyle(""
+                                + "-fx-border-color: red;");
+                if (passwordField.getText().equals(""))
+                    passwordField.setStyle(""
+                                + "-fx-border-color: red;");
+                if (mailField.getText().equals(""))
+                    mailField.setStyle(""
+                                + "-fx-border-color: red;");
+            }
+                
         }
     }
 }

@@ -62,8 +62,15 @@
 .text-field {
     -fx-background-color: rgba(110, 185, 140, 0.7);
     -fx-font-size: 14px;
+    -fx-border-radius: 3px;
+    -fx-background-radis: 3px;
 }
 
 .text-field:focused {
     -fx-background-color: rgba(150, 225, 180, 0.7);
+}
+
+.alreadyInUse {
+    -fx-font-size: 14px;
+    -fx-text-fill: rgb(255, 70, 70);
 }

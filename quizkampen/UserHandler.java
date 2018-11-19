@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DialogPane;
 
 
 public class UserHandler {
@@ -60,6 +63,23 @@ public class UserHandler {
         else {
             return false;
         }
+    }
+    
+    public boolean validateFields(String username, String password, String mail) {
+        if (username.equals("") || password.equals("") || mail.equals("")) {
+//            Alert alert = new Alert(AlertType.WARNING);
+//            alert.setTitle("Registrering");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Fyll alla fält!");
+//            alert.showAndWait();
+//            
+//            DialogPane dialogpane = alert.getDialogPane();
+//            dialogpane.getStylesheets().add("Styling.css");
+//            dialogpane.getStyleClass().add("myDialog");
+                        
+            return false;
+        }
+        return true;
     }
     
     //Två metoder som tar emot inmatning som inparametrar
