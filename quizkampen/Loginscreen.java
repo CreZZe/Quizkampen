@@ -25,7 +25,19 @@ public class Loginscreen {
     PasswordField passwordField;
     Button loginButton;
     
-    public Loginscreen(Stage window, Scene startScene) {
+    Stage window;
+    Scene startScene;
+    
+    int windowWidth;
+    int windowHeight;
+    
+    public Loginscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+        this.window = window;
+        this.startScene = startScene;
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
+        
+        
         handler = new UserHandler();
         root = new BorderPane();
         
@@ -99,9 +111,22 @@ public class Loginscreen {
         String user = usernameField.getText();
         String pass = passwordField.getText();
         
-        if (handler.login(user, pass))
+        if (handler.login(user, pass)) {
             System.out.println("Inloggad");
-        else
-            System.out.println("Fel inlogg!");
+            
+            Scene lobbyScreen = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            lobbyScreen.getStylesheets().add("Styling.css");
+            window.setScene(lobbyScreen);
+        }
+        else {
+            usernameField.setStyle(""
+                    + "-fx-border-color: red;"
+                    + "-fx-border-radius: 3px;");
+            passwordField.setStyle(""
+                    + "-fx-border-color: red;"
+                    + "-fx-border-radius: 3px;");
+        }
+            
+            
     }
 }

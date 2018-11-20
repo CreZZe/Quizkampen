@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0a855b47381a2572debb7eeb056fb76f2f451b02
 /*
  * Javautveckling 2018
  */
@@ -80,4 +84,7 @@ public class Client {
         Client client = new Client();
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0a855b47381a2572debb7eeb056fb76f2f451b02
