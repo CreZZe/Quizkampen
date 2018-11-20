@@ -50,12 +50,9 @@ public class Startscreen {
             window.setScene(lobbyScene);
         });
         login.setOnAction(e -> {
-<<<<<<< HEAD
-=======
             Scene loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             loginScene.getStylesheets().add("Styling.css");
             window.setScene(loginScene);
->>>>>>> 0a855b47381a2572debb7eeb056fb76f2f451b02
         });
         register.setOnAction(e -> {
             Scene registerScene = new Scene(new Registerscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
