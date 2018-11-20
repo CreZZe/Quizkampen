@@ -1,19 +1,10 @@
 package quizkampen;
 
-import java.io.File;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-/**
- *
- * @author 224Mi
- */
-public class Quizkampen extends Application {
-    // testing testing marcus dj igen
-    
-    
+public class Quizkampen extends Application {    
     Stage window;
     
     Scene startingScene;
@@ -36,9 +27,6 @@ public class Quizkampen extends Application {
         window.show();
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }

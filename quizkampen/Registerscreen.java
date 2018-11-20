@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,7 +32,7 @@ public class Registerscreen {
     
     Label alreadyInUse;
     
-    public Registerscreen(Stage window, Scene startScene) {
+    public Registerscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
         handler = new UserHandler();
         root = new BorderPane();
         
@@ -145,14 +144,21 @@ public class Registerscreen {
                         mailField.setText("");                        
                     }
                     else { //Ha en kontroll som kanske kontrollerar om det är specifikt mailadressen eller användarnamnet som är upptaget
+                        if (handler.findUsername(user))
+                            usernameField.setStyle(""
+                                    + "-fx-border-color: red;");
+                        
+                        if (handler.findMail(mail))
+                            mailField.setStyle(""
+                                    + "-fx-border-color: red;");
+                        
                         typeContent.getChildren().add(1, alreadyInUse);
                     }
                 }
                 else {
                     if (!handler.validateMail(mail)) {
                         mailField.setStyle(""
-                                + "-fx-border-color: red;"
-                                + "-fx-border-radius: 3px;");
+                                + "-fx-border-color: red;");
                     }
                 }
             }
