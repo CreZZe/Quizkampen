@@ -43,13 +43,11 @@ public class ServerListenerMain {
         cin = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
 
         Thread cinThread = new Thread(() -> {
-
+            
             try {
-
                 while ((cinput = cin.readLine()) != null) {
                     System.out.println(Colors.colorize(cinput, "green"));
                 }
-
             } catch (IOException ex) {
                 Logger.getLogger(ServerListenerMain.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -61,4 +59,6 @@ public class ServerListenerMain {
         ServerListenerMain server = new ServerListenerMain(55555);
     }
 
+
 }
+
