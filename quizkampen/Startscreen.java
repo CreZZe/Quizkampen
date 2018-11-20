@@ -1,9 +1,6 @@
 
 package quizkampen;
 
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -47,6 +44,11 @@ public class Startscreen {
         
         
         // Add actionhandling
+        nySpela.setOnAction(e -> {
+            Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            lobbyScene.getStylesheets().add("Styling.css");
+            window.setScene(lobbyScene);
+        });
         login.setOnAction(e -> {
             Scene loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             loginScene.getStylesheets().add("Styling.css");
