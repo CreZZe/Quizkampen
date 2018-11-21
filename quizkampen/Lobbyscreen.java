@@ -20,8 +20,17 @@ public class Lobbyscreen {
     Button refreshButton, statsButton, settingsButton;
     Button newGameButton;
     
+    Stage window;
+    Scene startScene;
+    int windowWidth, windowHeight;
+    
     
     public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+        this.window = window;
+        this.startScene = startScene;
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
+        
         root = new BorderPane();
         
         
@@ -57,7 +66,17 @@ public class Lobbyscreen {
         
         exitButton.setOnAction(e -> window.setScene(startScene));
         
+        newGameButton.setOnAction(e -> {
+            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            questionScene.getStylesheets().add("Styling.css");
+            window.setScene(questionScene);
+        });
         
+//        login.setOnAction(e -> {
+//            Scene loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+//            loginScene.getStylesheets().add("Styling.css");
+//            window.setScene(loginScene);
+//        });
         
         
         topMenu.getChildren().add(title);
