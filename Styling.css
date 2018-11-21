@@ -31,12 +31,12 @@
 }
 
 .button:hover {
-    -fx-opacity: 85%;
+    -fx-opacity: 0.85;
     -fx-cursor: hand;
 }
 
 .button:pressed {
-    -fx-opacity: 60%;
+    -fx-opacity: 0.6;
 }
 
 .label {
@@ -45,9 +45,10 @@
 }
 
 .startingWelcome {
-    -fx-font-size: 25px;
+    -fx-font-size: 35px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
 }
 
 .centerButtons {
