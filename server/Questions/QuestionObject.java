@@ -9,7 +9,7 @@
  * aer awesome
  */
 
-package quizkampen;
+package server.Questions;
 
 
 public class QuestionObject {
@@ -46,4 +46,6 @@ public class QuestionObject {
     public String getAnswer4(){
         return answer4;
     }
+    
+    
 }

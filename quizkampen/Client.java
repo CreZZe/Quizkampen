@@ -81,21 +81,7 @@ public class Client {
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        for (int i = 0; i < 100; i++) {
-            
-            Thread t = new Thread(() -> {
-                
-                try {
-                    new Client();
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-            t.start();
-            
-            
-        }
+        Client client = new Client();
+
     }
 }

@@ -9,7 +9,7 @@
  * aer awesome
  */
 
-package quizkampen;
+package server.Questions;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,7 +52,56 @@ public class QuestionHandler {
     
     List<QuestionObject> questionsInfo = new LinkedList<>();
     
+    public void setPath(String path){
+        questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\"+path;
+        
+    }
     
+    QuestionHandler(String path){
+        
+        setPath(path);
+        System.out.println(questionsFolder);
+        try{
+            File folder = new File(questionsFolder);
+            File[] listOfFiles = folder.listFiles();
+            
+            
+            for (int i = 0; i < listOfFiles.length; i++) {
+                File file = listOfFiles[i];
+                if (file.isFile() && file.getName().endsWith(".txt")) {
+                    numberOfCategories++;
+                  //WANT TO PRINT THE NAMES OF ALL .TXT FILES? UNCOMMENT BELOW
+                  //System.out.println(file.getName());
+                  categories.add(file.getName());
+                  
+                  BufferedReader r = new BufferedReader(new FileReader ((questionsFolder+file.getName())));
+                  String templine;
+                    while((templine=r.readLine()) !=null){
+                       String t[] = templine.split(",");
+                       QuestionObject NewQuestionToBeAddedToList =
+                               new QuestionObject(file.getName(), t[0], t[1], t[2], t[3], t[4]);
+                       questionsInfo.add(NewQuestionToBeAddedToList);
+                      
+                    }
+                } 
+            }
+            
+            numberOfQuestionsPerCategory = new int[numberOfCategories];
+            
+            
+        }
+        catch(Exception e){
+            
+            e.printStackTrace();
+        }
+        
+        //LINE BELOW LETS YOU CHECK THAT IT FINDS THE RIGHT QUESTIONS/ANSWERS
+        //questionsInfo is a list containing ALL questions
+        
+       // System.out.println(questionsInfo.get(1).getAnswer3());
+        
+        
+    }    
     QuestionHandler(){
         
         try{
@@ -92,7 +141,7 @@ public class QuestionHandler {
         //LINE BELOW LETS YOU CHECK THAT IT FINDS THE RIGHT QUESTIONS/ANSWERS
         //questionsInfo is a list containing ALL questions
         
-       // System.out.println(questionsInfo.get(1).getAnswer3());
+//        System.out.println(questionsInfo.get(1).getAnswer3());
     }
     public int GetQuestionAmount(){
         return questionsInfo.size();
@@ -107,4 +156,19 @@ public class QuestionHandler {
         return questionsInfo.get(questionNumber);
     }
     
+    
+    public static void main (String[] args){
+        QuestionHandler qh = new QuestionHandler("src\\server\\db\\questions\\");
+        System.out.println("Q amount: " + qh.GetQuestionAmount());
+        for (Object q : qh.getCategories()) {
+            System.out.println(q);
+        }
+        
+        
+        
+        
+    }
+    
 }
+
+
