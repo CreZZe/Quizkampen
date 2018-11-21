@@ -3,6 +3,8 @@ package quizkampen;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -14,6 +16,10 @@ public class Settingsscreen {
     BorderPane root;
     
     VBox content;
+    
+    ComboBox synSkadaBox, colorBox;
+    
+    Label synSkadaLabel, colorLabel;
     
     Button Hello, exit;
     
@@ -39,8 +45,26 @@ public class Settingsscreen {
                     Är den på JA så lyser den grönt
                     Är den på NEJ så är den grå eller lyser rött
         */
+        synSkadaLabel = new Label("Synskada: ");
         
+        synSkadaBox = new ComboBox();
+        synSkadaBox.getItems().addAll(
+            "NEJ",
+            "JA"
+        );
+        synSkadaBox.setValue("NEJ");
         
+        colorLabel = new Label("Färgtema: ");
+        
+        colorBox = new ComboBox();
+        colorBox.getItems().addAll(
+            "Blå",
+            "Grön",
+            "Gul",
+            "Röd",
+            "Lila"
+        );
+        colorBox.setValue("Blå");
         
         Hello = new Button("Hello World!");
         
@@ -50,7 +74,7 @@ public class Settingsscreen {
         
         content = new VBox(20);
         
-        content.getChildren().add(Hello);
+        content.getChildren().addAll(synSkadaLabel, synSkadaBox, colorLabel, colorBox);
         root.setCenter(content);
         root.setBottom(exit);
     }
