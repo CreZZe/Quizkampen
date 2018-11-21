@@ -73,12 +73,6 @@ public class Lobbyscreen {
             window.setScene(questionScene);
         });
         
-<<<<<<< HEAD
-
-        
-=======
->>>>>>> 60d8bc677561112e6f61799aebc86c731afb67a0
-        
         topMenu.getChildren().add(title);
         topMenu.getChildren().add(refreshButton);
         topMenu.getChildren().add(statsButton);
