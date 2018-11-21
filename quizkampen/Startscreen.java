@@ -20,7 +20,7 @@ public class Startscreen {
     
     HBox text, exitButton;
     
-    Button nySpela, login, register, exit;
+    Button nySpela, login, register, settings, exit;
     
     Label startingWelcome;
     
@@ -34,7 +34,7 @@ public class Startscreen {
         root = new BorderPane();
                 
         // Create boxes for top-, center- and bottomelements
-        buttons = new VBox(35);
+        buttons = new VBox(30);
         text = new HBox();
         exitButton = new HBox(30);
 
@@ -43,6 +43,7 @@ public class Startscreen {
         nySpela = new Button("SPELA GRATIS");
         login = new Button("INLOGGNING");
         register = new Button("REGISTRERING");
+        settings = new Button("INSTÄLLNINGAR");
         exit = new Button("EXIT");
         
         nySpela.getStyleClass().add("centerButtons");
@@ -66,16 +67,20 @@ public class Startscreen {
             registerScene.getStylesheets().add("Styling.css");
             window.setScene(registerScene);
         });
+        settings.setOnAction(e -> {
+            Scene settingsScene = new Scene(new Settingsscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            settingsScene.getStylesheets().add("Styling.css");
+            window.setScene(settingsScene);
+        });
         exit.setOnAction(e -> System.exit(0));
         
         // Create & adjust labelelements
         startingWelcome = new Label("QUIZKAMPEN");
-        
         startingWelcome.getStyleClass().add("startingWelcome");
         
         // Add the elements to the top, center and bottom boxes
         text.getChildren().add(startingWelcome);
-        buttons.getChildren().addAll(nySpela, login, register, exit);
+        buttons.getChildren().addAll(nySpela, login, register, settings);
         exitButton.getChildren().add(exit);
 
         
