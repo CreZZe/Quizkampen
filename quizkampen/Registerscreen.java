@@ -133,7 +133,7 @@ public class Registerscreen {
             typeContent.getChildren().remove(alreadyInUse);
             
             if (handler.validateFields(user, pass, mail)) {
-                if (handler.validateMail(mail)) {
+                if (handler.validateMail(mail) && handler.validatePass(pass)) {
                     if (handler.register(user, pass, mail)) {
                         write.println(user);
                         write.println(pass);
@@ -156,10 +156,12 @@ public class Registerscreen {
                     }
                 }
                 else {
-                    if (!handler.validateMail(mail)) {
+                    if (!handler.validateMail(mail))
                         mailField.setStyle(""
                                 + "-fx-border-color: red;");
-                    }
+                    if (!handler.validatePass(pass))
+                        passwordField.setStyle(""
+                                + "-fx-border-color: red;");
                 }
             }
             else {
