@@ -17,6 +17,7 @@ public class ClientHandler {
     private PrintWriter toClient;
     private BufferedReader fromClient;
     private boolean isNowPlaying;
+    private int score;
 
     public ClientHandler(Socket socket) throws IOException {
 
@@ -41,12 +42,12 @@ public class ClientHandler {
         isNowPlaying = true;
     }
 
-    public synchronized void putInLobby() {
-        System.out.println(Thread.currentThread());
-        Thread.currentThread().interrupt();
-        this.notify();
-        isNowPlaying = false;
-    }
+//    public synchronized void putInLobby() {
+//        System.out.println(Thread.currentThread());
+//        Thread.currentThread().interrupt();
+//        this.notify();
+//        isNowPlaying = false;
+//    }
 
     public Socket getSocket() {
         return this.clientSocket;
@@ -57,6 +58,8 @@ public class ClientHandler {
             try {
                 this.wait();
             } catch (InterruptedException e) {
+                System.out.println(e);
+                e.printStackTrace();
             }
         }
         System.out.println("Thread resumed");

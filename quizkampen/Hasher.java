@@ -29,4 +29,7 @@ public class Hasher {
         hash = HEX.encode(hash);
         return new String(hash, 0, hash.length);
     }
+    
+    
+    
 }

@@ -11,8 +11,11 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author nikalsh
@@ -71,12 +74,28 @@ public class Client {
             }
 
             toServer.println(input);
+            toServer.println("i am socket: " + this.hashCode());
             toServer.flush();
         }
 
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        Client client = new Client();
+        for (int i = 0; i < 100; i++) {
+            
+            Thread t = new Thread(() -> {
+                
+                try {
+                    new Client();
+                } catch (IOException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            t.start();
+            
+            
+        }
     }
 }
