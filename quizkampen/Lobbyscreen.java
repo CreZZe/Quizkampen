@@ -73,11 +73,7 @@ public class Lobbyscreen {
             window.setScene(questionScene);
         });
         
-//        login.setOnAction(e -> {
-//            Scene loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-//            loginScene.getStylesheets().add("Styling.css");
-//            window.setScene(loginScene);
-//        });
+
         
         
         topMenu.getChildren().add(title);
