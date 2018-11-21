@@ -23,6 +23,8 @@ public class Quizkampen extends Application {
         startingScene.getStylesheets().add("Styling.css");        
         
         window.setTitle("Quizkampen");
+        window.setMinWidth(400);
+        window.setMinHeight(550);
         window.setScene(startingScene);
         window.show();
     }

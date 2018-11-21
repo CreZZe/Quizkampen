@@ -43,7 +43,7 @@ public class Lobbyscreen {
         user = new HBox();
         
         title = new Label("Quizkampen"); 
-        title.getStyleClass().add("startingWelcome");
+        title.getStyleClass().add("startingWelcome2");
         
         avatar = new Label();
         avatar.setId("avatar");
@@ -72,12 +72,6 @@ public class Lobbyscreen {
             questionScene.getStylesheets().add("Styling.css");
             window.setScene(questionScene);
         });
-        
-//        login.setOnAction(e -> {
-//            Scene loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-//            loginScene.getStylesheets().add("Styling.css");
-//            window.setScene(loginScene);
-//        });
         
         
         topMenu.getChildren().add(title);

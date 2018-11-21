@@ -6,18 +6,14 @@
 .root {
     -fx-background-image: url("BG.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 400 550;
+    -fx-background-size: cover;
     -fx-padding: 30;
 }
 
 .hbox {
-   -fx-background-color: #1180B5;
    -fx-max-width: 360px;
    -fx-min-height: 48px;
    -fx-spacing: 9px;
-   -fx-border-style: none;
-   -fx-border-width: 0 0 5 0;
-   -fx-border-color: #10729F;
 }
 
 .button {
@@ -46,6 +42,13 @@
 
 .startingWelcome {
     -fx-font-size: 35px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
+}
+
+.startingWelcome2 {
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
