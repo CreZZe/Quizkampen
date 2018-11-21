@@ -10,6 +10,16 @@
     -fx-padding: 30;
 }
 
+.hbox {
+   -fx-background-color: #1180B5;
+   -fx-max-width: 360px;
+   -fx-min-height: 48px;
+   -fx-spacing: 9px;
+   -fx-border-style: none;
+   -fx-border-width: 0 0 5 0;
+   -fx-border-color: #10729F;
+}
+
 .button {
    -fx-font: 22px "Arial";
    -fx-font-weight: bold;
@@ -73,4 +83,39 @@
 .alreadyInUse {
     -fx-font-size: 14px;
     -fx-text-fill: rgb(255, 70, 70);
+}
+
+#refreshButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("RefreshButton.png");
+    -fx-background-size: 55px;
+    -fx-alignment: BASELINE_RIGHT;
+}
+#statsButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("StatsButton.png");
+    -fx-background-size: 55px;
+}
+
+#settingsButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("SettingsButton.png");
+    -fx-background-size: 55px;
+}
+
+#nyttSpelButton {
+    -fx-min-width: 310px;
+    -fx-min-height: 68px;
+    -fx-background-image: url("NyttSpelButton.png");
+    -fx-background-size: 310px;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#avatar {
+    -fx-min-width: 60px;
+    -fx-min-height: 55px;
+    -fx-background-image: url("Avatar.png");
+    -fx-background-size: 55px;
+    -fx-background-repeat: no-repeat;
 }
