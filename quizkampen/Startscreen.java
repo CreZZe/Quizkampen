@@ -16,8 +16,15 @@ public class Startscreen {
     Scene startScene;
     BorderPane root;
     
-    int windowWidth;
-    int windowHeight;
+    VBox buttons;
+    
+    HBox text, exitButton;
+    
+    Button nySpela, login, register, exit;
+    
+    Label startingWelcome;
+    
+    int windowWidth, windowHeight;
     
     public Startscreen(Stage window, int windowWidth, int windowHeight) {
         this.window = window;
@@ -27,16 +34,16 @@ public class Startscreen {
         root = new BorderPane();
                 
         // Create boxes for top-, center- and bottomelements
-        VBox buttons = new VBox(35);
-        HBox text = new HBox();
-        HBox exitButton = new HBox(30);
+        buttons = new VBox(35);
+        text = new HBox();
+        exitButton = new HBox(30);
 
         
         // Create buttonelements & styling
-        Button nySpela = new Button("SPELA GRATIS");
-        Button login = new Button("INLOGGNING");
-        Button register = new Button("REGISTRERING");
-        Button exit = new Button("EXIT");
+        nySpela = new Button("SPELA GRATIS");
+        login = new Button("INLOGGNING");
+        register = new Button("REGISTRERING");
+        exit = new Button("EXIT");
         
         nySpela.getStyleClass().add("centerButtons");
         login.getStyleClass().add("centerButtons");
@@ -62,7 +69,7 @@ public class Startscreen {
         exit.setOnAction(e -> System.exit(0));
         
         // Create & adjust labelelements
-        Label startingWelcome = new Label("QUIZKAMPEN");
+        startingWelcome = new Label("QUIZKAMPEN");
         
         startingWelcome.getStyleClass().add("startingWelcome");
         

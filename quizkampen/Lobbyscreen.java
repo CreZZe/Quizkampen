@@ -19,6 +19,7 @@ public class Lobbyscreen {
     
     Button refreshButton, statsButton, settingsButton;
     Button newGameButton;
+    Button exitButton;
     
     
     public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
@@ -53,7 +54,7 @@ public class Lobbyscreen {
         newGameButton = new Button();
         newGameButton.setId("nyttSpelButton");
         
-        Button exitButton = new Button("Logga ut");
+        exitButton = new Button("Logga ut");
         
         exitButton.setOnAction(e -> window.setScene(startScene));
         
