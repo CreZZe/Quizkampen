@@ -93,8 +93,8 @@
 .answerButtons {
     -fx-min-width: 170px;
     -fx-max-width: 170px;
-    -fx-min-height: 150px;
-    -fx-max-width: 150px;
+    -fx-min-height: 130px;
+    -fx-max-width: 130px;
     
     -fx-font-size: 14px;
     -fx-wrap-text: true;
@@ -110,8 +110,10 @@
     -fx-wrap-text: true;
     -fx-font-size: 25px;
     -fx-font-weight: bold;
-    -fx-text-fill: white;
-    
+    -fx-text-fill: white;   
+}
+:disabled{
+  -fx-opacity: 1.0 ;
 }
 
 .progressLabel {
@@ -123,7 +125,12 @@
     -fx-background-radius: 3px;
 }
 
-
+.progressBar {
+    -fx-min-width: 230px;
+    -fx-min-height: 25px;
+    
+    
+}
 #refreshButton {
     -fx-min-width: 55px;
     -fx-background-image: url("RefreshButton.png");
