@@ -9,7 +9,7 @@
  * aer awesome
  */
 
-package server.Questions;
+package quizkampen;
 
 
 public class QuestionObject {

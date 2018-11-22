@@ -6,36 +6,33 @@
 .root {
     -fx-background-image: url("BG.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 400 550;
+    -fx-background-size: cover;
     -fx-padding: 30;
 }
 
 .hbox {
-   -fx-background-color: #1180B5;
    -fx-max-width: 360px;
    -fx-min-height: 48px;
    -fx-spacing: 9px;
-   -fx-border-style: none;
-   -fx-border-width: 0 0 5 0;
-   -fx-border-color: #10729F;
 }
 
 .button {
    -fx-font: 22px "Arial";
    -fx-font-weight: bold;
-   -fx-background-color: rgba(0, 140, 175, 0.9);
+   -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+   -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
    -fx-border-radius: 3px;
    -fx-background-radius: 3px;
    -fx-text-fill: white;
 }
 
 .button:hover {
-    -fx-opacity: 85%;
+    -fx-opacity: 0.85;
     -fx-cursor: hand;
 }
 
 .button:pressed {
-    -fx-opacity: 60%;
+    -fx-opacity: 0.6;
 }
 
 .label {
@@ -44,9 +41,17 @@
 }
 
 .startingWelcome {
+    -fx-font-size: 35px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
+}
+
+.startingWelcome2 {
     -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
 }
 
 .centerButtons {
@@ -84,6 +89,40 @@
     -fx-font-size: 14px;
     -fx-text-fill: rgb(255, 70, 70);
 }
+
+.answerButtons {
+    -fx-min-width: 170px;
+    -fx-max-width: 170px;
+    -fx-min-height: 150px;
+    -fx-max-width: 150px;
+    
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.questionLabel {
+    -fx-background-color: rgba(0, 35, 0, 0.4); 
+    -fx-min-width: 340px;
+    -fx-max-width: 340px;
+    -fx-min-height: 150px;
+    
+    -fx-alignment: CENTER;
+    -fx-wrap-text: true;
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    
+}
+
+.progressLabel {
+    -fx-min-width: 55px;
+    -fx-min-height: 20px;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
 
 #refreshButton {
     -fx-min-width: 55px;

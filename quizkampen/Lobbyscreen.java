@@ -19,9 +19,19 @@ public class Lobbyscreen {
     
     Button refreshButton, statsButton, settingsButton;
     Button newGameButton;
+    Button exitButton;
+    
+    Stage window;
+    Scene startScene;
+    int windowWidth, windowHeight;
     
     
     public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+        this.window = window;
+        this.startScene = startScene;
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
+        
         root = new BorderPane();
         
         
@@ -33,7 +43,7 @@ public class Lobbyscreen {
         user = new HBox();
         
         title = new Label("Quizkampen"); 
-        title.getStyleClass().add("startingWelcome");
+        title.getStyleClass().add("startingWelcome2");
         
         avatar = new Label();
         avatar.setId("avatar");
@@ -53,11 +63,15 @@ public class Lobbyscreen {
         newGameButton = new Button();
         newGameButton.setId("nyttSpelButton");
         
-        Button exitButton = new Button("Logga ut");
+        exitButton = new Button("Logga ut");
         
         exitButton.setOnAction(e -> window.setScene(startScene));
         
-        
+        newGameButton.setOnAction(e -> {
+            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            questionScene.getStylesheets().add("Styling.css");
+            window.setScene(questionScene);
+        });
         
         
         topMenu.getChildren().add(title);

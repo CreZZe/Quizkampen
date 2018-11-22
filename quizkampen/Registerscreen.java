@@ -24,44 +24,46 @@ public class Registerscreen {
     
     BorderPane root;
     
-    VBox typeContent;
+    HBox exitButton;
+    VBox content, typeContent, usernameContent, passwordContent, mailContent;
     
-    TextField usernameField;
+    TextField usernameField, mailField;
     PasswordField passwordField;
-    TextField mailField;
     
-    Label alreadyInUse;
+    Label registerLabel, usernameLabel, passwordLabel, mailLabel, alreadyInUse;
+    
+    Button submit, exit;
     
     public Registerscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
         handler = new UserHandler();
         root = new BorderPane();
         
-        HBox exitButton = new HBox();
+        exitButton = new HBox();
         
         
-        VBox content = new VBox(20);
+        content = new VBox(20);
         content.setPadding(new Insets(40, 10, 0, 10));
         typeContent = new VBox(10);
         typeContent.getStyleClass().add("typeContent");
-        VBox usernameContent = new VBox(5);
-        VBox passwordContent = new VBox(5);
-        VBox emailContent = new VBox(5);
+        usernameContent = new VBox(5);
+        passwordContent = new VBox(5);
+        mailContent = new VBox(5);
         
         alreadyInUse = new Label("Användaren är upptagen!");
         alreadyInUse.getStyleClass().add("alreadyInUse");
         
-        Label registerLabel = new Label("Registrering");
+        registerLabel = new Label("Registrering");
         registerLabel.getStyleClass().add("headerLabel");
-        Label usernameLabel = new Label("Användarnamn");
-        Label passwordLabel = new Label("Lösenord");
-        Label emailLabel = new Label("E-post");
+        usernameLabel = new Label("Användarnamn");
+        passwordLabel = new Label("Lösenord");
+        mailLabel = new Label("E-post");
         
         usernameField = new TextField();
         passwordField = new PasswordField();
         mailField = new TextField();
         
-        Button submit = new Button("Spara användare");
-        Button exit = new Button("<");
+        submit = new Button("Spara användare");
+        exit = new Button("<");
         
         submit.getStyleClass().add("loginButtons");
 
@@ -98,14 +100,13 @@ public class Registerscreen {
         exit.setOnAction(e -> window.setScene(startScene));
         
         content.getChildren().add(typeContent);
-        typeContent.getChildren().addAll(registerLabel, usernameContent, passwordContent, emailContent, submit);
+        typeContent.getChildren().addAll(registerLabel, usernameContent, passwordContent, mailContent, submit);
         usernameContent.getChildren().addAll(usernameLabel, usernameField);
         passwordContent.getChildren().addAll(passwordLabel, passwordField);
-        emailContent.getChildren().addAll(emailLabel, mailField);
+        mailContent.getChildren().addAll(mailLabel, mailField);
         exitButton.getChildren().add(exit);
         
         
-        //root.setTop(registerText);
         root.setCenter(content);
         root.setBottom(exitButton);
     }
@@ -133,7 +134,7 @@ public class Registerscreen {
             typeContent.getChildren().remove(alreadyInUse);
             
             if (handler.validateFields(user, pass, mail)) {
-                if (handler.validateMail(mail)) {
+                if (handler.validateMail(mail) && handler.validatePass(pass)) {
                     if (handler.register(user, pass, mail)) {
                         write.println(user);
                         write.println(pass);
@@ -156,10 +157,12 @@ public class Registerscreen {
                     }
                 }
                 else {
-                    if (!handler.validateMail(mail)) {
+                    if (!handler.validateMail(mail))
                         mailField.setStyle(""
                                 + "-fx-border-color: red;");
-                    }
+                    if (!handler.validatePass(pass))
+                        passwordField.setStyle(""
+                                + "-fx-border-color: red;");
                 }
             }
             else {
