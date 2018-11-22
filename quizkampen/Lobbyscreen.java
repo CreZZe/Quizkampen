@@ -72,7 +72,7 @@ public class Lobbyscreen {
             questionScene.getStylesheets().add("Styling.css");
             window.setScene(questionScene);
         });
-        
+
         
         topMenu.getChildren().add(title);
         topMenu.getChildren().add(refreshButton);
