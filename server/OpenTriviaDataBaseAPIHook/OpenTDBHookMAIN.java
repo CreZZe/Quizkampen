@@ -29,6 +29,7 @@ public class OpenTDBHookMAIN {
     private int cofficient;
     private DAOToken daoToken;
     private DAOQuestions daoQuestions;
+    private int sum;
 
     public OpenTDBHookMAIN(int cofficient) throws ProtocolException, IOException {
         this.cofficient = cofficient;
@@ -50,6 +51,8 @@ public class OpenTDBHookMAIN {
 
                 System.out.println("Response: " + daoQuestions.response_code);
                 if (daoQuestions.response_code != 4) {
+                    sum += hookConfig.getAmount();
+                    System.out.println(sum + " questions generated");
                     databaseIO.writeQuestionsToFiles(daoQuestions);
                 } else {
                     System.out.println("Token exhausted! Cannot generate any more non-duplicate questions");
