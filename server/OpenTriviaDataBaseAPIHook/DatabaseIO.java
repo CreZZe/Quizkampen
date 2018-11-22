@@ -54,8 +54,10 @@ class DatabaseIO {
                 System.out.println("Token invalid! (>6 hours)");
                 return false;
             }
-            String isPlural = (hours > 1 ? "hours" : "hour");
-            System.out.format("Token valid! (%s %s) for %s more %s\r\n", hours, isPlural, 6 - hours, isPlural);
+            String isPlural = (hours <= 1 ? "hour" : "hours");
+            System.out.format("Token valid for %s more %s\r\nToken generated %s %s ago\r\n" , 
+                    6 - hours, (6 - hours == 1 ? "hour" : "hours"),
+                    hours, (hours == 1 ? "hour" : "hours"));
             return true;
         }
 
