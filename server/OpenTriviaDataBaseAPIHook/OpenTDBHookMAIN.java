@@ -27,6 +27,8 @@ public class OpenTDBHookMAIN {
     private String databaseDir = "";
     private String tokenDir = "";
     private int cofficient;
+    private DAOToken daoToken;
+    private DAOQuestions daoQuestions;
 
     public OpenTDBHookMAIN(int cofficient) throws ProtocolException, IOException {
         this.cofficient = cofficient;
@@ -37,21 +39,27 @@ public class OpenTDBHookMAIN {
 
         if (!databaseIO.wasTokenCreatedWithinExpirationDuration()) {
             apiRequest = new URL(ApiConstants.NEW_TOKEN);
-            generateToken(apiRequest);
+            daoToken = generateToken(apiRequest);
+            databaseIO.writeTokenToFile(daoToken.token);
 
         } else {
             hookConfig = new HookConfig(databaseIO.getTokenFromFile());
             apiRequest = new URL(hookConfig.getQuestionRequest());
             for (int i = 0; i < this.cofficient; i++) {
-                generateQuestions(apiRequest);
+                daoQuestions = generateQuestions(apiRequest);
 
+                System.out.println("Response: " + daoQuestions.response_code);
+                if (daoQuestions.response_code != 4) {
+                    databaseIO.writeQuestionsToFiles(daoQuestions);
+                } else {
+                    System.out.println("Token exhausted! Cannot generate any more non-duplicate questions");
+                    break;
+                }
             }
-
         }
-
     }
 
-    public void generateToken(URL request) throws IOException {
+    public DAOToken generateToken(URL request) throws IOException {
         sendGET(request);
         in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
         String JSON = in.readLine();
@@ -60,19 +68,22 @@ public class OpenTDBHookMAIN {
         DAOToken daoToken = new DAOToken();
         daoToken = new ObjectMapper().readValue(JSON, DAOToken.class);
 
-        databaseIO.writeTokenToFile(daoToken.getToken());
+        return daoToken;
     }
 
-    public void generateQuestions(URL request) throws IOException {
+    public DAOQuestions generateQuestions(URL request) throws IOException {
         sendGET(request);
         in = new BufferedReader(new InputStreamReader(connect.getInputStream()));
         String JSON = in.readLine();
+        System.out.println("recieved JSON!");
         in.close();
 
         DAOQuestions daoQuestions = new DAOQuestions();
+        
         daoQuestions = new ObjectMapper().readValue(JSON, DAOQuestions.class);
-
-        databaseIO.writeQuestionsToFiles(daoQuestions);
+        System.out.println("DAO generated from JSON " + daoQuestions);
+        
+        return daoQuestions;
     }
 
     public void sendGET(URL url) throws IOException {
@@ -90,7 +101,7 @@ public class OpenTDBHookMAIN {
     }
 
     public static void main(String[] args) throws IOException {
-        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(1);
+        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(400);
 
     }
 
