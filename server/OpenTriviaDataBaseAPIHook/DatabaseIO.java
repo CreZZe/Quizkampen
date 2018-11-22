@@ -100,7 +100,7 @@ class DatabaseIO {
             for (int j = 0; j < results[i].getIncorrect_answers().length; j++) {
 
                 fos.print(decode(results[i].getIncorrect_answers()[j]) + 
-                        (j == results[i].getIncorrect_answers().length - 1 ? "" : ", "));
+                        (j == results[i].getIncorrect_answers().length - 1 ? "\r\n" : ", "));
             }
             fos.close();
         }

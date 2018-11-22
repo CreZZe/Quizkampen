@@ -90,7 +90,7 @@ public class OpenTDBHookMAIN {
     }
 
     public static void main(String[] args) throws IOException {
-        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(2);
+        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(1);
 
     }
 
