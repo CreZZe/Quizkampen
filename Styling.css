@@ -6,26 +6,33 @@
 .root {
     -fx-background-image: url("BG.png");
     -fx-background-repeat: stretch;
-    -fx-background-size: 400 550;
+    -fx-background-size: cover;
     -fx-padding: 30;
+}
+
+.hbox {
+   -fx-max-width: 360px;
+   -fx-min-height: 48px;
+   -fx-spacing: 9px;
 }
 
 .button {
    -fx-font: 22px "Arial";
    -fx-font-weight: bold;
-   -fx-background-color: rgba(0, 140, 175, 0.9);
+   -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+   -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
    -fx-border-radius: 3px;
    -fx-background-radius: 3px;
    -fx-text-fill: white;
 }
 
 .button:hover {
-    -fx-opacity: 85%;
+    -fx-opacity: 0.85;
     -fx-cursor: hand;
 }
 
 .button:pressed {
-    -fx-opacity: 60%;
+    -fx-opacity: 0.6;
 }
 
 .label {
@@ -34,9 +41,17 @@
 }
 
 .startingWelcome {
+    -fx-font-size: 35px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
+}
+
+.startingWelcome2 {
     -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
 }
 
 .centerButtons {
@@ -73,4 +88,80 @@
 .alreadyInUse {
     -fx-font-size: 14px;
     -fx-text-fill: rgb(255, 70, 70);
+}
+
+.answerButtons {
+    -fx-min-width: 170px;
+    -fx-max-width: 170px;
+    -fx-min-height: 130px;
+    -fx-max-width: 130px;
+    
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.questionLabel {
+    -fx-background-color: rgba(0, 35, 0, 0.4); 
+    -fx-min-width: 340px;
+    -fx-max-width: 340px;
+    -fx-min-height: 150px;
+    
+    -fx-alignment: CENTER;
+    -fx-wrap-text: true;
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;   
+}
+:disabled{
+  -fx-opacity: 1.0 ;
+}
+
+.progressLabel {
+    -fx-min-width: 55px;
+    -fx-min-height: 20px;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.progressBar {
+    -fx-min-width: 230px;
+    -fx-min-height: 25px;
+    
+    
+}
+#refreshButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("RefreshButton.png");
+    -fx-background-size: 55px;
+    -fx-alignment: BASELINE_RIGHT;
+}
+#statsButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("StatsButton.png");
+    -fx-background-size: 55px;
+}
+
+#settingsButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("SettingsButton.png");
+    -fx-background-size: 55px;
+}
+
+#nyttSpelButton {
+    -fx-min-width: 310px;
+    -fx-min-height: 68px;
+    -fx-background-image: url("NyttSpelButton.png");
+    -fx-background-size: 310px;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#avatar {
+    -fx-min-width: 60px;
+    -fx-min-height: 55px;
+    -fx-background-image: url("Avatar.png");
+    -fx-background-size: 55px;
+    -fx-background-repeat: no-repeat;
 }

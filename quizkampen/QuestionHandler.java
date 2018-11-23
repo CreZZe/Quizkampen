@@ -52,6 +52,11 @@ public class QuestionHandler {
     
     List<QuestionObject> questionsInfo = new LinkedList<>();
     
+    public void setPath(String path){
+        questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\"+path;
+        
+    }
+    
     
     QuestionHandler(){
         
@@ -92,7 +97,7 @@ public class QuestionHandler {
         //LINE BELOW LETS YOU CHECK THAT IT FINDS THE RIGHT QUESTIONS/ANSWERS
         //questionsInfo is a list containing ALL questions
         
-       // System.out.println(questionsInfo.get(1).getAnswer3());
+//        System.out.println(questionsInfo.get(1).getAnswer3());
     }
     public int GetQuestionAmount(){
         return questionsInfo.size();
@@ -107,4 +112,12 @@ public class QuestionHandler {
         return questionsInfo.get(questionNumber);
     }
     
+    
+    public static void main (String[] args){
+        QuestionHandler qh = new QuestionHandler();
+        
+    }
+    
 }
+
+

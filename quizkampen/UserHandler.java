@@ -87,6 +87,16 @@ public class UserHandler {
         }
     }
     
+    public boolean validatePass(String pass) {
+        Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
+        Matcher m = p.matcher(pass);
+        
+        if (m.find() && m.group().equals(pass))
+            return true;
+        else
+            return false;
+    }
+    
     public boolean validateFields(String username, String password, String mail) {
         if (username.equals("") || password.equals("") || mail.equals("")) {
             return false;

@@ -11,8 +11,11 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author nikalsh
@@ -71,6 +74,7 @@ public class Client {
             }
 
             toServer.println(input);
+            toServer.println("i am socket: " + this.hashCode());
             toServer.flush();
         }
 
@@ -78,5 +82,6 @@ public class Client {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Client client = new Client();
+
     }
 }

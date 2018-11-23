@@ -80,8 +80,5 @@ public class Lobby implements NewGameRequestListener {
         }
     }
 
-    @Override
-    public void test() {
-        System.out.println("TESTING TESTING TESTING");
-    }
+
 }
