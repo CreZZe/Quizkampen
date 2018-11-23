@@ -11,6 +11,9 @@
 
 package quizkampen;
 
+import java.util.Collections;
+import java.util.HashMap;
+
 
 public class QuestionObject {
 
@@ -26,6 +29,12 @@ public class QuestionObject {
         answer2=a2;
         answer3=a3;
         answer4=a4;
+        HashMap<String, Boolean> svaren = new HashMap<>();
+        svaren.put(a1, true);
+        svaren.put(a2, false);
+        svaren.put(a3, false);
+        svaren.put(a4, false);
+        //Collections.shuffle(svaren):
     }
     
     public String getCategory(){

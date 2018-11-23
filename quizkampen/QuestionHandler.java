@@ -39,7 +39,7 @@ public class QuestionHandler {
     
     Path currentRelativePath = Paths.get("");
     //BELOW IS THE POSITION FOR THE FOLDER CONTAINING THE QUESTIONS
-    String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\test03\\Questions\\";
+    String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\quizkampen\\Questions\\";
     
     
     //COULD USE THE LINE BELOW AS WELL
