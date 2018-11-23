@@ -10,9 +10,9 @@ import org.apache.commons.codec.binary.Hex;
  *
  * @author nikalsh
  */
-//TODO: ADD SALT AND DONT USE SHA-256
 public class Hasher {
 
+    //TODO: ADD SALT AND DONT USE SHA-256
     private static final MessageDigest SHA256 = Hasher.getAlgorithm("SHA-256");
     private static final Hex HEX = new Hex();
 
@@ -30,8 +30,4 @@ public class Hasher {
         hash = HEX.encode(hash);
         return new String(hash, 0, hash.length);
     }
-
-    public static void main(String[] args) {
-    }
-
 }

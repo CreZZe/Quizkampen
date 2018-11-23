@@ -1,7 +1,10 @@
 package server;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,37 +30,25 @@ public class LobbyThread extends Thread {
 
     @Override
     public void run() {
-
         try {
-            System.out.println(Thread.currentThread());
-            System.out.println(clientSocket);
-            while ((input = clientSocket.readLine()) != null) {
-                clientList = Lobby.getClientList();
-
-                System.out.format("Lobby: %s: %s\r\n", clientSocket.hashCode(), input);
-
-                if (input.equalsIgnoreCase("new game")) {
-                    
-                    listOfNewGameRequestListeners.stream().forEach((NGRequestListener) -> {
-                        NGRequestListener.addToGameRoom(clientSocket);
-                    });
-//
-                    for (NewGameRequestListener listOfNewGameRequestListener : listOfNewGameRequestListeners) {
-                        listOfNewGameRequestListener.addToGameRoom(clientSocket);
-                    }
-
-                } else {
-
-                    for (int j = 0; j < clientList.size(); j++) {
-                        if (!clientList.get(j).equals(clientSocket)) {
-                            clientList.get(j).println(clientSocket.hashCode() + ": " + input);
-                        }
-                    }
-
-                }
+            String input = "";
+            while ((input = clientSocket.readLine()) != null){
+                
+                
+                //Just echo for now
+                clientSocket.println(input);
+                
+                
+                
+                
+                
+                
+                
+                
+                
             }
-        } catch (Exception ex) {
-
+        } catch (IOException ex) {
+            Logger.getLogger(LobbyThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
