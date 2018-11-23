@@ -23,34 +23,50 @@ public class LobbyThread extends Thread {
 
     }
 
-    public void addListeners(NewGameRequestListener listener) {
-        listOfNewGameRequestListeners = new ArrayList<>();
-        listOfNewGameRequestListeners.add(listener);
+    public class gameProtocol {
+
+        public gameProtocol() {
+        }
+
+        public void process(String request) {
+
+        }
     }
 
     @Override
     public void run() {
         try {
-            String input = "";
-            while ((input = clientSocket.readLine()) != null){
-                
-                
-                //Just echo for now
-                clientSocket.println(input);
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
+            String REQUEST = "";
+            while ((REQUEST = clientSocket.readLine()) != null) {
+
+                //this happens when client presses "Start nytt spel" in 
+                if (REQUEST.equalsIgnoreCase("newgame")) {
+                    clientSocket.println("starting new game");
+                    
+                    gameProtocol prot = new gameProtocol();
+
+                    while (true) {
+
+                        prot.process(REQUEST);
+
+                    }
+
+                }
+
+                //Otherwise just echo
+                clientSocket.println(REQUEST);
+
             }
         } catch (IOException ex) {
             Logger.getLogger(LobbyThread.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+
+    public void addListeners(NewGameRequestListener listener) {
+        listOfNewGameRequestListeners = new ArrayList<>();
+        listOfNewGameRequestListeners.add(listener);
     }
 
 }

@@ -72,6 +72,7 @@ public class Lobbyscreen {
             questionScene.getStylesheets().add("Styling.css");
             window.setScene(questionScene);
             System.out.println();
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
         });
 
         

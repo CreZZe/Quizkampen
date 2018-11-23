@@ -36,7 +36,7 @@ public class Accepter {
     private void startInfiniteListenAndAcceptLoop() throws IOException {
         System.out.println("now listening for connections on port: " + port + "..");
         while (true) {
-            clientHandler = new ClientHandler(listener.accept()); 
+            clientHandler = new ClientHandler(listener.accept());
             //Row above is BLOCKING until a client tries to connect to us
             //When a client connects, listener.accept() is invoked, 
             //which outputs a "Socket" which we use as input in a ClientHandler instance constructor
@@ -47,7 +47,8 @@ public class Accepter {
         }
     }
 
-    //IGNORE this section for now ----------------------------------------------
+    //IGNORE this section below for now 
+    //--------------------------------------------------------------------------
     //Enables server in/output, useful for implementing commands
     //i e list all current lobbies, game rooms and their corresponding active threads
     public void enableConsoleInput() throws UnsupportedEncodingException {

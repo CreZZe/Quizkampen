@@ -232,6 +232,8 @@ public class Questionscreen {
     }
 
     private void getQnA() {
+        
+        
         if (first) {
             question = "lorem ipsum 1?";
             ansA = "Right answer";
