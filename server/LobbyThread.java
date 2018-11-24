@@ -1,5 +1,6 @@
 package server;
 
+import server.OLD.NewGameRequestListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.logging.Logger;
  */
 public class LobbyThread extends Thread {
 
-    private List<NewGameRequestListener> listOfNewGameRequestListeners;
     private ClientHandler clientSocket;
     private List<ClientHandler> clientList;
     private String input = "";
@@ -23,20 +23,11 @@ public class LobbyThread extends Thread {
 
     }
 
-    public class gameProtocol {
-
-        public gameProtocol() {
-        }
-
-        public void process(String request) {
-
-        }
-    }
-
     @Override
     public void run() {
         try {
 
+            //PROTOCOL SHOULD GO HERE
             String REQUEST = "";
             String GAMEREQUEST = "";
             OUTER:
@@ -62,10 +53,4 @@ public class LobbyThread extends Thread {
         }
 
     }
-
-    public void addListeners(NewGameRequestListener listener) {
-        listOfNewGameRequestListeners = new ArrayList<>();
-        listOfNewGameRequestListeners.add(listener);
-    }
-
 }

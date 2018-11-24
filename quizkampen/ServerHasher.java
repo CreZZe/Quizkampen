@@ -14,8 +14,7 @@ import org.apache.commons.codec.binary.Hex;
  * @author nikalsh
  */
 public class ServerHasher {
-
-    //TODO: ADD SALT AND COMPARE
+    
     private static final MessageDigest SHA256 = ServerHasher.getAlgorithm("SHA-256");
     private static final Hex HEX = new Hex();
 
