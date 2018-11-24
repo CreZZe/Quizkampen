@@ -38,25 +38,24 @@ public class LobbyThread extends Thread {
         try {
 
             String REQUEST = "";
+            String GAMEREQUEST = "";
+            OUTER:
             while ((REQUEST = clientSocket.readLine()) != null) {
 
                 //this happens when client presses "Start nytt spel" in 
                 if (REQUEST.equalsIgnoreCase("newgame")) {
                     clientSocket.println("starting new game");
-                    
-                    gameProtocol prot = new gameProtocol();
+                    while ((GAMEREQUEST = clientSocket.readLine()) != null) {
+                        if (GAMEREQUEST.equalsIgnoreCase("round is done over here")) {
+                            clientSocket.println("round is done on server too");
+                            continue OUTER;
 
-                    while (true) {
-
-                        prot.process(REQUEST);
-
+                        }
                     }
 
                 }
-
                 //Otherwise just echo
                 clientSocket.println(REQUEST);
-
             }
         } catch (IOException ex) {
             Logger.getLogger(LobbyThread.class.getName()).log(Level.SEVERE, null, ex);
