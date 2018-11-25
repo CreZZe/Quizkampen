@@ -13,19 +13,19 @@ import org.apache.commons.codec.binary.Hex;
  *
  * @author nikalsh
  */
-public class ServerHasher {
+public class Hasher {
     
-    private static final MessageDigest SHA256 = ServerHasher.getAlgorithm("SHA-256");
+    private static final MessageDigest SHA256 = Hasher.getAlgorithm("SHA-256");
     private static final Hex HEX = new Hex();
 
-    private ServerHasher() {
+    private Hasher() {
     }
 
     private static MessageDigest getAlgorithm(String algorithm) {
         try {
             return MessageDigest.getInstance(algorithm);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(ServerHasher.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Hasher.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -36,13 +36,12 @@ public class ServerHasher {
      */
     public static String[] hash(String password) {
 
-        String salt = ServerHasher.salter();
+        String salt = Hasher.salter();
         String toHash = salt + password;
-        byte[] hash = ServerHasher.SHA256.digest(toHash.getBytes());
+        byte[] hash = Hasher.SHA256.digest(toHash.getBytes());
 
         hash = HEX.encode(hash);
         String[] result = new String[]{salt, new String(hash, 0, hash.length)};
-        System.out.println(result[1]);
         return result;
     }
 
@@ -58,17 +57,27 @@ public class ServerHasher {
     public static String hashWithSalt(String salt, String password) {
 
         String toHash = salt + password;
-        byte[] hash = ServerHasher.SHA256.digest(toHash.getBytes());
+        byte[] hash = Hasher.SHA256.digest(toHash.getBytes());
 
         hash = HEX.encode(hash);
         String result = new String(hash, 0, hash.length);
-        System.out.println(result);
         return result;
     }
 
-    public static void testHasher(String password) {
-        String[] hash = ServerHasher.hash(password);
+    public static boolean testHasher(String password) {
+        String[] hash = Hasher.hash(password);
         String tryHash = hashWithSalt(hash[0], password);
-        System.out.println(tryHash.equals(hash[1]));
+//        System.out.println(tryHash.equals(hash[1]));
+        
+     return tryHash.equals(hash[1]);
+        
+    }
+    
+    public static void main(String[] args) {
+        
+       
+        
+        System.out.println(Hasher.testHasher("balle"));
+        
     }
 }

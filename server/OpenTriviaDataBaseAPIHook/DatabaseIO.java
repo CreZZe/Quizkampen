@@ -97,6 +97,7 @@ class DatabaseIO {
         String root = "\\src\\quizkampen\\questions\\";
         String rootPath = "";
         File file;
+        String delimiter = "##%#";
         for (int i = 0; i < results.length; i++) {
             rootPath = root + results[i].getCategory() + ".txt";
 
@@ -105,11 +106,11 @@ class DatabaseIO {
             if (debug){
             System.out.println("writing '" + decode(results[i].getQuestion()) + ", " + "' to " + rootPath);
             }
-            fos.print(decode(results[i].getQuestion()) + ", ");
+            fos.print(decode(results[i].getQuestion()) + delimiter);
             if (debug){
             System.out.println("writing '"+ decode(results[i].getCorrect_answer()) + ", "+ "' to "+ rootPath);
             }
-            fos.print(decode(results[i].getCorrect_answer()) + ", ");
+            fos.print(decode(results[i].getCorrect_answer()) + delimiter);
             for (int j = 0; j < results[i].getIncorrect_answers().length; j++) {
 
                 if (debug){
@@ -118,7 +119,7 @@ class DatabaseIO {
                 
                 }
                 fos.print(decode(results[i].getIncorrect_answers()[j]) + 
-                        (j == results[i].getIncorrect_answers().length - 1 ? "\r\n" : ", "));
+                        (j == results[i].getIncorrect_answers().length - 1 ? "\r\n" : delimiter));
                 if (debug){
                 System.out.println("");
                 }

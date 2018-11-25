@@ -30,8 +30,26 @@ public class LobbyThread extends Thread {
             //PROTOCOL SHOULD GO HERE
             String REQUEST = "";
             String GAMEREQUEST = "";
+            String REGISTER_REQUEST = "";
             OUTER:
             while ((REQUEST = clientSocket.readLine()) != null) {
+                
+                if (REQUEST.equalsIgnoreCase("register")){
+                    
+                    clientSocket.println("let's register");
+                    while ((REGISTER_REQUEST = clientSocket.readLine()) != null){
+                        
+                        
+                        
+                    }
+                    
+                }
+                
+                
+                
+                
+                
+                
 
                 //this happens when client presses "Start nytt spel" in 
                 if (REQUEST.equalsIgnoreCase("newgame")) {
