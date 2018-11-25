@@ -82,10 +82,10 @@ public class OpenTDBHookMAIN {
         in.close();
 
         DAOQuestions daoQuestions = new DAOQuestions();
-        
+
         daoQuestions = new ObjectMapper().readValue(JSON, DAOQuestions.class);
         System.out.println("DAO generated from JSON " + daoQuestions);
-        
+
         return daoQuestions;
     }
 

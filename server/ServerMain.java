@@ -12,8 +12,8 @@ public class ServerMain {
         
         //SEVER ENTRY POINT
         //Run ServerMain to put server in listen & accept mode
-        //See Accepter.java
-        Accepter server = new Accepter(55555);
+        //See Acceptor.java
+        Acceptor server = new Acceptor(55555);
 
     }
 }

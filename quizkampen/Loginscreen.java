@@ -1,4 +1,3 @@
-
 package quizkampen;
 
 import server.UserHandler;
@@ -20,58 +19,56 @@ public class Loginscreen {
 
     UserHandler handler;
     BorderPane root;
-    
+
     HBox exitButton, buttons;
     VBox content, typeContent, usernameContent, passwordContent;
 
     Label loginLabel, usernameLabel, passwordLabel;
-    
+
     TextField usernameField;
     PasswordField passwordField;
-    
+
     Button loginButton, forgotLogin, exit;
-    
+
     Stage window;
     Scene startScene;
-    
+
     int windowWidth, windowHeight;
-    
+
     public Loginscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        
-        
+
         handler = new UserHandler();
         root = new BorderPane();
-        
+
         exitButton = new HBox();
         buttons = new HBox(48);
-        
+
         content = new VBox(20);
         content.setPadding(new Insets(40, 10, 0, 10));
         typeContent = new VBox(15);
         typeContent.getStyleClass().add("typeContent");
         usernameContent = new VBox(5);
         passwordContent = new VBox(5);
-        
+
         loginLabel = new Label("Logga in");
         loginLabel.getStyleClass().add("headerLabel");
         usernameLabel = new Label("Användarnamn");
         passwordLabel = new Label("Lösenord");
-        
+
         usernameField = new TextField();
         passwordField = new PasswordField();
-        
+
         loginButton = new Button("Logga in");
         forgotLogin = new Button("Glömt lösenord");
         exit = new Button("<");
-        
+
         loginButton.getStyleClass().add("loginButtons");
         forgotLogin.getStyleClass().add("loginButtons");
-        
-        
+
         usernameField.setOnAction(e -> {
             try {
                 login();
@@ -93,35 +90,37 @@ public class Loginscreen {
                 Logger.getLogger(Loginscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        exit.setOnAction(e -> window.setScene(startScene));
-        
+        exit.setOnAction(e -> {
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
+            window.setScene(startScene);
+
+        });
+
         exitButton.getChildren().add(exit);
         buttons.getChildren().addAll(loginButton, forgotLogin);
-        
+
         content.getChildren().add(typeContent);
         typeContent.getChildren().addAll(loginLabel, usernameContent, passwordContent, buttons);
         usernameContent.getChildren().addAll(usernameLabel, usernameField);
         passwordContent.getChildren().addAll(passwordLabel, passwordField);
-        
-        
+
         root.setCenter(content);
         root.setBottom(exitButton);
     }
-    
+
     public BorderPane getGUI() {
         return root;
     }
-    
+
     private void login() throws FileNotFoundException {
         String user = usernameField.getText();
         String pass = passwordField.getText();
-        
-        if (handler.login(user, pass)) {            
+
+        if (handler.login(user, pass)) {
             Scene lobbyScreen = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             lobbyScreen.getStylesheets().add("Styling.css");
             window.setScene(lobbyScreen);
-        }
-        else {
+        } else {
             usernameField.setStyle(""
                     + "-fx-border-color: red;"
                     + "-fx-border-radius: 3px;");
@@ -129,7 +128,6 @@ public class Loginscreen {
                     + "-fx-border-color: red;"
                     + "-fx-border-radius: 3px;");
         }
-            
-            
+
     }
 }

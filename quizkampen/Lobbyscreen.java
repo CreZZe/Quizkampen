@@ -65,13 +65,15 @@ public class Lobbyscreen {
         
         exitButton = new Button("Logga ut");
         
-        exitButton.setOnAction(e -> window.setScene(startScene));
+        exitButton.setOnAction(e -> {
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
+            window.setScene(startScene);
+                });
         
         newGameButton.setOnAction(e -> {
             Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             questionScene.getStylesheets().add("Styling.css");
             window.setScene(questionScene);
-            System.out.println();
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
         });
 

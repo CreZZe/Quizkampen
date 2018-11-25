@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author nikalsh
  */
-public class Accepter {
+public class Acceptor {
 
     private BufferedReader cin;
     private String cinput = "";
@@ -27,7 +27,7 @@ public class Accepter {
     private ServerSocket listener;
     private ClientHandler clientHandler;
 
-    public Accepter(int port) throws IOException {
+    public Acceptor(int port) throws IOException {
         lobby = new Lobby();
         this.port = port;
         listener = new ServerSocket(this.port);
@@ -62,7 +62,7 @@ public class Accepter {
                     System.out.println(Colors.colorize(cinput, "green"));
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Accepter.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Acceptor.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         cinThread.start();

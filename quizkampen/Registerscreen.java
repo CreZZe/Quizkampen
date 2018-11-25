@@ -69,6 +69,8 @@ public class Registerscreen {
         //Actionhandler för tillbaka knappen
         usernameField.setOnAction(e -> {
             try {
+                System.out.println(Quizkampen.client.sendRequestAndGetResponse("TRY REGISTER"));
+
                 register();
             } catch (IOException ex) {
                 Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -76,13 +78,17 @@ public class Registerscreen {
         });
         passwordField.setOnAction(e -> {
             try {
+                System.out.println(Quizkampen.client.sendRequestAndGetResponse("TRY REGISTER"));
+
                 register();
             } catch (IOException ex) {
                 Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         mailField.setOnAction(e -> {
+
             try {
+                System.out.println(Quizkampen.client.sendRequestAndGetResponse("TRY REGISTER"));
                 register();
             } catch (IOException ex) {
                 Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -92,18 +98,15 @@ public class Registerscreen {
             try {
 
                 register();
-                
-                String response = Quizkampen.client.sendRequestAndGetResponse("asd");
-                if (!response.equalsIgnoreCase("success")) {
-                    System.out.println(response);
-                }
-                register();
             } catch (IOException ex) {
                 Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
 
-        exit.setOnAction(e -> window.setScene(startScene));
+        exit.setOnAction(e -> {
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
+            window.setScene(startScene);
+        });
 
         content.getChildren().add(typeContent);
         typeContent.getChildren().addAll(registerLabel, usernameContent, passwordContent, mailContent, submit);
@@ -114,6 +117,7 @@ public class Registerscreen {
 
         root.setCenter(content);
         root.setBottom(exitButton);
+
     }
 
     public BorderPane getGUI() {
