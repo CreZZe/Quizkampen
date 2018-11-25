@@ -20,7 +20,7 @@ public class ServerProt {
     ServerProt(){
         q = new QuestionHandler();
     }
-    public QuestionObject getQuestionObject(String Category){
+    public QuestionObject getQuestionObject(String category){
         List<String> CategoryList = q.getCategories();
           int requestedCategory = CategoryList.indexOf(category);
           List<List<QuestionObject>> l = q.getCategoryLists();
