@@ -224,6 +224,8 @@ public class Questionscreen {
         cueCard.setDisable(true);
         questionLabel.setDisable(true);
         
+        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
+        
         root.setOnMousePressed(e -> {
             Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             lobbyScene.getStylesheets().add("Styling.css");
@@ -232,6 +234,8 @@ public class Questionscreen {
     }
 
     private void getQnA() {
+        
+        
         if (first) {
             question = "lorem ipsum 1?";
             ansA = "Right answer";

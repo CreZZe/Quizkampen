@@ -39,9 +39,10 @@ public class Client {
             System.out.println(ip);
             server = new Socket(ip, port);
             System.out.println("connected to server " + ip + ": " + port);
+
             toServer = new PrintWriter(new OutputStreamWriter(server.getOutputStream(), "UTF-8"), true);
             fromServer = new BufferedReader(new InputStreamReader(server.getInputStream(), "UTF-8"));
-            sendAndRecieveLoop();
+//            startClient();
 
         } catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
@@ -52,36 +53,43 @@ public class Client {
 
     }
 
-    public void sendAndRecieveLoop() throws IOException, InterruptedException {
+    public String sendRequestAndGetResponse(String request) {
+        try {
+            toServer.println(request);
+            System.out.println("Sent request: " + request);
+            String response = fromServer.readLine();
+            return "Server response: " + response;
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "ERROR: server could not respond";
+    }
+
+    public void startClient() throws IOException, InterruptedException {
 
         Thread listenerThread = new Thread(() -> {
             while (true) {
-                try {
 
-                    System.out.println(fromServer.readLine());
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         });
         listenerThread.start();
 
-        while ((input = cin.readLine()) != null) {
-            if (input.equalsIgnoreCase("bye")) {
-                server.close();
-                listenerThread.interrupt();
-                System.out.println("disconnecting...");
-            }
-
-            toServer.println(input);
-            toServer.println("i am socket: " + this.hashCode());
-            toServer.flush();
-        }
-
     }
 
+//        while ((input = cin.readLine()) != null) {
+//            if (input.equalsIgnoreCase("bye")) {
+//                server.close();
+//                listenerThread.interrupt();
+//                System.out.println("disconnecting...");
+//            }
+//
+//            toServer.println(input);
+//            toServer.println("i am socket: " + this.hashCode());
+//            toServer.flush();
+//        }
+//    }
+    
     public static void main(String[] args) throws IOException, InterruptedException {
         Client client = new Client();
-
     }
 }
