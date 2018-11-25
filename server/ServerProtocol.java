@@ -1,4 +1,4 @@
-package quizkampen;
+package server;
 
 /**
  *
