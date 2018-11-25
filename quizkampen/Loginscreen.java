@@ -124,6 +124,8 @@ public class Loginscreen {
         if (login) {
             Scene lobbyScreen = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             lobbyScreen.getStylesheets().add("Styling.css");
+            
+            System.out.println("login successful");
             window.setScene(lobbyScreen);
         } else {
             usernameField.setStyle(""
