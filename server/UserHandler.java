@@ -52,6 +52,10 @@ public class UserHandler {
                     return false;
             }
             
+            if (!validatePass(password)){
+                return false;
+            }
+            
             String[] hash = Hasher.hash(password);
             String salt = hash[0];
             String hashedPw = hash[1];
