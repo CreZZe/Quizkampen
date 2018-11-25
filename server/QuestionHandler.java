@@ -20,11 +20,11 @@ import java.util.List;
 
 
 public class QuestionHandler {
-//    public static void main(String[] args){
+    public static void main(String[] args){
 //     //   WANT TO TEST THIS FILE ONLY? UNCOMMENT THIS PART
-//    QuestionHandler p = new QuestionHandler();
-//    System.out.println(p.getCategories());
-//    }
+    QuestionHandler p = new QuestionHandler();
+    System.out.println(p.getCategories());
+    }
     
     Path currentRelativePath = Paths.get("");
     //BELOW IS THE POSITION FOR THE FOLDER CONTAINING THE QUESTIONS
