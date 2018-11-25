@@ -35,12 +35,18 @@ public class LobbyThread extends Thread {
     private static final String REGISTER_BUTTON = "register";
     private static final String SETTINGS_BUTTON = "settings";
     private static final String EXIT_BUTTON = "exit";
-//    private static final String 
+
+    //REGISTER REQUEST
+    private static final String INCOMING_FORM = "form";
+
     private String scene = "";
     private String MAIN_MENU_REQUEST = "";
     private String GAME_REQUEST = "";
     private String PRE_GAME_REQUEST = "";
     private String REGISTER_REQUEST = "";
+    private String FORM_REQUEST = "";
+
+    private UserHandler handler = new UserHandler();
 
     public LobbyThread(ClientHandler currSock) {
         clientSocket = currSock;
@@ -59,7 +65,7 @@ public class LobbyThread extends Thread {
 
                 if (scene.equalsIgnoreCase(MAIN_MENU_SCENE)) {
 
-                    switch (MAIN_MENU_REQUEST.toLowerCase()) {
+                    switch (MAIN_MENU_REQUEST) {
                         case NYSPELA_BUTTON:
                             preGame(MAIN_MENU_REQUEST);
 
@@ -103,7 +109,7 @@ public class LobbyThread extends Thread {
 
         while ((PRE_GAME_REQUEST = clientSocket.readLine()) != null) {
 
-            switch (PRE_GAME_REQUEST.toLowerCase()) {
+            switch (PRE_GAME_REQUEST) {
                 case PLAY:
                     play(PRE_GAME_REQUEST);
                     break;
@@ -129,7 +135,12 @@ public class LobbyThread extends Thread {
         clientSocket.println(MAIN_MENU_REQUEST);
         while ((REGISTER_REQUEST = clientSocket.readLine()) != null) {
 
-            switch (REGISTER_REQUEST.toLowerCase()) {
+            switch (REGISTER_REQUEST) {
+
+                case INCOMING_FORM:
+                    trySaveUser(INCOMING_FORM);
+
+                    break;
 
                 case BACK:
                     clientSocket.println(BACK);
@@ -143,4 +154,36 @@ public class LobbyThread extends Thread {
 
         }
     }
+
+    public void trySaveUser(String INCOMING_FORM) throws IOException {
+
+//        scene = NEW_STATE_SCENE;
+//        while ((FORM_REQUEST = clientSocket.readLine()) != null) {
+            clientSocket.println("proccessing forms..");
+            
+            String theUserToFind = clientSocket.readLine();
+            clientSocket.println(Boolean.toString(handler.findUsername(theUserToFind)));
+
+            String validPass = clientSocket.readLine();
+            clientSocket.println(Boolean.toString(handler.validatePass(validPass)));
+
+            String validMail = clientSocket.readLine();
+            clientSocket.println(Boolean.toString(handler.validateMail(validMail)));
+
+            String theMailToFind = clientSocket.readLine();
+            clientSocket.println(Boolean.toString(handler.findMail(theMailToFind)));
+
+            String validFields = clientSocket.readLine();
+            String[] splitFields = validFields.split(",", 3);
+
+            clientSocket.println(Boolean.toString(handler.validateFields(splitFields[0], splitFields[1], splitFields[2])));
+
+            String toRegisterFields = clientSocket.readLine();
+            String[] splitRegister = toRegisterFields.split(",", 3);
+
+            clientSocket.println(Boolean.toString(handler.register(splitRegister[0], splitRegister[1], splitRegister[2])));
+//            break;
+//        }
+    }
+
 }

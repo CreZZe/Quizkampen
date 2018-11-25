@@ -69,7 +69,6 @@ public class Registerscreen {
         //Actionhandler för tillbaka knappen
         usernameField.setOnAction(e -> {
             try {
-                System.out.println(Quizkampen.client.sendRequestAndGetResponse("TRY REGISTER"));
 
                 register();
             } catch (IOException ex) {
@@ -78,7 +77,6 @@ public class Registerscreen {
         });
         passwordField.setOnAction(e -> {
             try {
-                System.out.println(Quizkampen.client.sendRequestAndGetResponse("TRY REGISTER"));
 
                 register();
             } catch (IOException ex) {
@@ -88,7 +86,6 @@ public class Registerscreen {
         mailField.setOnAction(e -> {
 
             try {
-                System.out.println(Quizkampen.client.sendRequestAndGetResponse("TRY REGISTER"));
                 register();
             } catch (IOException ex) {
                 Logger.getLogger(Registerscreen.class.getName()).log(Level.SEVERE, null, ex);
@@ -125,71 +122,132 @@ public class Registerscreen {
     }
 
     private void register() throws IOException {
-        try (PrintWriter write = new PrintWriter(
-                new FileWriter(
-                        new File("src/users.txt"), true))) {
+//        try (PrintWriter write = new PrintWriter(
+//                new FileWriter(
+//                        new File("src/users.txt"), true))) {
 
-            String user = usernameField.getText();
-            String pass = passwordField.getText();
-            String mail = mailField.getText();
+        System.out.println(Quizkampen.client.sendRequestAndGetResponse("form"));
 
-            usernameField.setStyle(""
-                    + "-fx-border: none;");
-            passwordField.setStyle(""
-                    + "-fx-border: none;");
-            mailField.setStyle(""
-                    + "-fx-border: none;");
+        String user = usernameField.getText();
+        String pass = passwordField.getText();
+        String mail = mailField.getText();
 
-            typeContent.getChildren().remove(alreadyInUse);
+        usernameField.setStyle(""
+                + "-fx-border: none;");
+        passwordField.setStyle(""
+                + "-fx-border: none;");
+        mailField.setStyle(""
+                + "-fx-border: none;");
 
-            if (handler.validateFields(user, pass, mail)) {
-                if (handler.validateMail(mail) && handler.validatePass(pass)) {
-                    if (handler.register(user, pass, mail)) {
-                        write.println(user);
-                        write.println(pass);
-                        write.println(mail);
+        typeContent.getChildren().remove(alreadyInUse);
 
-                        usernameField.setText("");
-                        passwordField.setText("");
-                        mailField.setText("");
-                    } else { //Ha en kontroll som kanske kontrollerar om det är specifikt mailadressen eller användarnamnet som är upptaget
-                        if (handler.findUsername(user)) {
-                            usernameField.setStyle(""
-                                    + "-fx-border-color: red;");
-                        }
+        boolean findUser = (Quizkampen.client.sendRequestAndGetResponse(user).equals("true"));
+        boolean validPass = (Quizkampen.client.sendRequestAndGetResponse(pass).equals("true"));
+        boolean validEmail = (Quizkampen.client.sendRequestAndGetResponse(mail).equals("true"));
+        boolean findMail = (Quizkampen.client.sendRequestAndGetResponse(mail).equals("true"));
+        boolean validFields = (Quizkampen.client.sendRequestAndGetResponse(user + "," + pass + "," + mail).equals("true"));
+        boolean registerThis = (Quizkampen.client.sendRequestAndGetResponse(user + "," + pass + "," + mail).equals("true"));
 
-                        if (handler.findMail(mail)) {
-                            mailField.setStyle(""
-                                    + "-fx-border-color: red;");
-                        }
+        if (validFields) {
+            if (validEmail && validPass) {
+                if (registerThis) {
+//                    write.println(user);
+//                    write.println(pass);
+//                    write.println(mail);
+                    System.out.println("user successfully registered");
 
-                        typeContent.getChildren().add(1, alreadyInUse);
+                    usernameField.setText("");
+                    passwordField.setText("");
+                    mailField.setText("");
+                } else { //Ha en kontroll som kanske kontrollerar om det är specifikt mailadressen eller användarnamnet som är upptaget
+                    if (findUser) {
+                        usernameField.setStyle(""
+                                + "-fx-border-color: red;");
                     }
-                } else {
-                    if (!handler.validateMail(mail)) {
+
+                    if (findMail) {
                         mailField.setStyle(""
                                 + "-fx-border-color: red;");
                     }
-                    if (!handler.validatePass(pass)) {
-                        passwordField.setStyle(""
-                                + "-fx-border-color: red;");
-                    }
+
+                    typeContent.getChildren().add(1, alreadyInUse);
                 }
             } else {
-                if (usernameField.getText().equals("")) {
-                    usernameField.setStyle(""
-                            + "-fx-border-color: red;");
-                }
-                if (passwordField.getText().equals("")) {
-                    passwordField.setStyle(""
-                            + "-fx-border-color: red;");
-                }
-                if (mailField.getText().equals("")) {
+                if (!validEmail) {
                     mailField.setStyle(""
                             + "-fx-border-color: red;");
                 }
+                if (!validPass) {
+                    passwordField.setStyle(""
+                            + "-fx-border-color: red;");
+                }
             }
-
+        } else {
+            if (usernameField.getText().equals("")) {
+                usernameField.setStyle(""
+                        + "-fx-border-color: red;");
+            }
+            if (passwordField.getText().equals("")) {
+                passwordField.setStyle(""
+                        + "-fx-border-color: red;");
+            }
+            if (mailField.getText().equals("")) {
+                mailField.setStyle(""
+                        + "-fx-border-color: red;");
+            }
         }
+
     }
+
 }
+//        if (handler.validateFields(user, pass, mail)) {
+//            if (handler.validateMail(mail) && handler.validatePass(pass)) {
+//                if (handler.register(user, pass, mail)) {
+////                    write.println(user);
+////                    write.println(pass);
+////                    write.println(mail);
+//
+//                    usernameField.setText("");
+//                    passwordField.setText("");
+//                    mailField.setText("");
+//                } else { //Ha en kontroll som kanske kontrollerar om det är specifikt mailadressen eller användarnamnet som är upptaget
+//                    if (handler.findUsername(user)) {
+//                        usernameField.setStyle(""
+//                                + "-fx-border-color: red;");
+//                    }
+//
+//                    if (handler.findMail(mail)) {
+//                        mailField.setStyle(""
+//                                + "-fx-border-color: red;");
+//                    }
+//
+//                    typeContent.getChildren().add(1, alreadyInUse);
+//                }
+//            } else {
+//                if (!handler.validateMail(mail)) {
+//                    mailField.setStyle(""
+//                            + "-fx-border-color: red;");
+//                }
+//                if (!handler.validatePass(pass)) {
+//                    passwordField.setStyle(""
+//                            + "-fx-border-color: red;");
+//                }
+//            }
+//        } else {
+//            if (usernameField.getText().equals("")) {
+//                usernameField.setStyle(""
+//                        + "-fx-border-color: red;");
+//            }
+//            if (passwordField.getText().equals("")) {
+//                passwordField.setStyle(""
+//                        + "-fx-border-color: red;");
+//            }
+//            if (mailField.getText().equals("")) {
+//                mailField.setStyle(""
+//                        + "-fx-border-color: red;");
+//            }
+//        }
+//
+//    }
+//}
+//}

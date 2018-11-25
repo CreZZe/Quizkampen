@@ -2,7 +2,9 @@ package server;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +12,13 @@ import java.util.regex.Pattern;
 
 public class UserHandler {
     File f = new File("src/server/DB/Users/users.txt");
-    
+    /*
+    USER DB ENTRY FORMAT
+    - USER
+    - PASS
+    - SALT
+    - MAIL
+    */
     // Kontrollerar om den angivna användaren finns. Ska isåfall logga in
     public boolean login(String username, String password) throws FileNotFoundException {
         try (Scanner scan = new Scanner(f)) {
@@ -18,10 +26,11 @@ public class UserHandler {
             while (scan.hasNextLine()) {
                 String user = scan.nextLine();
                 String pass = scan.nextLine();
+                String salt = scan.nextLine();
                 scan.nextLine(); // Läsa in raden för mail som inte behöver användas AKA inloggningen handskas inte med mailen
 
                 if (    user.toLowerCase().equals(username.toLowerCase()) 
-                        && pass.equals(password))
+                        && password.equals(Hasher.hashWithSalt(salt, pass)));
                     return true; 
             }
             return false;
@@ -35,11 +44,23 @@ public class UserHandler {
             while (scan.hasNextLine()) {
                 String user = scan.nextLine();
                 scan.nextLine(); // Lösenordet behövs inte då flera användare kan ha samma lösenord
+                scan.nextLine(); // TODO: kontrollera om saltet är unikt, om inte - generera nytt salt
                 String mailAddress = scan.nextLine();
                 
                 if (    user.toLowerCase().equals(username.toLowerCase())
                         || mailAddress.toLowerCase().equals(mail.toLowerCase()))
                     return false;
+            }
+            
+            String[] hash = Hasher.hash(password);
+            String salt = hash[0];
+            String hashedPw = hash[1];
+            
+            try (PrintWriter pw = new PrintWriter(new FileWriter(f, true))) {
+                pw.println(username);
+                pw.println(salt);
+                pw.println(hashedPw);
+                pw.println(mail);
             }
             return true;
         }
@@ -51,6 +72,7 @@ public class UserHandler {
            while (scan.hasNextLine()) {
                 String user = scan.nextLine();
                 scan.nextLine(); // Lösenordet behövcs inte för namnkontroll
+                scan.nextLine(); // Salt behövs inte för namnkontroll
                 scan.nextLine(); // Mailen behövs inte för namnkontroll
                 
                 if (    user.toLowerCase().equals(username.toLowerCase()))
@@ -66,6 +88,7 @@ public class UserHandler {
            while (scan.hasNextLine()) {
                 scan.nextLine(); // Användarnamnet behövs inte för mailkontroll
                 scan.nextLine(); // Lösenordet behövs inte för mailkontroll
+                scan.nextLine(); // Salt behövs inte för mailkontroll
                 String mailaddress = scan.nextLine();
                 
                 if (    mailaddress.toLowerCase().equals(mail.toLowerCase()))
