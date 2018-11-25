@@ -29,12 +29,17 @@ public class QuestionObject {
     Map<String, Boolean> mapAnswers = new HashMap<>();
 
     QuestionObject(String c, String q, String a1, String a2, String a3, String a4) {
-        category = c.substring(0, c.length() - 4);
+        category = c;
         question = q;
-        correctAnswer = a1.substring(1, a1.length());
-        answer2 = a2.substring(1, a2.length());
-        answer3 = a3.substring(1, a3.length());
-        answer4 = a4.substring(1, a4.length());
+//        correctAnswer = a1.substring(1, a1.length());
+//        answer2 = a2.substring(1, a2.length());
+//        answer3 = a3.substring(1, a3.length());
+//        answer4 = a4.substring(1, a4.length());
+
+        correctAnswer = a1;
+        answer2 = a2;
+        answer3 = a3;
+        answer4 = a4;
 
 //        HashMap<String, Boolean> svaren = new HashMap<>();
 //        svaren.put(a1, true);
@@ -87,6 +92,16 @@ public class QuestionObject {
         mapAnswers.put(answer3, Boolean.FALSE);
         mapAnswers.put(answer4, Boolean.FALSE);
         mapAnswers.put(correctAnswer, Boolean.TRUE);
+
+    }
+
+    public void printMe() {
+        System.out.println(category);
+        System.out.println(question);
+        System.out.println(correctAnswer);
+        System.out.println(answer2);
+        System.out.println(answer3);
+        System.out.println(answer4);
 
     }
 

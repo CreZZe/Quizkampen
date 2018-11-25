@@ -33,7 +33,7 @@ public class QuestionHandler {
 
     
     //Folder was moved by niklas
-    String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\server\\DB\\Questions\\";
+    String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"/src/server/DB/Questions/";
     //this is for my testing folder
     //String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\test03\\Questions\\";
     
@@ -91,13 +91,16 @@ public class QuestionHandler {
                   
                   BufferedReader r = new BufferedReader(new FileReader ((questionsFolder+file.getName())));
                   String templine;
+                  String t[];
                     while((templine=r.readLine()) !=null){
                         counter++;
-                       String t[] = templine.split("##\u0025#");
+                       t = templine.split("##\u0025#",5);
                        //if(t.length>5){
 //                           OBS OBS OM DENNA PUNKT NAS SO AR FRAGORNA FEL FORMATERADE
                       // }
-                        
+//                        for (String string : t) {
+//                            System.out.println(string);
+//                        }
                         
                        QuestionObject NewQuestionToBeAddedToList =
                                new QuestionObject(file.getName(), t[0], t[1], t[2], t[3], t[4]);

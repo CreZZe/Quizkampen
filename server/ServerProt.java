@@ -71,11 +71,18 @@ public class ServerProt {
 
     public static void main(String[] args) {
         ServerProt sp = new ServerProt();
-        List<String> list = sp.getQandA(sp.getACategory());
         
-        for (String string : list) {
-            System.out.println(string);
-        }
+        
+        QuestionObject a = sp.getQuestionObject(sp.getACategory());
+        a.printMe();
+//        System.out.println(a.answer2);
+//        System.out.println(a.answer3);
+//        System.out.println(a.answer4);
+//        System.out.println(a.correctAnswer);
+//        System.out.println(a.question);
+//        System.out.println(a.category);
+//        
+        
     }
 
 }
