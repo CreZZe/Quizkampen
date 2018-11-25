@@ -126,7 +126,7 @@ public class Registerscreen {
 //                new FileWriter(
 //                        new File("src/users.txt"), true))) {
 
-        System.out.println(Quizkampen.client.sendRequestAndGetResponse("form"));
+        System.out.println(Quizkampen.client.sendRequestAndGetResponse("registersubmit"));
 
         String user = usernameField.getText();
         String pass = passwordField.getText();
