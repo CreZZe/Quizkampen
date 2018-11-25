@@ -95,29 +95,29 @@ class DatabaseIO {
     //            URLDecoder.decode(tokenDir, tokenDir)
     public void writeQuestionsToFiles(DAOQuestions daoQuestions) throws UnsupportedEncodingException, FileNotFoundException {
         DAOResults[] results = daoQuestions.getResults();
-        String root = "/src/quizkampen/questions/";
-        String rootPath = "";
+        String dbdir = this.databaseDir;
+        String fileName = "";
         File file;
         String delimiter = "##%#";
         for (int i = 0; i < results.length; i++) {
             
-            rootPath = root + URLDecoder.decode(results[i].getCategory()) + ".txt";
+            fileName = dbdir + URLDecoder.decode(results[i].getCategory()) + ".txt";
 
             fos = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
                     file = new File(databaseDir + results[i].getCategory() + ".txt"), true), "UTF-8")));
             if (debug) {
-                System.out.println("writing '" + decode(results[i].getQuestion()) + ", " + "' to " + rootPath);
+                System.out.println("writing '" + decode(results[i].getQuestion()) + ", " + "' to " + fileName);
             }
             fos.print(decode(results[i].getQuestion()) + delimiter);
             if (debug) {
-                System.out.println("writing '" + decode(results[i].getCorrect_answer()) + ", " + "' to " + rootPath);
+                System.out.println("writing '" + decode(results[i].getCorrect_answer()) + ", " + "' to " + fileName);
             }
             fos.print(decode(results[i].getCorrect_answer()) + delimiter);
             for (int j = 0; j < results[i].getIncorrect_answers().length; j++) {
 
                 if (debug) {
                     System.out.print("writing '" + decode(results[i].getIncorrect_answers()[j])
-                            + (j == results[i].getIncorrect_answers().length - 1 ? "' to " + rootPath : ", '" + "to " + rootPath));
+                            + (j == results[i].getIncorrect_answers().length - 1 ? "' to " + fileName : ", '" + "to " + fileName));
 
                 }
                 fos.print(decode(results[i].getIncorrect_answers()[j])

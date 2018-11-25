@@ -33,7 +33,7 @@ public class OpenTDBHookMAIN {
 
     public OpenTDBHookMAIN(int cofficient) throws ProtocolException, IOException {
         this.cofficient = cofficient;
-        this.setDatabaseDirectory("/src/server/questions/");
+        this.setDatabaseDirectory("/src/server/DB/Questions/");
         this.setTokenDirectory("/src/server/opentriviadatabaseapihook/");
 
         databaseIO = new DatabaseIO(tokenDir, databaseDir);
