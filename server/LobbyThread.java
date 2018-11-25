@@ -27,14 +27,7 @@ public class LobbyThread extends Thread {
     public void run() {
         try {
 
-<<<<<<< HEAD
-                System.out.format("Lobby: %s: %s\r\n", clientSocket.hashCode(), input);
 
-                if (input.equalsIgnoreCase("new game")) {
-//
-                    for (NewGameRequestListener listOfNewGameRequestListener : listOfNewGameRequestListeners) {
-                        listOfNewGameRequestListener.addToGameRoom(clientSocket);
-=======
             //PROTOCOL SHOULD GO HERE
             String REQUEST = "";
             String GAMEREQUEST = "";
@@ -49,7 +42,7 @@ public class LobbyThread extends Thread {
                         
                         
                         
->>>>>>> f4bb3d87a2586f2287d102357b3b4f80944485b0
+
                     }
                     
                 }

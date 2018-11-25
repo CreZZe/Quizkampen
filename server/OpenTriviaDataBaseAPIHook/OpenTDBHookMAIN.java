@@ -33,8 +33,8 @@ public class OpenTDBHookMAIN {
 
     public OpenTDBHookMAIN(int cofficient) throws ProtocolException, IOException {
         this.cofficient = cofficient;
-        this.setDatabaseDirectory("\\src\\quizkampen\\questions\\");
-        this.setTokenDirectory("\\src\\server\\opentriviadatabaseapihook\\");
+        this.setDatabaseDirectory("/src/server/questions/");
+        this.setTokenDirectory("/src/server/opentriviadatabaseapihook/");
 
         databaseIO = new DatabaseIO(tokenDir, databaseDir);
 
@@ -104,7 +104,7 @@ public class OpenTDBHookMAIN {
     }
 
     public static void main(String[] args) throws IOException {
-        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(400);
+        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(10);
 
     }
 
