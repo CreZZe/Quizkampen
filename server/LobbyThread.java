@@ -37,10 +37,6 @@ public class LobbyThread extends Thread {
                 System.out.format("Lobby: %s: %s\r\n", clientSocket.hashCode(), input);
 
                 if (input.equalsIgnoreCase("new game")) {
-                    
-                    listOfNewGameRequestListeners.stream().forEach((NGRequestListener) -> {
-                        NGRequestListener.addToGameRoom(clientSocket);
-                    });
 //
                     for (NewGameRequestListener listOfNewGameRequestListener : listOfNewGameRequestListeners) {
                         listOfNewGameRequestListener.addToGameRoom(clientSocket);
@@ -53,7 +49,6 @@ public class LobbyThread extends Thread {
                             clientList.get(j).println(clientSocket.hashCode() + ": " + input);
                         }
                     }
-
                 }
             }
         } catch (Exception ex) {
