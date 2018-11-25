@@ -22,6 +22,7 @@ import java.util.logging.Logger;
  */
 public class Client {
 
+    public String name;
     private Socket server;
     private String input = "";
     private InetAddress ip;
@@ -31,6 +32,7 @@ public class Client {
     private BufferedReader cin;
 
     public Client() throws IOException, InterruptedException {
+        name = "Anonym";
         cin = new BufferedReader(new InputStreamReader(System.in));
         try {
 

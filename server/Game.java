@@ -1,25 +1,56 @@
 package server;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author nikalsh
  */
-public class Game extends Thread {
+public class Game {
 
-    private int rounds;
-    private int currentRound;
-    private ClientHandler[] players;
-    private server.QuestionObject[] category;
+    class Player {
 
-    public Game() {
+        int currRound = 1;
+        String category;
 
-        //prepare to read from files and generate questions objects
+        Map<String, Integer> roundScores = new HashMap<>();
+
+        ClientHandler client;
+
+        public Player(ClientHandler client) {
+            this.client = client;
+            category = QuestionGenerator.getACategory();
+            List<String> question = QuestionGenerator.getQandA(category);
+    
+            
+        }
+
+//        public void nextRound() {
+//            currRound++;
+//            category = generateCategory();
+//        }
+
+        
+
+    }
+    List<Player> playerList;
+    ServerProt QuestionGenerator = new ServerProt();
+
+    public Game(ClientHandler client) {
+        playerList.add(new Player(client));
+
     }
 
-    @Override
-    public void run() {
+    public void join(ClientHandler client) {
+        System.out.println(client + " joined " + this);
 
-        //do the game
+        playerList.add(new Player(client));
+    }
+
+    public boolean isJoinable() {
+        return playerList.size() < 2;
     }
 
 }

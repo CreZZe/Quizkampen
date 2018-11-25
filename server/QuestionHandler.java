@@ -30,7 +30,7 @@ public class QuestionHandler {
     //BELOW IS THE POSITION FOR THE FOLDER CONTAINING THE QUESTIONS
     
     //below is for the active project
-    String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\quizkampen\\Questions\\";
+    String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"/src/server/DB/questions/";
     
     //this is for my testing folder
     //String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\test03\\Questions\\";
@@ -51,7 +51,7 @@ public class QuestionHandler {
     List<List<QuestionObject>> questionsPerCategory = new LinkedList<>();
     
     public void setPath(String path){
-        questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\"+path;
+        questionsFolder = currentRelativePath.toAbsolutePath().toString()+"/"+path;
         
     }
     
@@ -91,7 +91,7 @@ public class QuestionHandler {
                   String templine;
                     while((templine=r.readLine()) !=null){
                         counter++;
-                       String t[] = templine.split("##%#");
+                       String t[] = templine.split("##\u0025#");
                        //if(t.length>5){
 //                           OBS OBS OM DENNA PUNKT NAS SO AR FRAGORNA FEL FORMATERADE
                       // }

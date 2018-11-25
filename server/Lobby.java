@@ -3,7 +3,11 @@ package server;
 import server.OLD.NewGameRequestListener;
 import server.OLD.GameRoom;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -13,13 +17,18 @@ public class Lobby {
 
     private static List<ClientHandler> clientList;
     private List<LobbyThread> lobbyThreads;
-    private List<GameRoom> gameRoomList;
+    public static List<Game> gameList;
     private LobbyThread lt;
 
     public Lobby() {
         clientList = new ArrayList<>();
         lobbyThreads = new ArrayList<>();
-        gameRoomList = new ArrayList<>();
+        gameList = new ArrayList<>();
+    }
+
+    public synchronized void addGameToList(Game game) {
+
+        gameList.add(game);
     }
 
     public void add(ClientHandler currSock) {

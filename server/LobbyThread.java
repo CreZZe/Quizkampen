@@ -1,10 +1,10 @@
 package server;
 
 import java.io.FileNotFoundException;
-import server.OLD.NewGameRequestListener;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class LobbyThread extends Thread {
 
-    private ClientHandler clientSocket;
+    private ClientHandler client;
     private List<ClientHandler> clientList;
     private String input = "";
 
@@ -43,6 +43,10 @@ public class LobbyThread extends Thread {
     //LOGIN REQUESTS
     private static final String LOGIN_SUBMIT = "loginsubmit";
 
+    //GAME REQUESTS
+    private static final String QUESTION = "question";
+    private static final String CATEGORY_PICK = "category";
+
     private String scene = "";
     private String MAIN_MENU_REQUEST = "";
     private String GAME_REQUEST = "";
@@ -52,9 +56,10 @@ public class LobbyThread extends Thread {
     private String LOGIN_REQUEST = "";
 
     private UserHandler handler = new UserHandler();
+    private ServerProt qna = new ServerProt();
 
     public LobbyThread(ClientHandler currSock) {
-        clientSocket = currSock;
+        client = currSock;
         System.out.println(currSock);
 
     }
@@ -66,7 +71,7 @@ public class LobbyThread extends Thread {
 
             //PROTOCOL SHOULD GO HERE
             MAIN_MENU_LOOP:
-            while ((MAIN_MENU_REQUEST = clientSocket.readLine()) != null) {
+            while ((MAIN_MENU_REQUEST = client.readLine()) != null) {
 
                 if (scene.equalsIgnoreCase(MAIN_MENU_SCENE)) {
 
@@ -96,7 +101,7 @@ public class LobbyThread extends Thread {
                 }
 
                 //DO NOT ECHO
-                clientSocket.println("nothing");
+                client.println("nothing");
             }
 
         } catch (IOException ex) {
@@ -108,9 +113,9 @@ public class LobbyThread extends Thread {
     public void takeClientToPreGameScreen(String MAIN_MENU_REQUEST) throws IOException {
 
         scene = PRE_GAME_SCENE;
-        clientSocket.println(MAIN_MENU_REQUEST);
+        client.println(MAIN_MENU_REQUEST);
 
-        while ((PRE_GAME_REQUEST = clientSocket.readLine()) != null) {
+        while ((PRE_GAME_REQUEST = client.readLine()) != null) {
 
             switch (PRE_GAME_REQUEST) {
                 case PLAY:
@@ -118,25 +123,64 @@ public class LobbyThread extends Thread {
                     break;
 
                 case BACK:
-                    clientSocket.println(BACK);
+                    client.println(BACK);
                     scene = MAIN_MENU_SCENE;
                     break;
 
                 default:
-                    clientSocket.println("ACTION NOT RECOGNIZED BY SERVER: " + PRE_GAME_REQUEST);
+                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + PRE_GAME_REQUEST);
             }
         }
     }
 
-    public void play(String PRE_GAME_REQUEST) {
+    public void play(String PRE_GAME_REQUEST) throws IOException {
 
+        scene = GAME_SCENE;
+
+        client.println(PRE_GAME_REQUEST);
+
+        if (Lobby.gameList.size() > 0) {
+            for (Game game : Lobby.gameList) {
+                if (game.isJoinable()) {
+                    game.join(client);
+                    break;
+                }
+            }
+
+        } else {
+            Lobby.gameList.add(new Game(client));
+            System.out.println(client + " starting a new game..");
+        }
+
+        while ((GAME_REQUEST = client.readLine()) != null) {
+
+            
+            
+            
+            
+            client.println("ACTION NOT RECOGNIZED BY SERVER: " + GAME_REQUEST);
+            break;
+
+        }
+
+    }
+
+    private void pickCategory(String GAME_REQUEST) {
+
+    }
+
+    private void generateQuestionAndAnswers(String GAME_REQUEST) {
+//        QuestionObject question = new QuestionObject();
+        
+
+        client.println("generating question..");
     }
 
     public void takeClientToRegisterScreen(String MAIN_MENU_REQUEST) throws IOException {
         scene = REGISTER_SCENE;
 
-        clientSocket.println(MAIN_MENU_REQUEST);
-        while ((REGISTER_REQUEST = clientSocket.readLine()) != null) {
+        client.println(MAIN_MENU_REQUEST);
+        while ((REGISTER_REQUEST = client.readLine()) != null) {
 
             switch (REGISTER_REQUEST) {
 
@@ -146,17 +190,15 @@ public class LobbyThread extends Thread {
                     break;
 
                 case BACK:
-                    clientSocket.println(BACK);
+                    client.println(BACK);
                     scene = MAIN_MENU_SCENE;
                     break;
 
                 default:
-                    clientSocket.println("ACTION NOT RECOGNIZED BY SERVER: " + REGISTER_REQUEST);
+                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + REGISTER_REQUEST);
                     break;
-
             }
             REGISTER_REQUEST = "";
-
         }
     }
 
@@ -164,19 +206,19 @@ public class LobbyThread extends Thread {
 
         scene = LOGIN_SCENE;
 
-        clientSocket.println(MAIN_MENU_REQUEST);
-        while ((LOGIN_REQUEST = clientSocket.readLine()) != null) {
+        client.println(MAIN_MENU_REQUEST);
+        while ((LOGIN_REQUEST = client.readLine()) != null) {
             switch (LOGIN_REQUEST) {
                 case LOGIN_SUBMIT:
                     tryToLoginUser(LOGIN_SUBMIT);
                     break;
 
                 case BACK:
-                    clientSocket.println(BACK);
+                    client.println(BACK);
                     scene = MAIN_MENU_SCENE;
                     break;
                 default:
-                    clientSocket.println("ACTION NOT RECOGNIZED BY SERVER: " + LOGIN_REQUEST);
+                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + LOGIN_REQUEST);
                     break;
             }
         }
@@ -185,39 +227,39 @@ public class LobbyThread extends Thread {
 
     public void tryToLoginUser(String LOGIN_SUBMIT) throws FileNotFoundException, IOException {
 
-        clientSocket.println("authenticating user credentials..");
+        client.println("authenticating user credentials..");
 
-        String loginUserWithPass = clientSocket.readLine();
+        String loginUserWithPass = client.readLine();
         String[] UserPass = loginUserWithPass.split(",", 2);
-        clientSocket.println(Boolean.toString(handler.login(UserPass[0], UserPass[1])));
+        client.println(Boolean.toString(handler.login(UserPass[0], UserPass[1])));
 
     }
 
     public void tryToSaveUserToDatabase(String INCOMING_FORM) throws IOException {
 
-        clientSocket.println("proccessing forms..");
+        client.println("proccessing forms..");
 
-        String theUserToFind = clientSocket.readLine();
-        clientSocket.println(Boolean.toString(handler.findUsername(theUserToFind)));
+        String theUserToFind = client.readLine();
+        client.println(Boolean.toString(handler.findUsername(theUserToFind)));
 
-        String validPass = clientSocket.readLine();
-        clientSocket.println(Boolean.toString(handler.validatePass(validPass)));
+        String validPass = client.readLine();
+        client.println(Boolean.toString(handler.validatePass(validPass)));
 
-        String validMail = clientSocket.readLine();
-        clientSocket.println(Boolean.toString(handler.validateMail(validMail)));
+        String validMail = client.readLine();
+        client.println(Boolean.toString(handler.validateMail(validMail)));
 
-        String theMailToFind = clientSocket.readLine();
-        clientSocket.println(Boolean.toString(handler.findMail(theMailToFind)));
+        String theMailToFind = client.readLine();
+        client.println(Boolean.toString(handler.findMail(theMailToFind)));
 
-        String validFields = clientSocket.readLine();
+        String validFields = client.readLine();
         String[] splitFields = validFields.split(",", 3);
 
-        clientSocket.println(Boolean.toString(handler.validateFields(splitFields[0], splitFields[1], splitFields[2])));
+        client.println(Boolean.toString(handler.validateFields(splitFields[0], splitFields[1], splitFields[2])));
 
-        String toRegisterFields = clientSocket.readLine();
+        String toRegisterFields = client.readLine();
         String[] splitRegister = toRegisterFields.split(",", 3);
 
-        clientSocket.println(Boolean.toString(handler.register(splitRegister[0], splitRegister[1], splitRegister[2])));
+        client.println(Boolean.toString(handler.register(splitRegister[0], splitRegister[1], splitRegister[2])));
     }
 
 }

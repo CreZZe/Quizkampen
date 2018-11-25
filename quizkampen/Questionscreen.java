@@ -105,6 +105,7 @@ public class Questionscreen {
         answerButtons.setVisible(false);
 
         cueCard.setOnMousePressed(e -> {
+            generateQuestionsAndAnswers();
             timer();
             root.setCenter(questionLabel);
             questionLabel.setDisable(true);
@@ -116,6 +117,11 @@ public class Questionscreen {
         root.setTop(header);
         root.setCenter(cueCard);
         root.setBottom(answerButtons);
+    }
+    
+    public void generateQuestionsAndAnswers(){
+        Quizkampen.client.sendRequestAndGetResponse("question");
+        
     }
 
     public class ButtonClicked implements EventHandler<ActionEvent> {

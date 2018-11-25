@@ -113,19 +113,27 @@ public class Loginscreen {
     }
 
     private void login() throws FileNotFoundException {
-        
-                System.out.println(Quizkampen.client.sendRequestAndGetResponse("loginsubmit"));
+
+        System.out.println(Quizkampen.client.sendRequestAndGetResponse("loginsubmit"));
 
         String user = usernameField.getText();
         String pass = passwordField.getText();
-        
-        boolean login = (Quizkampen.client.sendRequestAndGetResponse(user + ","+ pass)).equals("true");
+
+        boolean login = (Quizkampen.client.sendRequestAndGetResponse(user + "," + pass)).equals("true");
 
         if (login) {
-            Scene lobbyScreen = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+
+            Lobbyscreen lby = new Lobbyscreen(window, startScene, windowWidth, windowHeight);
+
+            Scene lobbyScreen = new Scene(lby.getGUI(), windowWidth, windowHeight);
             lobbyScreen.getStylesheets().add("Styling.css");
-            
+            lby.updateUsernameLabel(user);
+
+            Quizkampen.client.name = user;
+            System.out.println(user);
+
             System.out.println("login successful");
+
             window.setScene(lobbyScreen);
         } else {
             usernameField.setStyle(""
