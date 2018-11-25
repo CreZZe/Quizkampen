@@ -1,9 +1,11 @@
-package quizkampen;
+package server;
 
 /**
  *
  * @author Makaaah!
  */
+import server.QuestionObject;
+import server.QuestionHandler;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class ServerProt {
 
     public String checkAnswer(){
         //gives the right answer to the current question
-        return currentQuestion.getAnswer1();
+        return currentQuestion.getCorrectAnswer();
     }
     public List getCategories(){
         //gives a list of the categories

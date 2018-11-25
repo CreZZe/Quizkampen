@@ -9,7 +9,7 @@ public class Game extends Thread {
     private int rounds;
     private int currentRound;
     private ClientHandler[] players;
-    private quizkampen.QuestionObject[] category;
+    private server.QuestionObject[] category;
 
     public Game() {
 

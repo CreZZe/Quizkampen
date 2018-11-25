@@ -5,7 +5,7 @@
  * aer awesome
  */
 
-package quizkampen;
+package server;
 
 
 

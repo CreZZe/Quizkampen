@@ -9,7 +9,7 @@
  * aer awesome
  */
 
-package quizkampen;
+package server;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,12 +22,12 @@ public class QuestionObject {
     String category;
     String question;
     
-    String answer1, answer2, answer3, answer4;
+    String correctAnswer, answer2, answer3, answer4;
     
     QuestionObject(String c, String q, String a1, String a2, String a3, String a4){
         category=c.substring(0,c.length()-4);
         question=q;
-        answer1=a1.substring(1, a1.length());
+        correctAnswer=a1.substring(1, a1.length());
         answer2=a2.substring(1, a2.length());
         answer3=a3.substring(1, a3.length());
         answer4=a4.substring(1, a4.length());
@@ -42,7 +42,7 @@ public class QuestionObject {
         List<String> fragan = new LinkedList<>();
         fragan.add(category);
         fragan.add(question);
-        fragan.add(answer1);
+        fragan.add(correctAnswer);
         fragan.add(answer2);
         fragan.add(answer3);
         fragan.add(answer4);
@@ -55,8 +55,8 @@ public class QuestionObject {
     public String getQuestion(){
         return question;
     }
-    public String getAnswer1(){
-        return answer1;
+    public String getCorrectAnswer(){
+        return correctAnswer;
     }
     public String getAnswer2(){
         return answer2;
