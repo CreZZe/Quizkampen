@@ -16,6 +16,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -24,13 +25,14 @@ public class Questionscreen {
     BorderPane root;
     GridPane answerButtons;
     HBox header;
+    StackPane test;
 
     Stage window;
     Scene startScene;
     int windowWidth, windowHeight;
 
     ProgressBar pb;
-    Label questionLabel, cueCard, score1, score2;
+    Label questionLabel, cueCard, score1, score2, timeLeft;
 
     Button a, b, c, d;
     ArrayList<Button> buttonArray;
@@ -45,6 +47,7 @@ public class Questionscreen {
     int time = 10;
 
     public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+
         buttonArray = new ArrayList();
 
         this.window = window;
@@ -66,6 +69,7 @@ public class Questionscreen {
 
         root = new BorderPane();
         answerButtons = new GridPane();
+        test = new StackPane();
 
         pb = new ProgressBar();
         pb.setProgress(0);
@@ -73,10 +77,16 @@ public class Questionscreen {
         header = new HBox();
         score1 = new Label();
         score2 = new Label();
+        timeLeft = new Label();
+
+        timeLeft.getStyleClass().add("timeLeftLabel");
+
+        test.getChildren().add(pb);
+        test.getChildren().add(timeLeft);
 
         header.getChildren().add(score1);
         header.getChildren().add(score2);
-        header.getChildren().add(pb);
+        header.getChildren().add(test);
 
         score1.getStyleClass().add("progressLabel");
         score2.getStyleClass().add("progressLabel");
@@ -151,6 +161,7 @@ public class Questionscreen {
 
     private void questionDone() {
         timeline.stop();
+        questionLabel.setDisable(true);
 
         for (Button btn : buttonArray) {
             if (btn.getText().equals(getRightAnswer())) {
@@ -184,6 +195,7 @@ public class Questionscreen {
         cueCard.setOnMouseClicked(e -> {
             if (first) {
                 reset();
+
             } else {
                 RoundDone();
             }
@@ -193,7 +205,8 @@ public class Questionscreen {
     private void reset() {
         first = false;
         questionLabel.setText(question);
-        questionLabel.setDisable(true);
+
+        cueCard.setDisable(true);
         root.setCenter(questionLabel);
         header.setVisible(true);
         answerButtons.setVisible(true);
@@ -202,7 +215,11 @@ public class Questionscreen {
         pb = new ProgressBar();
         pb.setProgress(0);
         pb.getStyleClass().add("progressBar");
-        header.getChildren().add(pb);
+
+        test.getChildren().remove(pb);
+        test.getChildren().remove(timeLeft);
+        test.getChildren().add(pb);
+        test.getChildren().add(timeLeft);
 
         a.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
         b.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
@@ -216,6 +233,8 @@ public class Questionscreen {
         c.setDisable(false);
         d.setDisable(false);
         timer();
+        questionLabel.setDisable(true);
+
     }
 
     private void RoundDone() {
@@ -223,7 +242,7 @@ public class Questionscreen {
         cueCard.setText("Rundan slut!");
         cueCard.setDisable(true);
         questionLabel.setDisable(true);
-        
+
         root.setOnMousePressed(e -> {
             Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             lobbyScene.getStylesheets().add("Styling.css");
@@ -253,7 +272,7 @@ public class Questionscreen {
     }
 
     private void timer() {
-        
+
         IntegerProperty seconds = new SimpleIntegerProperty();
         pb.progressProperty().bind(seconds.divide(10000.0));
 
@@ -263,8 +282,11 @@ public class Questionscreen {
                     btn.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
                 }
             }
-            if (first) { score1.setStyle("-fx-background-color: red;"); }
-            else { score2.setStyle("-fx-background-color: red;"); }
+            if (first) {
+                score1.setStyle("-fx-background-color: red;");
+            } else {
+                score2.setStyle("-fx-background-color: red;");
+            }
             questionDone();
         }, new KeyValue(seconds, 10000)
         ));
@@ -272,9 +294,12 @@ public class Questionscreen {
         timeline.play();
         pb.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             double progress = newValue == null ? 0 : newValue.doubleValue();
-            int red = (int) (progress*2*255);
-            int green = 510-red;
+            int red = (int) (progress * 2 * 255);
+            int green = 510 - red;
             pb.setStyle(String.format("-fx-accent: rgba(%s, %s, 0, 1);", red, green));
+            int sLeft = time - (int) (progress * time);
+
+            timeLeft.setText("" + sLeft);
         });
     }
 

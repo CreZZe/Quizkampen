@@ -1,6 +1,7 @@
 
 package quizkampen;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -67,11 +68,12 @@ public class Lobbyscreen {
         
         exitButton.setOnAction(e -> window.setScene(startScene));
         
-        newGameButton.setOnAction(e -> {
-            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            questionScene.getStylesheets().add("Styling.css");
-            window.setScene(questionScene);
-        });
+        newGameButton.setOnMouseClicked(e -> {
+            Scene categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            categoryScene.getStylesheets().add("Styling.css");
+            window.setScene(categoryScene);
+        });   
+      
 
         
         topMenu.getChildren().add(title);
@@ -89,6 +91,11 @@ public class Lobbyscreen {
         root.setTop(topMenu);
         root.setCenter(content);
         root.setBottom(exitButton);
+        
+        topMenu.setAlignment(Pos.TOP_CENTER);
+        content.setAlignment(Pos.TOP_CENTER);
+        exitButton.setAlignment(Pos.TOP_LEFT);
+        
         
     }
     
