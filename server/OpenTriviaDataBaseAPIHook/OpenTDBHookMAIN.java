@@ -33,8 +33,8 @@ public class OpenTDBHookMAIN {
 
     public OpenTDBHookMAIN(int cofficient) throws ProtocolException, IOException {
         this.cofficient = cofficient;
-        this.setDatabaseDirectory("\\src\\quizkampen\\questions\\");
-        this.setTokenDirectory("\\src\\server\\opentriviadatabaseapihook\\");
+        this.setDatabaseDirectory("/src/server/DB/Questions/");
+        this.setTokenDirectory("/src/server/opentriviadatabaseapihook/");
 
         databaseIO = new DatabaseIO(tokenDir, databaseDir);
 
@@ -82,10 +82,10 @@ public class OpenTDBHookMAIN {
         in.close();
 
         DAOQuestions daoQuestions = new DAOQuestions();
-        
+
         daoQuestions = new ObjectMapper().readValue(JSON, DAOQuestions.class);
         System.out.println("DAO generated from JSON " + daoQuestions);
-        
+
         return daoQuestions;
     }
 
@@ -104,7 +104,7 @@ public class OpenTDBHookMAIN {
     }
 
     public static void main(String[] args) throws IOException {
-        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(400);
+        OpenTDBHookMAIN hook = new OpenTDBHookMAIN(10);
 
     }
 

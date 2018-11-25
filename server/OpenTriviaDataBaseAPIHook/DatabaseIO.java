@@ -26,11 +26,12 @@ class DatabaseIO {
     private String databaseDir;
     File tokenFile;
     private boolean debug = false;
+
     public DatabaseIO(String tokenDir, String databaseDir) throws UnsupportedEncodingException, FileNotFoundException {
 
         this.tokenDir = tokenDir;
         this.databaseDir = databaseDir;
-        tokenFile = new File(this.tokenDir + "\\token.txt");
+        tokenFile = new File(this.tokenDir + "/token.txt");
     }
 
     public boolean wasTokenCreatedWithinExpirationDuration() throws FileNotFoundException, IOException {
@@ -45,7 +46,7 @@ class DatabaseIO {
 
             fr = new BufferedReader(new FileReader(tokenFile));
             token = fr.readLine();
-            if (token.equals("")){
+            if (token.equals("")) {
                 System.out.println("Missing token!");
                 return false;
             }
@@ -59,7 +60,7 @@ class DatabaseIO {
                 return false;
             }
             String isPlural = (hours <= 1 ? "hour" : "hours");
-            System.out.format("Token valid for %s more %s\r\nToken generated %s %s ago\r\n" , 
+            System.out.format("Token valid for %s more %s\r\nToken generated %s %s ago\r\n",
                     6 - hours, (6 - hours == 1 ? "hour" : "hours"),
                     hours, (hours == 1 ? "hour" : "hours"));
             return true;
@@ -94,37 +95,39 @@ class DatabaseIO {
     //            URLDecoder.decode(tokenDir, tokenDir)
     public void writeQuestionsToFiles(DAOQuestions daoQuestions) throws UnsupportedEncodingException, FileNotFoundException {
         DAOResults[] results = daoQuestions.getResults();
-        String root = "\\src\\quizkampen\\questions\\";
-        String rootPath = "";
+        String dbdir = this.databaseDir;
+        String fileName = "";
         File file;
+        String delimiter = "##%#";
         for (int i = 0; i < results.length; i++) {
-            rootPath = root + results[i].getCategory() + ".txt";
+            
+            fileName = dbdir + URLDecoder.decode(results[i].getCategory()) + ".txt";
 
             fos = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
                     file = new File(databaseDir + results[i].getCategory() + ".txt"), true), "UTF-8")));
-            if (debug){
-            System.out.println("writing '" + decode(results[i].getQuestion()) + ", " + "' to " + rootPath);
+            if (debug) {
+                System.out.println("writing '" + decode(results[i].getQuestion()) + ", " + "' to " + fileName);
             }
-            fos.print(decode(results[i].getQuestion()) + ", ");
-            if (debug){
-            System.out.println("writing '"+ decode(results[i].getCorrect_answer()) + ", "+ "' to "+ rootPath);
+            fos.print(decode(results[i].getQuestion()) + delimiter);
+            if (debug) {
+                System.out.println("writing '" + decode(results[i].getCorrect_answer()) + ", " + "' to " + fileName);
             }
-            fos.print(decode(results[i].getCorrect_answer()) + ", ");
+            fos.print(decode(results[i].getCorrect_answer()) + delimiter);
             for (int j = 0; j < results[i].getIncorrect_answers().length; j++) {
 
-                if (debug){
-                System.out.print("writing '"+ decode(results[i].getIncorrect_answers()[j]) + 
-                        (j == results[i].getIncorrect_answers().length - 1 ? "' to " + rootPath : ", '" + "to " + rootPath));
-                
+                if (debug) {
+                    System.out.print("writing '" + decode(results[i].getIncorrect_answers()[j])
+                            + (j == results[i].getIncorrect_answers().length - 1 ? "' to " + fileName : ", '" + "to " + fileName));
+
                 }
-                fos.print(decode(results[i].getIncorrect_answers()[j]) + 
-                        (j == results[i].getIncorrect_answers().length - 1 ? "\r\n" : ", "));
-                if (debug){
-                System.out.println("");
+                fos.print(decode(results[i].getIncorrect_answers()[j])
+                        + (j == results[i].getIncorrect_answers().length - 1 ? "\r\n" : delimiter));
+                if (debug) {
+                    System.out.println("");
                 }
-                }
-            if (debug){
-            System.out.println("closing filewriter..");
+            }
+            if (debug) {
+                System.out.println("closing filewriter..");
             }
             fos.close();
         }
