@@ -30,8 +30,15 @@ public class QuestionHandler {
     //BELOW IS THE POSITION FOR THE FOLDER CONTAINING THE QUESTIONS
     
     //below is for the active project
+<<<<<<< HEAD
     String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"/src/server/DB/questions/";
+=======
+    //String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\quizkampen\\Questions\\";
+>>>>>>> 0562793ad7b4f100d19fff6eb867d1149c53f47b
     
+    
+    //Folder was moved by niklas
+    String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\server\\DB\\Questions\\";
     //this is for my testing folder
     //String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\test03\\Questions\\";
     
