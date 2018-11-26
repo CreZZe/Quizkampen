@@ -2,6 +2,8 @@ package server;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class LobbyThread extends Thread {
 
     //ACTIONS IN SCENES
     private static final String BACK = "back";
-    private static final String PLAY = "play";
+    private static final String PLAY = "newGame";
 
     //MAIN MENU REQUESTS
     private static final String NYSPELA_BUTTON = "nyspela";
@@ -47,6 +49,7 @@ public class LobbyThread extends Thread {
     //GAME REQUESTS
     private static final String QUESTION = "question";
     private static final String CATEGORY_PICK = "category";
+    private static final String RIGHT = "right";
 
     private String scene = "";
     private String MAIN_MENU_REQUEST = "";
@@ -56,6 +59,7 @@ public class LobbyThread extends Thread {
     private String FORM_REQUEST = "";
     private String LOGIN_REQUEST = "";
     private String SETTINGS_REQUEST = "";
+    private String GAME_ANSWER = "";
 
     private UserHandler handler = new UserHandler();
     private ServerProt qna = new ServerProt();
@@ -90,7 +94,7 @@ public class LobbyThread extends Thread {
                             takeClientToLoginScreen(MAIN_MENU_REQUEST);
                             continue MAIN_MENU_LOOP;
 
-                        case "settings":
+                        case SETTINGS_BUTTON:
                             takeClientToSettingScreen(MAIN_MENU_REQUEST);
                             continue MAIN_MENU_LOOP;
 
@@ -122,9 +126,11 @@ public class LobbyThread extends Thread {
         while ((PRE_GAME_REQUEST = client.readLine()) != null) {
 
             switch (PRE_GAME_REQUEST) {
+
                 case PLAY:
-                    play(PRE_GAME_REQUEST);
-                    break;
+                    takeClientToGameScene(PRE_GAME_REQUEST);
+
+                    continue OUTER;
 
                 case BACK:
                     client.println(BACK);
@@ -138,53 +144,82 @@ public class LobbyThread extends Thread {
         }
     }
 
-    public void play(String PRE_GAME_REQUEST) throws IOException {
-        Game currGame;
+    public void takeClientToGameScene(String PRE_GAME_REQUEST) throws IOException {
+        Game currGame = null;
         scene = GAME_SCENE;
 
         client.println(PRE_GAME_REQUEST);
 
+        //Are there any games?
         if (Lobby.gameList.size() > 0) {
             for (Game game : Lobby.gameList) {
+                //Join first existing joinable game
                 if (game.isJoinable()) {
                     currGame = game;
-                    game.join(client);
+                    game.add(client);
                     System.out.println(client + " joined a new game : " + currGame);
+                    break;
+                } else {
+                    //else make a new
+                    currGame = Lobby.generateNewGame(client);
+                    Lobby.gameList.add(currGame);
+                    System.out.println(client + " starting a new game: " + currGame);
                     break;
                 }
             }
 
         } else {
+            //if no games exist, make a new
             currGame = Lobby.generateNewGame(client);
             Lobby.gameList.add(currGame);
             System.out.println(client + " starting a new game: " + currGame);
         }
 
+        QuestionObject currQuestion;
+        OUTER:
         while ((GAME_REQUEST = client.readLine()) != null) {
 
-//            switch (GAME_REQUEST) {
-//                case NEW_GAME:
-//                    tryNewGame();
-//                    
-//                    break;
-//                default:
-//                    throw new AssertionError();
+//            if (currGame.currRound().isRoundFinished()) {
+//                System.out.println("round is finished");
+//                break;
 //            }
-//            break;
-            client.println("ACTION NOT RECOGNIZED BY SERVER: " + GAME_REQUEST);
+            switch (GAME_REQUEST) {
+
+                case QUESTION:
+
+                    currQuestion = currGame.currRound().getNextQuestion();
+                    client.println(questionAndShuffledAnswers(currQuestion));
+
+                    //send right answer
+                    if (client.readLine().equals(RIGHT)) {
+                        client.println(currQuestion.correctAnswer);
+                    }
+                    break;
+
+                case BACK:
+                    client.println(BACK);
+                    scene = PRE_GAME_SCENE;
+                    break OUTER;
+
+                default:
+                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + GAME_REQUEST);
+                    break OUTER;
+            }
 
         }
-
     }
 
-    private void pickCategory(String GAME_REQUEST) {
+    private String questionAndShuffledAnswers(QuestionObject q) {
+        System.out.println(q);
+        String theQ = q.question;
+        String[] arr = new String[4];
+        arr[0] = q.answer2;
+        arr[1] = q.answer3;
+        arr[2] = q.answer4;
+        arr[3] = q.correctAnswer;
 
-    }
-
-    private void generateQuestionAndAnswers(String GAME_REQUEST) {
-//        QuestionObject question = new QuestionObject();
-
-        client.println("generating question..");
+        Collections.shuffle(Arrays.asList(arr));
+        return String.format("%s@@@%s@@@%s@@@%s@@@%s", theQ, arr[0], arr[1], arr[2], arr[3]);
     }
 
     public void takeClientToRegisterScreen(String MAIN_MENU_REQUEST) throws IOException {
@@ -263,11 +298,7 @@ public class LobbyThread extends Thread {
 
         String loginUserWithPass = client.readLine();
         String[] UserPass = loginUserWithPass.split(" ", 2);
-        System.out.println("trying to log in: ");
-        System.out.println(UserPass[0]);
-        System.out.println(UserPass[1]);
-        
-       
+
         client.println(Boolean.toString(handler.login(UserPass[0], UserPass[1])));
 
     }

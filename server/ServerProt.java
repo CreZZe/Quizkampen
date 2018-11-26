@@ -16,20 +16,20 @@ public class ServerProt {
         q = new QuestionHandler();
     }
 
-    public QuestionObject getQuestionObject(String category){
+    public QuestionObject getQuestionObject(String category) {
         List<String> CategoryList = q.getCategories();
-          int requestedCategory = CategoryList.indexOf(category);
-          List<List<QuestionObject>> l = q.getCategoryLists();
-          List<QuestionObject> lista = l.get(requestedCategory);
-          int QuestionNumber = (int)(Math.random()*lista.size());
-          currentQuestion=lista.get(QuestionNumber);
-          return currentQuestion;
+        int requestedCategory = CategoryList.indexOf(category);
+        List<List<QuestionObject>> l = q.getCategoryLists();
+        List<QuestionObject> lista = l.get(requestedCategory);
+        int QuestionNumber = (int) (Math.random() * lista.size());
+        currentQuestion = lista.get(QuestionNumber);
+        return currentQuestion;
     }
-    public List getQandA(String category){
+
+    public List getQandA(String category) {
 
         //This method returns a list containing Strings, looks like:
         //Category, question, correctanswer, wronganswer1, wronganswer2, wronganswer3
-
         List<String> CategoryList = q.getCategories();
         int requestedCategory = CategoryList.indexOf(category);
         List<List<QuestionObject>> l = q.getCategoryLists();

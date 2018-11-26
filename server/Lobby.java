@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class Lobby {
 
-    public static synchronized Game generateNewGame(ClientHandler client) {
+    public static Game generateNewGame(ClientHandler client) {
         return new Game(client);
     }
 
