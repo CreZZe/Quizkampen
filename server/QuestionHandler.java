@@ -20,11 +20,14 @@ import java.util.List;
 
 
 public class QuestionHandler {
-    public static void main(String[] args){
-//     //   WANT TO TEST THIS FILE ONLY? UNCOMMENT THIS PART
-    QuestionHandler p = new QuestionHandler();
-    System.out.println(p.getCategories());
-    }
+//    public static void main(String[] args){
+//     //   WANT TO TEST THIS FILE? UNCOMMENT THIS PART
+//    QuestionHandler p = new QuestionHandler();
+//    System.out.println(p.getCategories());
+//        System.out.println(p.GetQuestionAmount());
+//        System.out.println(p.getQuestion(255).getQandA());
+//        System.out.println(questionsInfo.get(1).getAnswer3());
+//    }
     
     Path currentRelativePath = Paths.get("");
     //BELOW IS THE POSITION FOR THE FOLDER CONTAINING THE QUESTIONS
@@ -104,6 +107,7 @@ public class QuestionHandler {
                         
                        QuestionObject NewQuestionToBeAddedToList =
                                new QuestionObject(file.getName(), t[0], t[1], t[2], t[3], t[4]);
+                       NewQuestionToBeAddedToList.ShuffleAnswers();
                        questionsInfo.add(NewQuestionToBeAddedToList);
                        innerList.add(NewQuestionToBeAddedToList);
                        
