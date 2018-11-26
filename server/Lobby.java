@@ -15,6 +15,10 @@ import java.util.Map;
  */
 public class Lobby {
 
+    public static synchronized Game generateNewGame(ClientHandler client) {
+        return new Game(client);
+    }
+    
     private static List<ClientHandler> clientList;
     private List<LobbyThread> lobbyThreads;
     public static List<Game> gameList;

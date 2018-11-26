@@ -138,7 +138,7 @@ public class LobbyThread extends Thread {
     }
 
     public void play(String PRE_GAME_REQUEST) throws IOException {
-
+        Game currGame;
         scene = GAME_SCENE;
 
         client.println(PRE_GAME_REQUEST);
@@ -146,21 +146,27 @@ public class LobbyThread extends Thread {
         if (Lobby.gameList.size() > 0) {
             for (Game game : Lobby.gameList) {
                 if (game.isJoinable()) {
+                    currGame = game;
                     game.join(client);
+                    System.out.println(client +" joined a new game : " + currGame);
                     break;
                 }
             }
 
         } else {
-            Lobby.gameList.add(new Game(client));
-            System.out.println(client + " starting a new game..");
+            currGame = Lobby.generateNewGame(client);
+            Lobby.gameList.add(currGame);
+            System.out.println(client + " starting a new game: " + currGame);
         }
 
         while ((GAME_REQUEST = client.readLine()) != null) {
 
             client.println("ACTION NOT RECOGNIZED BY SERVER: " + GAME_REQUEST);
-            break;
 
+            
+            
+            
+            
         }
 
     }
@@ -237,7 +243,7 @@ public class LobbyThread extends Thread {
                     client.println(BACK);
                     scene = MAIN_MENU_SCENE;
                     break OUTER;
-                    
+
                 default:
                     client.println("ACTION NOT RECOGNIZED BY SERVER: " + LOGIN_REQUEST);
                     break;
