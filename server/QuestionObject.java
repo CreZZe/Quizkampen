@@ -36,17 +36,16 @@ public class QuestionObject {
 //        answer3 = a3.substring(1, a3.length());
 //        answer4 = a4.substring(1, a4.length());
 
+        mapAnswers.put(answer2, Boolean.FALSE);
+        mapAnswers.put(answer3, Boolean.FALSE);
+        mapAnswers.put(answer4, Boolean.FALSE);
+        mapAnswers.put(correctAnswer, Boolean.TRUE);
+
         correctAnswer = a1;
         answer2 = a2;
         answer3 = a3;
         answer4 = a4;
 
-//        HashMap<String, Boolean> svaren = new HashMap<>();
-//        svaren.put(a1, true);
-//        svaren.put(a2, false);
-//        svaren.put(a3, false);
-//        svaren.put(a4, false);
-        //Collections.shuffle(svaren):
     }
 
     public List<String> getQandA() {
@@ -59,6 +58,10 @@ public class QuestionObject {
         fragan.add(answer4);
 
         return fragan;
+    }
+
+    public boolean checkAnswer(String check) {
+        return mapAnswers.get(check);
     }
 
     public String getCategory() {
@@ -88,11 +91,6 @@ public class QuestionObject {
     public void genQ(String cat) {
         this.category = cat;
 
-        mapAnswers.put(answer2, Boolean.FALSE);
-        mapAnswers.put(answer3, Boolean.FALSE);
-        mapAnswers.put(answer4, Boolean.FALSE);
-        mapAnswers.put(correctAnswer, Boolean.TRUE);
-
     }
 
     public void printMe() {
@@ -102,7 +100,8 @@ public class QuestionObject {
         System.out.println(answer2);
         System.out.println(answer3);
         System.out.println(answer4);
-
+        this.checkAnswer(correctAnswer);
     }
+    
 
 }

@@ -55,7 +55,7 @@ public class Startscreen {
             Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             lobbyScene.getStylesheets().add("Styling.css");
             window.setScene(lobbyScene);
-            System.out.println(Quizkampen.client.sendRequestAndGetResponse("nySpela"));
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("nyspela"));
 
         });
         login.setOnAction(e -> {

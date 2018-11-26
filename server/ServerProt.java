@@ -68,21 +68,4 @@ public class ServerProt {
         int random = (int) (Math.random() * q.getCategoryAmount());
         return this.getCategories().get(random);
     }
-
-    public static void main(String[] args) {
-        ServerProt sp = new ServerProt();
-        
-        
-        QuestionObject a = sp.getQuestionObject(sp.getACategory());
-        a.printMe();
-//        System.out.println(a.answer2);
-//        System.out.println(a.answer3);
-//        System.out.println(a.answer4);
-//        System.out.println(a.correctAnswer);
-//        System.out.println(a.question);
-//        System.out.println(a.category);
-//        
-        
-    }
-
 }

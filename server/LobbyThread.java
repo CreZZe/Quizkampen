@@ -54,6 +54,7 @@ public class LobbyThread extends Thread {
     private String REGISTER_REQUEST = "";
     private String FORM_REQUEST = "";
     private String LOGIN_REQUEST = "";
+    private String SETTINGS_REQUEST = "";
 
     private UserHandler handler = new UserHandler();
     private ServerProt qna = new ServerProt();
@@ -73,7 +74,7 @@ public class LobbyThread extends Thread {
             MAIN_MENU_LOOP:
             while ((MAIN_MENU_REQUEST = client.readLine()) != null) {
 
-                if (scene.equalsIgnoreCase(MAIN_MENU_SCENE)) {
+                while (scene.equals(MAIN_MENU_SCENE)) {
 
                     switch (MAIN_MENU_REQUEST) {
                         case NYSPELA_BUTTON:
@@ -89,7 +90,8 @@ public class LobbyThread extends Thread {
                             continue MAIN_MENU_LOOP;
 
                         case "settings":
-                            break;
+                            takeClientToSettingScreen(MAIN_MENU_REQUEST);
+                            continue MAIN_MENU_LOOP;
 
                         case "exitapp":
                             //SAVE AUTHORIZED USER STATS
@@ -101,7 +103,7 @@ public class LobbyThread extends Thread {
                 }
 
                 //DO NOT ECHO
-                client.println("nothing");
+                client.println("NOT IMPLEMENTED YET");
             }
 
         } catch (IOException ex) {
@@ -115,6 +117,7 @@ public class LobbyThread extends Thread {
         scene = PRE_GAME_SCENE;
         client.println(MAIN_MENU_REQUEST);
 
+        OUTER:
         while ((PRE_GAME_REQUEST = client.readLine()) != null) {
 
             switch (PRE_GAME_REQUEST) {
@@ -125,10 +128,11 @@ public class LobbyThread extends Thread {
                 case BACK:
                     client.println(BACK);
                     scene = MAIN_MENU_SCENE;
-                    break;
+                    break OUTER;
 
                 default:
                     client.println("ACTION NOT RECOGNIZED BY SERVER: " + PRE_GAME_REQUEST);
+                    break;
             }
         }
     }
@@ -154,10 +158,6 @@ public class LobbyThread extends Thread {
 
         while ((GAME_REQUEST = client.readLine()) != null) {
 
-            
-            
-            
-            
             client.println("ACTION NOT RECOGNIZED BY SERVER: " + GAME_REQUEST);
             break;
 
@@ -171,34 +171,33 @@ public class LobbyThread extends Thread {
 
     private void generateQuestionAndAnswers(String GAME_REQUEST) {
 //        QuestionObject question = new QuestionObject();
-        
 
         client.println("generating question..");
     }
 
     public void takeClientToRegisterScreen(String MAIN_MENU_REQUEST) throws IOException {
         scene = REGISTER_SCENE;
+        REGISTER_REQUEST = "";
 
         client.println(MAIN_MENU_REQUEST);
+        OUTER:
         while ((REGISTER_REQUEST = client.readLine()) != null) {
 
             switch (REGISTER_REQUEST) {
 
                 case REGISTER_SUBMIT:
                     tryToSaveUserToDatabase(REGISTER_SUBMIT);
-
                     break;
 
                 case BACK:
                     client.println(BACK);
                     scene = MAIN_MENU_SCENE;
-                    break;
+                    break OUTER;
 
                 default:
                     client.println("ACTION NOT RECOGNIZED BY SERVER: " + REGISTER_REQUEST);
                     break;
             }
-            REGISTER_REQUEST = "";
         }
     }
 
@@ -207,6 +206,7 @@ public class LobbyThread extends Thread {
         scene = LOGIN_SCENE;
 
         client.println(MAIN_MENU_REQUEST);
+        OUTER:
         while ((LOGIN_REQUEST = client.readLine()) != null) {
             switch (LOGIN_REQUEST) {
                 case LOGIN_SUBMIT:
@@ -216,7 +216,28 @@ public class LobbyThread extends Thread {
                 case BACK:
                     client.println(BACK);
                     scene = MAIN_MENU_SCENE;
+                    break OUTER;
+                default:
+                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + LOGIN_REQUEST);
                     break;
+            }
+        }
+
+    }
+
+    public void takeClientToSettingScreen(String MAIN_MENU_REQUEST) throws IOException {
+        scene = SETTINGS_SCENE;
+
+        client.println(MAIN_MENU_REQUEST);
+        OUTER:
+        while ((SETTINGS_REQUEST = client.readLine()) != null) {
+            switch (SETTINGS_REQUEST) {
+
+                case BACK:
+                    client.println(BACK);
+                    scene = MAIN_MENU_SCENE;
+                    break OUTER;
+                    
                 default:
                     client.println("ACTION NOT RECOGNIZED BY SERVER: " + LOGIN_REQUEST);
                     break;

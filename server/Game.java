@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,9 @@ import java.util.Map;
 public class Game {
 
     class Player {
-
+        
+        
+        
         int currRound = 1;
         String category;
 
@@ -22,19 +25,28 @@ public class Game {
         public Player(ClientHandler client) {
             this.client = client;
             category = QuestionGenerator.getACategory();
-            List<String> question = QuestionGenerator.getQandA(category);
-    
-            
+            QuestionObject question = QuestionGenerator.getQuestionObject(category);
+
         }
 
-//        public void nextRound() {
-//            currRound++;
-//            category = generateCategory();
-//        }
-
-        
-
     }
+    
+    class Round {
+        
+        List<QuestionObject> questionList;
+
+        public Round() {
+        questionList = new ArrayList<>();
+        questionList.add(QuestionGenerator.getQuestionObject(QuestionGenerator.getACategory()));
+        questionList.add(QuestionGenerator.getQuestionObject(QuestionGenerator.getACategory()));        
+        }
+        
+        
+        
+        
+    }
+    
+    List<Round> roundList;
     List<Player> playerList;
     ServerProt QuestionGenerator = new ServerProt();
 
