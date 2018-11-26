@@ -1,11 +1,13 @@
 
 package quizkampen;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -17,11 +19,13 @@ public class Settingsscreen {
     
     VBox content;
     
-    ComboBox synSkadaBox, colorBox;
+    HBox synSkada, color;
+    
+    ComboBox colorBox, synSkadaBox;
     
     Label synSkadaLabel, colorLabel;
     
-    Button Hello, exit;
+    Button exit;
     
     int windowWidth, windowHeight;
     
@@ -45,7 +49,8 @@ public class Settingsscreen {
                     Är den på JA så lyser den grönt
                     Är den på NEJ så är den grå eller lyser rött
         */
-        synSkadaLabel = new Label("Synskada: ");
+        synSkadaLabel = new Label("Synskada:");
+        synSkadaLabel.setAlignment(Pos.CENTER);
         
         synSkadaBox = new ComboBox();
         synSkadaBox.getItems().addAll(
@@ -53,28 +58,36 @@ public class Settingsscreen {
             "JA"
         );
         synSkadaBox.setValue("NEJ");
-        
-        colorLabel = new Label("Färgtema: ");
+                
+        colorLabel = new Label("Färgtema:");
+        colorLabel.setAlignment(Pos.CENTER);
         
         colorBox = new ComboBox();
         colorBox.getItems().addAll(
-            "Blå",
-            "Grön",
-            "Gul",
-            "Röd",
-            "Lila"
+            "BLÅ",
+            "GRÖN",
+            "GUL",
+            "RÖD",
+            "LILA"
         );
-        colorBox.setValue("Blå");
-        
-        Hello = new Button("Hello World!");
-        
+        colorBox.setValue("BLÅ");
+                
         exit = new Button("<");
         
         exit.setOnAction(e -> window.setScene(startScene));
+                
+        synSkada = new HBox();
+        synSkada.setId("synSkada");
+        
+        color = new HBox();
+        color.setId("color");
         
         content = new VBox(20);
+        content.setId("settingsContent");
         
-        content.getChildren().addAll(synSkadaLabel, synSkadaBox, colorLabel, colorBox);
+        synSkada.getChildren().addAll(synSkadaLabel, synSkadaBox);
+        color.getChildren().addAll(colorLabel, colorBox);
+        content.getChildren().addAll(synSkada, color);
         root.setCenter(content);
         root.setBottom(exit);
     }

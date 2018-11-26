@@ -158,3 +158,53 @@
     -fx-background-size: 55px;
     -fx-background-repeat: no-repeat;
 }
+
+#settingsContent {
+    -fx-padding: 0 30;
+}
+
+#synSkada > .label,
+#color > .label {
+    -fx-font-size: 22px;
+    -fx-min-width: 120px;
+    -fx-min-height: 50px;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 20%, #0e86bc 80%, #0c75a6 100%);
+}
+
+#synSwitch {
+    height: 50px;
+}
+
+#synSkada > .combo-box,
+#color > .combo-box {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0 0 0 1px;
+    -fx-text-box-border: transparent;
+    -fx-border-color: linear-gradient(#12a8ed 0%, #1097d5 20%, #666666 20%, #4d4d4d 50%, #666666 80%, #0e86bc 80%, #0c75a6 100%);
+    -fx-font: 18px "Arial";
+    -fx-min-width: 80px;
+    -fx-min-height: 50px;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 20%, #0e86bc 50%, #0c75a6 100%);
+}
+#synSkada > .combo-box .list-view {
+    //-fx-background-color: black;
+}
+
+#synSkada > .combo-box .list-cell,
+#color > .combo-box .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 20%, #0e86bc 50%, #0c75a6 100%);
+}
+
+#synSkada > .combo-box:hover,
+#synSkada > .combo-box .list-cell:hover,
+#color > .combo-box:hover,
+#color > .combo-box .list-cell:hover {
+    -fx-cursor: hand;
+}
+
+#synSkada > .combo-box .list-cell:selected,
+#color > .combo-box .list-cell:selected {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.5), 0, 0, 0, 0);
+}
