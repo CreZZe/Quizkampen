@@ -72,12 +72,4 @@ public class Hasher {
      return tryHash.equals(hash[1]);
         
     }
-    
-    public static void main(String[] args) {
-        
-       
-        
-        System.out.println(Hasher.testHasher("balle"));
-        
-    }
 }

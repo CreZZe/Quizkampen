@@ -30,9 +30,9 @@ public class UserHandler {
                 String salt = scan.nextLine();
                 scan.nextLine(); // Läsa in raden för mail som inte behöver användas AKA inloggningen handskas inte med mailen
 
-                if (user.toLowerCase().equals(username.toLowerCase())
-                        && password.equals(Hasher.hashWithSalt(salt, pass)));
-                return true;
+                if (username.toLowerCase().equals(user.toLowerCase()) && pass.equals(Hasher.hashWithSalt(salt, password))) {
+                    return true;
+                }
             }
             return false;
         }
@@ -64,8 +64,8 @@ public class UserHandler {
 
             try (PrintWriter pw = new PrintWriter(new FileWriter(f, true))) {
                 pw.println(username);
-                pw.println(salt);
                 pw.println(hashedPw);
+                pw.println(salt);
                 pw.println(mail);
             }
             return true;

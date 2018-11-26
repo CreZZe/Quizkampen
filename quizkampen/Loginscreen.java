@@ -119,7 +119,7 @@ public class Loginscreen {
         String user = usernameField.getText();
         String pass = passwordField.getText();
 
-        boolean login = (Quizkampen.client.sendRequestAndGetResponse(user + "," + pass)).equals("true");
+        boolean login = (Quizkampen.client.sendRequestAndGetResponse(user + " " + pass)).equals("true");
 
         if (login) {
 

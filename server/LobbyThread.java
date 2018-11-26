@@ -43,6 +43,7 @@ public class LobbyThread extends Thread {
     //LOGIN REQUESTS
     private static final String LOGIN_SUBMIT = "loginsubmit";
 
+    //PREGAME REQUESTS
     //GAME REQUESTS
     private static final String QUESTION = "question";
     private static final String CATEGORY_PICK = "category";
@@ -148,7 +149,7 @@ public class LobbyThread extends Thread {
                 if (game.isJoinable()) {
                     currGame = game;
                     game.join(client);
-                    System.out.println(client +" joined a new game : " + currGame);
+                    System.out.println(client + " joined a new game : " + currGame);
                     break;
                 }
             }
@@ -161,12 +162,17 @@ public class LobbyThread extends Thread {
 
         while ((GAME_REQUEST = client.readLine()) != null) {
 
+//            switch (GAME_REQUEST) {
+//                case NEW_GAME:
+//                    tryNewGame();
+//                    
+//                    break;
+//                default:
+//                    throw new AssertionError();
+//            }
+//            break;
             client.println("ACTION NOT RECOGNIZED BY SERVER: " + GAME_REQUEST);
 
-            
-            
-            
-            
         }
 
     }
@@ -183,7 +189,6 @@ public class LobbyThread extends Thread {
 
     public void takeClientToRegisterScreen(String MAIN_MENU_REQUEST) throws IOException {
         scene = REGISTER_SCENE;
-        REGISTER_REQUEST = "";
 
         client.println(MAIN_MENU_REQUEST);
         OUTER:
@@ -245,7 +250,7 @@ public class LobbyThread extends Thread {
                     break OUTER;
 
                 default:
-                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + LOGIN_REQUEST);
+                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + SETTINGS_REQUEST);
                     break;
             }
         }
@@ -257,7 +262,12 @@ public class LobbyThread extends Thread {
         client.println("authenticating user credentials..");
 
         String loginUserWithPass = client.readLine();
-        String[] UserPass = loginUserWithPass.split(",", 2);
+        String[] UserPass = loginUserWithPass.split(" ", 2);
+        System.out.println("trying to log in: ");
+        System.out.println(UserPass[0]);
+        System.out.println(UserPass[1]);
+        
+       
         client.println(Boolean.toString(handler.login(UserPass[0], UserPass[1])));
 
     }
