@@ -1,4 +1,6 @@
-package server;
+package server.OLD;
+
+import server.ClientHandler;
 
 /**
  *
@@ -7,6 +9,7 @@ package server;
 public interface NewGameRequestListener {
 
     public void addToGameRoom(ClientHandler clientSocket);
-    public void test();
-
+    
+//    public void test();
+    
 }
