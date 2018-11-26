@@ -38,11 +38,20 @@ public class Questionscreen {
     String question, ansA, ansB, ansC, ansD;
     String question2, ansA2, ansB2, ansC2, ansD2;
     String rightAnswer;
+    String right;
 
     Timeline timeline;
     boolean first = true;
     ButtonClicked buttonClicked = new ButtonClicked();
     int time = 10;
+
+    public void updateButtons() {
+        a.setText(ansA);
+        b.setText(ansB);
+        c.setText(ansC);
+        d.setText(ansD);
+        questionLabel.setText(question);
+    }
 
     public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
         buttonArray = new ArrayList();
@@ -52,8 +61,7 @@ public class Questionscreen {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
 
-        getQnA();
-
+//        getQnA();
         a = new Button(ansA);
         b = new Button(ansB);
         c = new Button(ansC);
@@ -105,7 +113,11 @@ public class Questionscreen {
         answerButtons.setVisible(false);
 
         cueCard.setOnMousePressed(e -> {
-            generateQuestionsAndAnswers();
+
+            getQnA();
+            updateButtons();
+            setRight();
+
             timer();
             root.setCenter(questionLabel);
             questionLabel.setDisable(true);
@@ -118,20 +130,17 @@ public class Questionscreen {
         root.setCenter(cueCard);
         root.setBottom(answerButtons);
     }
-    
-    public void generateQuestionsAndAnswers(){
-        Quizkampen.client.sendRequestAndGetResponse("question");
-        
-    }
 
     public class ButtonClicked implements EventHandler<ActionEvent> {
 
         @Override
         public void handle(ActionEvent event) {
+
+//            Quizkampen.client.sendRequestAndGetResponse()
             timeline.stop();
 
             for (Button btn : buttonArray) {
-                if (btn.getText().equals(getRightAnswer())) {
+                if (btn.getText().equals(right)) {
                     btn.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
                     if (first) {
                         if (((Button) event.getSource()).equals(btn)) {
@@ -140,13 +149,11 @@ public class Questionscreen {
                             ((Button) event.getSource()).setStyle("-fx-background-color: red;");
                             score1.setStyle("-fx-background-color: red;");
                         }
+                    } else if (((Button) event.getSource()).equals(btn)) {
+                        score2.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
                     } else {
-                        if (((Button) event.getSource()).equals(btn)) {
-                            score2.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
-                        } else {
-                            ((Button) event.getSource()).setStyle("-fx-background-color: red;");
-                            score2.setStyle("-fx-background-color: red;");
-                        }
+                        ((Button) event.getSource()).setStyle("-fx-background-color: red;");
+                        score2.setStyle("-fx-background-color: red;");
                     }
 
                 }
@@ -159,7 +166,7 @@ public class Questionscreen {
         timeline.stop();
 
         for (Button btn : buttonArray) {
-            if (btn.getText().equals(getRightAnswer())) {
+            if (btn.getText().equals(right)) {
                 btn.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
             }
         }
@@ -215,12 +222,11 @@ public class Questionscreen {
         c.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
         d.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
 
-        getQnA();
-
         a.setDisable(false);
         b.setDisable(false);
         c.setDisable(false);
         d.setDisable(false);
+
         timer();
     }
 
@@ -229,10 +235,10 @@ public class Questionscreen {
         cueCard.setText("Rundan slut!");
         cueCard.setDisable(true);
         questionLabel.setDisable(true);
-        
-        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
-        
+
+//        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
         root.setOnMousePressed(e -> {
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
             Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             lobbyScene.getStylesheets().add("Styling.css");
             window.setScene(lobbyScene);
@@ -240,41 +246,65 @@ public class Questionscreen {
     }
 
     private void getQnA() {
-        
-        
-        if (first) {
-            question = "lorem ipsum 1?";
-            ansA = "Right answer";
-            ansB = "Wrong anser 1";
-            ansC = "Wrong answer 2";
-            ansD = "Wrong answer 3";
 
+        String questionsAndAnswers = Quizkampen.client.sendRequestAndGetResponse("question");
+        System.out.println("recieved: " + questionsAndAnswers);
+        String[] arr = questionsAndAnswers.split("@@@", 5);
+
+        if (first) {
+
+            question = arr[0];
+            ansA = arr[1];
+            ansB = arr[2];
+            ansC = arr[3];
+            ansD = arr[4];
+
+//            ansA = "Right answer";
+//            ansB = "Wrong anser 1";
+//            ansC = "Wrong answer 2";
+//            ansD = "Wrong answer 3";
         } else {
-            question = "lorem ipsum 2?";
-            ansA = "Right answer";
-            ansB = "Wrong anser 1";
-            ansC = "Wrong answer 2";
-            ansD = "Wrong answer 3";
+
+            question = arr[0];
+            ansA = arr[1];
+            ansB = arr[2];
+            ansC = arr[3];
+            ansD = arr[4];
+//            question = "lorem ipsum 2?";
+//            ansA = "Right answer";
+//            ansB = "Wrong anser 1";
+//            ansC = "Wrong answer 2";
+//            ansD = "Wrong answer 3";
+
         }
     }
 
     private String getRightAnswer() {
-        return "Right answer";
+        return rightAnswer;
+    }
+
+    public void setRight() {
+        right = Quizkampen.client.sendRequestAndGetResponse("right");
+        System.out.println("recieved: " + right);
     }
 
     private void timer() {
-        
+
         IntegerProperty seconds = new SimpleIntegerProperty();
         pb.progressProperty().bind(seconds.divide(10000.0));
 
         timeline = new Timeline(new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)), new KeyFrame(Duration.seconds(time), e -> {
+
             for (Button btn : buttonArray) {
-                if (btn.getText().equals(getRightAnswer())) {
+                if (btn.getText().equals(right)) {
                     btn.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
                 }
             }
-            if (first) { score1.setStyle("-fx-background-color: red;"); }
-            else { score2.setStyle("-fx-background-color: red;"); }
+            if (first) {
+                score1.setStyle("-fx-background-color: red;");
+            } else {
+                score2.setStyle("-fx-background-color: red;");
+            }
             questionDone();
         }, new KeyValue(seconds, 10000)
         ));
@@ -282,8 +312,8 @@ public class Questionscreen {
         timeline.play();
         pb.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
             double progress = newValue == null ? 0 : newValue.doubleValue();
-            int red = (int) (progress*2*255);
-            int green = 510-red;
+            int red = (int) (progress * 2 * 255);
+            int green = 510 - red;
             pb.setStyle(String.format("-fx-accent: rgba(%s, %s, 0, 1);", red, green));
         });
     }

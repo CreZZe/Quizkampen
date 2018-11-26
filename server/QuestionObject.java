@@ -10,13 +10,9 @@
  */
 package server;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class QuestionObject {
@@ -26,9 +22,10 @@ public class QuestionObject {
 
     String correctAnswer, answer2, answer3, answer4;
 
-    Map<String, Boolean> mapAnswers = new HashMap<>();
+    Map<String, Boolean> mapAnswers;
 
     QuestionObject(String c, String q, String a1, String a2, String a3, String a4) {
+        mapAnswers = new HashMap<>();
         category = c;
         question = q;
 //        correctAnswer = a1.substring(1, a1.length());
@@ -36,15 +33,15 @@ public class QuestionObject {
 //        answer3 = a3.substring(1, a3.length());
 //        answer4 = a4.substring(1, a4.length());
 
-        mapAnswers.put(answer2, Boolean.FALSE);
-        mapAnswers.put(answer3, Boolean.FALSE);
-        mapAnswers.put(answer4, Boolean.FALSE);
-        mapAnswers.put(correctAnswer, Boolean.TRUE);
-
         correctAnswer = a1;
         answer2 = a2;
         answer3 = a3;
         answer4 = a4;
+
+        mapAnswers.put(answer2, Boolean.FALSE);
+        mapAnswers.put(answer3, Boolean.FALSE);
+        mapAnswers.put(answer4, Boolean.FALSE);
+        mapAnswers.put(correctAnswer, Boolean.TRUE);
 
     }
 
@@ -102,6 +99,5 @@ public class QuestionObject {
         System.out.println(answer4);
         this.checkAnswer(correctAnswer);
     }
-    
 
 }

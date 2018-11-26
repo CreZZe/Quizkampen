@@ -75,7 +75,10 @@ public class Settingsscreen {
         
         exit = new Button("<");
         
-        exit.setOnAction(e -> window.setScene(startScene));
+        exit.setOnAction(e -> {
+            Quizkampen.client.sendRequestAndGetResponse("back");
+            window.setScene(startScene);
+                });
         
         content = new VBox(20);
         
