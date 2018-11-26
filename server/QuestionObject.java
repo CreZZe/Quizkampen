@@ -34,15 +34,8 @@ public class QuestionObject {
 //        answer3 = a3.substring(1, a3.length());
 //        answer4 = a4.substring(1, a4.length());
 
-        
-        mapAnswers.put(answer2, Boolean.FALSE);
-        mapAnswers.put(answer3, Boolean.FALSE);
-        mapAnswers.put(answer4, Boolean.FALSE);
-        mapAnswers.put(correctAnswer, Boolean.TRUE);
-
-
         correctAnswer = a1;
-        answer1=a1;
+        answer1 = a1;
         answer2 = a2;
         answer3 = a3;
         answer4 = a4;
@@ -90,9 +83,11 @@ public class QuestionObject {
     public String getCorrectAnswer() {
         return correctAnswer;
     }
+
     public String getAnswer1() {
         return answer1;
     }
+
     public String getAnswer2() {
         return answer2;
     }

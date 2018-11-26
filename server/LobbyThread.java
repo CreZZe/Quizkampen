@@ -4,9 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +15,7 @@ import java.util.logging.Logger;
 public class LobbyThread extends Thread {
 
     private ClientHandler client;
+    private Game currGame;
     private List<ClientHandler> clientList;
     private String input = "";
 
@@ -145,44 +144,44 @@ public class LobbyThread extends Thread {
     }
 
     public void takeClientToGameScene(String PRE_GAME_REQUEST) throws IOException {
-        Game currGame = null;
+        boolean IN_GAME = false;
+        currGame = null;
         scene = GAME_SCENE;
 
         client.println(PRE_GAME_REQUEST);
 
         //Are there any games?
-        if (Lobby.gameList.size() > 0) {
+        System.out.println("gameList size: " + Lobby.gameList.size());
+        if (!Lobby.gameList.isEmpty()) {
+
             for (Game game : Lobby.gameList) {
                 //Join first existing joinable game
-                if (game.isJoinable()) {
+                if (game.isJoinable(client)) {
                     currGame = game;
                     game.add(client);
-                    System.out.println(client + " joined a new game : " + currGame);
-                    break;
-                } else {
-                    //else make a new
-                    currGame = Lobby.generateNewGame(client);
-                    Lobby.gameList.add(currGame);
-                    System.out.println(client + " starting a new game: " + currGame);
+                    System.out.println(client + " JOINED a new game : " + currGame);
+                    IN_GAME = true;
                     break;
                 }
             }
 
+            //else make a new
+            if (!IN_GAME) {
+                currGame = Lobby.generateNewGame(client);
+                Lobby.gameList.add(currGame);
+                System.out.println(client + " ELSE starting a new game: " + currGame);
+            }
         } else {
             //if no games exist, make a new
             currGame = Lobby.generateNewGame(client);
             Lobby.gameList.add(currGame);
-            System.out.println(client + " starting a new game: " + currGame);
+            System.out.println(client + " NO GAMES starting a new game: " + currGame);
         }
 
         QuestionObject currQuestion;
         OUTER:
         while ((GAME_REQUEST = client.readLine()) != null) {
 
-//            if (currGame.currRound().isRoundFinished()) {
-//                System.out.println("round is finished");
-//                break;
-//            }
             switch (GAME_REQUEST) {
 
                 case QUESTION:
@@ -196,6 +195,9 @@ public class LobbyThread extends Thread {
                     }
                     break;
 
+//                case ROUND_OVER:
+//                    client.println(currGame.currRound().currPlayer.score);
+//                    break;
                 case BACK:
                     client.println(BACK);
                     scene = PRE_GAME_SCENE;
@@ -210,7 +212,7 @@ public class LobbyThread extends Thread {
     }
 
     private String questionAndShuffledAnswers(QuestionObject q) {
-        System.out.println(q);
+//        System.out.println(q);
         String theQ = q.question;
         String[] arr = new String[4];
         arr[0] = q.answer2;

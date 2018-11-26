@@ -136,7 +136,6 @@ public class Questionscreen {
         @Override
         public void handle(ActionEvent event) {
 
-//            Quizkampen.client.sendRequestAndGetResponse()
             timeline.stop();
 
             for (Button btn : buttonArray) {

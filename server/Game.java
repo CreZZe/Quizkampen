@@ -13,7 +13,7 @@ public class Game {
 
     class Player {
 
-        private boolean isFinished = false;
+        int scorePerRound = 0;
 
         String category;
 
@@ -21,17 +21,11 @@ public class Game {
 
         public Player(ClientHandler client) {
             this.client = client;
-            category = QuestionGenerator.getACategory();
-            QuestionObject question = QuestionGenerator.getQuestionObject(category);
 
         }
 
-        public boolean turnIsFinished() {
-            return isFinished;
-        }
-
-        public void finishTurn() {
-            isFinished = true;
+        public void incrementScore() {
+            scorePerRound++;
         }
 
     }
@@ -50,8 +44,9 @@ public class Game {
 
             for (int i = 0; i < questions.length; i++) {
                 questions[i] = QuestionGenerator.getQuestionObject(QuestionGenerator.getACategory());
-            }
 
+            }
+//            questions[0].printMe();
         }
 
         public QuestionObject getNextQuestion() {
@@ -61,15 +56,12 @@ public class Game {
         }
 
         public void incrementScore() {
-            score++;
+            currPlayer.incrementScore();
         }
 
         public boolean isRoundFinished() {
 
-            if (!(currQ <= totalQ)) {
-                currPlayer.finishTurn();
-            }
-            return !(currQ <= totalQ);
+        return currQ+1 == totalQ;
         }
 
     }
@@ -88,6 +80,8 @@ public class Game {
         currRound = new Round(currPlayer);
         playerList.add(currPlayer);
         roundList.add(currRound);
+        System.out.println("players: " + playerList.size());
+        System.out.println("first round");
 
     }
 
@@ -97,10 +91,19 @@ public class Game {
         playerList.add(currPlayer);
         roundList.add(currRound);
 
+        System.out.println("players: " + playerList.size());
+        System.out.println("second round");
+
     }
 
-    public boolean isJoinable() {
-        return playerList.size() < 2 && currPlayer.turnIsFinished();
+    public boolean isJoinable(ClientHandler client) {
+//        for (Player player : playerList) {
+//            if (player.client.equals(client)){
+//                return false;
+//            }
+//        }
+
+        return playerList.size() < 2 && currRound().isRoundFinished();
     }
 
     public Round currRound() {

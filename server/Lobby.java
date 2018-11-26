@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author nikalsh
  */
-public class Lobby {
+public class Lobby extends Thread{
 
     public static Game generateNewGame(ClientHandler client) {
         return new Game(client);
@@ -51,7 +51,9 @@ public class Lobby {
     public static List<ClientHandler> getClientList() {
         return clientList;
     }
-
+    
+    
+ 
     //DONT DELETE BELOW YET, WILL DEAL WITH THIS WHEN WE GET THERE
     //nikalsh
 ////    @Override
