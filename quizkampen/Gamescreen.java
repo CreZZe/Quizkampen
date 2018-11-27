@@ -14,8 +14,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import server.GetProperties;
 
 public class Gamescreen {
+
+    
+    GetProperties properties;
+    
 
     BorderPane root;
     GridPane answerButtons;
@@ -39,6 +44,7 @@ public class Gamescreen {
     int nrOfRounds, nrOfQuestions;
 
     public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+        properties = new GetProperties();
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
@@ -197,7 +203,7 @@ public class Gamescreen {
     private ArrayList<String> getCategories() {
         ArrayList<String> temp = new ArrayList(Arrays.asList("Japanese Anime & Manga", "Videogames"));
         ArrayList<String> tempReturn = new ArrayList();
-        for (int i = 0; i < getNrOfRounds(); i++) {
+        for (int i = 0; i < nrOfRounds; i++) {
             tempReturn.add("");
         }
         for (int i = 0; i < temp.size(); i++) {
@@ -207,9 +213,11 @@ public class Gamescreen {
     }
 
     private ArrayList<Boolean> getPlayerScore() {
-        ArrayList<Boolean> temp = new ArrayList(Arrays.asList(true, true, true, true, false, false));
+        ArrayList<Boolean> temp = new ArrayList(Arrays.asList(true, true));
         ArrayList<Boolean> tempReturn = new ArrayList();
-        for (int i = 0; i < (getNrOfQuestions() * getNrOfRounds()); i++) {
+
+        for (int i = 0; i < (nrOfQuestions*nrOfRounds); i++) {
+
             tempReturn.add(null);
         }
         for (int i = 0; i < temp.size(); i++) {
@@ -220,9 +228,11 @@ public class Gamescreen {
     }
 
     private ArrayList<Boolean> getopponentScore() {
-        ArrayList<Boolean> temp = new ArrayList(Arrays.asList(true, true, false, true, true, true));
+        ArrayList<Boolean> temp = new ArrayList(Arrays.asList(false, true));
         ArrayList<Boolean> tempReturn = new ArrayList();
-        for (int i = 0; i < (getNrOfQuestions() * getNrOfRounds()); i++) {
+
+        for (int i = 0; i < (nrOfQuestions*nrOfRounds); i++) {
+
             tempReturn.add(null);
         }
         for (int i = 0; i < temp.size(); i++) {
@@ -240,12 +250,17 @@ public class Gamescreen {
         return "kalleKarlsson__";
     }
 
-    private int getNrOfRounds() {
-        return 5;
+    
+    
+     private int getNrOfRounds() {
+         
+        return properties.getRoundsPerGame();
+
     }
 
     private int getNrOfQuestions() {
-        return 3;
+        
+        return properties.getQuestionsPerRound();
     }
 
     public BorderPane getGUI() {

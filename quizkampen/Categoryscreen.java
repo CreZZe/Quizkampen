@@ -16,9 +16,9 @@ public class Categoryscreen {
     Scene startScene;
     int windowWidth;
     int windowHeight;
+    
     VBox center, top;
-//    PieChart pc;
-//    PieChart.Data c1, c2, c3;
+    
     Button c1, c2, c3;
 
     String category1, category2, category3;

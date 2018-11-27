@@ -15,9 +15,13 @@ public class GetProperties {
     int questionsPerRound;
     int roundsPerGame;
 
-    GetProperties() {
-        Properties p = new Properties();
-        try {
+    
+    
+        
+    public GetProperties(){
+    Properties p = new Properties();
+        try{
+
 
             Path currentRelativePath = Paths.get("");
             p.load(new FileInputStream(currentRelativePath.toAbsolutePath().toString() + "/src/server/PropertiesForServer.properties/"));

@@ -1,8 +1,10 @@
 package quizkampen;
 
+import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -13,9 +15,11 @@ public class Lobbyscreen {
     BorderPane root;
 
     HBox topMenu, user;
-    VBox content, center;
+    VBox content, center, activeGamesButtons;
 
     Label title, avatar, userName;
+    
+    ArrayList<String> games;
 
     Button refreshButton, statsButton, settingsButton;
     Button newGameButton;
@@ -24,6 +28,8 @@ public class Lobbyscreen {
     Stage window;
     Scene startScene;
     int windowWidth, windowHeight;
+    int nrOfActiveGames = 5;
+    
 
     public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
         this.window = window;
@@ -33,7 +39,10 @@ public class Lobbyscreen {
 
         root = new BorderPane();
 
-        content = new VBox(20);
+        content = new VBox(0);
+        activeGamesButtons = new VBox(0);
+        
+        activeGamesButtons.setSpacing(0);
 
         topMenu = new HBox();
         topMenu.getStyleClass().add("hbox");
@@ -76,6 +85,21 @@ public class Lobbyscreen {
             
             
         });
+        ArrayList<Button> activeGames = new ArrayList();
+        for (int i = 1; i < nrOfActiveGames; i++) {
+            Button game = new Button("spel " + i);
+            activeGames.add(game);
+            game.getStyleClass().add("activeGamesButton");
+            game.setStyle("-fx-padding: 0px;");
+        }
+        
+        ScrollPane sp = new ScrollPane();
+        sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        sp.setFitToWidth(true);
+        sp.setFitToHeight(true);
+        
+        
 
         topMenu.getChildren().add(title);
         topMenu.getChildren().add(refreshButton);
@@ -84,18 +108,26 @@ public class Lobbyscreen {
 
         user.getChildren().add(avatar);
         user.getChildren().add(userName);
+        activeGamesButtons.getChildren().addAll(activeGames);
 
         content.getChildren().add(user);
         content.getChildren().add(newGameButton);
-
+        content.getChildren().addAll(activeGamesButtons);
+        
+        sp.setContent(content);
+        
         root.setTop(topMenu);
-        root.setCenter(content);
+        root.setCenter(sp);
         root.setBottom(exitButton);
 
     }
     
-    public void updateUsernameLabel(String user){
-        userName.setText(user);
+    public void updateUsernameLabel(String userName){
+        this.userName.setText(userName);
+    }
+    
+    public void getCurrentGames() {
+        
     }
 
     public BorderPane getGUI() {
