@@ -60,6 +60,8 @@ public class Client {
             toServer.println(request);
             System.out.println("Sent request: " + request);
             String response = fromServer.readLine();
+            
+            Quizkampen.printStackTrace();
             return response;
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);

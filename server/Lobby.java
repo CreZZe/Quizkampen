@@ -13,7 +13,10 @@ import java.util.Map;
  *
  * @author nikalsh
  */
-public class Lobby extends Thread{
+public class Lobby extends Thread {
+
+    private static int ROUNDS_PER_GAME;
+    private static int QUESTIONS_PER_ROUND;
 
     public static Game generateNewGame(ClientHandler client) {
         return new Game(client);
@@ -23,6 +26,15 @@ public class Lobby extends Thread{
     private List<LobbyThread> lobbyThreads;
     public static List<Game> gameList;
     private LobbyThread lt;
+
+    public Lobby(int roundsPerGame, int questionsPerGame) {
+        clientList = new ArrayList<>();
+        lobbyThreads = new ArrayList<>();
+        gameList = new ArrayList<>();
+
+        ROUNDS_PER_GAME = roundsPerGame;
+        QUESTIONS_PER_ROUND = questionsPerGame;
+    }
 
     public Lobby() {
         clientList = new ArrayList<>();
@@ -51,9 +63,7 @@ public class Lobby extends Thread{
     public static List<ClientHandler> getClientList() {
         return clientList;
     }
-    
-    
- 
+
     //DONT DELETE BELOW YET, WILL DEAL WITH THIS WHEN WE GET THERE
     //nikalsh
 ////    @Override

@@ -38,7 +38,8 @@ public class Questionscreen {
             return stringValue;
         }
     }
-
+    
+   
     BorderPane root;
     GridPane answerButtons;
     HBox header;
@@ -277,7 +278,6 @@ public class Questionscreen {
         cueCard.setDisable(true);
         questionLabel.setDisable(true);
 
-//        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
         root.setOnMousePressed(e -> {
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
             Scene gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);

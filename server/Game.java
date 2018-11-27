@@ -105,9 +105,13 @@ public class Game {
 
         return playerList.size() < 2 && currRound().isRoundFinished();
     }
+    
+    
 
     public Round currRound() {
         return currRound;
+    
+    
     }
 
     public Player currPlayer() {

@@ -29,10 +29,10 @@ public class LobbyThread extends Thread {
 
     //ACTIONS IN SCENES
     private static final String BACK = "back";
-    private static final String PLAY = "newGame";
+    private static final String CHOOSE_CATEGORY = "category";
 
     //MAIN MENU REQUESTS
-    private static final String NYSPELA_BUTTON = "nyspela";
+    private static final String LOBBY_BUTTON = "lobby";
     private static final String LOGIN_BUTTON = "login";
     private static final String REGISTER_BUTTON = "register";
     private static final String SETTINGS_BUTTON = "settings";
@@ -45,7 +45,10 @@ public class LobbyThread extends Thread {
     private static final String LOGIN_SUBMIT = "loginsubmit";
 
     //PREGAME REQUESTS
-    //GAME REQUESTS
+    private static final String EXISTING_GAME = "existing";
+    private static final String NEW_GAME = "newGame";
+
+//GAME REQUESTS
     private static final String QUESTION = "question";
     private static final String NUMBER_OF_QUESTIONS = "nrofquestions";
     private static final String CATEGORY_PICK = "category";
@@ -60,9 +63,10 @@ public class LobbyThread extends Thread {
     private String LOGIN_REQUEST = "";
     private String SETTINGS_REQUEST = "";
     private String GAME_ANSWER = "";
+    private String CATEGORY_PICKED = "";
 
-    private UserHandler handler = new UserHandler();
-    private ServerProt qna = new ServerProt();
+    private UserHandler userHandler = new UserHandler();
+    private ServerProt questionHandler = new ServerProt();
 
     public LobbyThread(ClientHandler currSock) {
         client = currSock;
@@ -82,20 +86,20 @@ public class LobbyThread extends Thread {
                 while (scene.equals(MAIN_MENU_SCENE)) {
 
                     switch (MAIN_MENU_REQUEST) {
-                        case NYSPELA_BUTTON:
-                            takeClientToPreGameScreen(MAIN_MENU_REQUEST);
+                        case LOBBY_BUTTON:
+                            takeClienToLobbyScene(MAIN_MENU_REQUEST);
                             continue MAIN_MENU_LOOP;
 
                         case REGISTER_BUTTON:
-                            takeClientToRegisterScreen(MAIN_MENU_REQUEST);
+                            takeClientToRegisterScene(MAIN_MENU_REQUEST);
                             continue MAIN_MENU_LOOP;
 
                         case LOGIN_BUTTON:
-                            takeClientToLoginScreen(MAIN_MENU_REQUEST);
+                            takeClientToLoginScene(MAIN_MENU_REQUEST);
                             continue MAIN_MENU_LOOP;
 
                         case SETTINGS_BUTTON:
-                            takeClientToSettingScreen(MAIN_MENU_REQUEST);
+                            takeClientToSettingScene(MAIN_MENU_REQUEST);
                             continue MAIN_MENU_LOOP;
 
                         case "exitapp":
@@ -117,7 +121,7 @@ public class LobbyThread extends Thread {
 
     }
 
-    public void takeClientToPreGameScreen(String MAIN_MENU_REQUEST) throws IOException {
+    public void takeClienToLobbyScene(String MAIN_MENU_REQUEST) throws IOException {
 
         scene = PRE_GAME_SCENE;
         client.println(MAIN_MENU_REQUEST);
@@ -127,11 +131,59 @@ public class LobbyThread extends Thread {
 
             switch (PRE_GAME_REQUEST) {
 
-                case PLAY:
-                    takeClientToGameScene(PRE_GAME_REQUEST);
+                case EXISTING_GAME:
+                    takeClientToExistingGame(PRE_GAME_REQUEST);
+
+                case CHOOSE_CATEGORY:
+
+                    takeClientToCategoryScene(PRE_GAME_REQUEST);
+//                    takeClientToGameScene(PRE_GAME_REQUEST);
 
                     continue OUTER;
 
+                case NEW_GAME:
+                    //doNewGameStuff();
+                    continue OUTER;
+
+                case BACK:
+                    client.println(BACK);
+                    scene = MAIN_MENU_SCENE;
+                    break OUTER;
+
+                default:
+                    client.println("ACTION NOT RECOGNIZED BY SERVER: " + PRE_GAME_REQUEST);
+                    break;
+            }
+        }
+    }
+
+    public void takeClientToCategoryScene(String PRE_GAME_REQUEST) throws IOException {
+
+        List<String> categories = questionHandler.get3Categories();
+        String categoriesString = categories.get(0) + "@@@" + categories.get(1) + "@@@" + categories.get(2);
+
+        scene = PRE_GAME_SCENE;
+        client.println(categoriesString);
+
+        CATEGORY_PICKED = client.readLine();
+
+        client.println(CATEGORY_PICKED);
+
+    }
+
+    public void takeClientToExistingGame(String PRE_GAME_REQUEST) throws IOException {
+
+        scene = PRE_GAME_SCENE;
+        client.println(MAIN_MENU_REQUEST);
+
+        OUTER:
+        while ((PRE_GAME_REQUEST = client.readLine()) != null) {
+
+            switch (PRE_GAME_REQUEST) {
+
+//                case NEW_ROUND:
+//                    client.println(NEW_ROUND);
+//                    scene = NEW_ROUND_SCENE;
                 case BACK:
                     client.println(BACK);
                     scene = MAIN_MENU_SCENE;
@@ -160,7 +212,7 @@ public class LobbyThread extends Thread {
                 if (game.isJoinable(client)) {
                     currGame = game;
                     game.add(client);
-                    System.out.println(client + " JOINED a new game : " + currGame);
+                    System.out.println(client + " JOINED a game : " + currGame);
                     IN_GAME = true;
                     break;
                 }
@@ -180,12 +232,12 @@ public class LobbyThread extends Thread {
         }
 
         QuestionObject currQuestion;
-        
+
         OUTER:
         while ((GAME_REQUEST = client.readLine()) != null) {
 
             switch (GAME_REQUEST) {
-                
+
                 case QUESTION:
                     currQuestion = currGame.currRound().getNextQuestion();
                     client.println(questionAndShuffledAnswers(currQuestion));
@@ -225,7 +277,7 @@ public class LobbyThread extends Thread {
         return String.format("%s@@@%s@@@%s@@@%s@@@%s", theQ, arr[0], arr[1], arr[2], arr[3]);
     }
 
-    public void takeClientToRegisterScreen(String MAIN_MENU_REQUEST) throws IOException {
+    public void takeClientToRegisterScene(String MAIN_MENU_REQUEST) throws IOException {
         scene = REGISTER_SCENE;
 
         client.println(MAIN_MENU_REQUEST);
@@ -250,7 +302,7 @@ public class LobbyThread extends Thread {
         }
     }
 
-    public void takeClientToLoginScreen(String MAIN_MENU_REQUEST) throws IOException {
+    public void takeClientToLoginScene(String MAIN_MENU_REQUEST) throws IOException {
 
         scene = LOGIN_SCENE;
 
@@ -274,7 +326,7 @@ public class LobbyThread extends Thread {
 
     }
 
-    public void takeClientToSettingScreen(String MAIN_MENU_REQUEST) throws IOException {
+    public void takeClientToSettingScene(String MAIN_MENU_REQUEST) throws IOException {
         scene = SETTINGS_SCENE;
 
         client.println(MAIN_MENU_REQUEST);
@@ -302,7 +354,7 @@ public class LobbyThread extends Thread {
         String loginUserWithPass = client.readLine();
         String[] UserPass = loginUserWithPass.split(" ", 2);
 
-        client.println(Boolean.toString(handler.login(UserPass[0], UserPass[1])));
+        client.println(Boolean.toString(userHandler.login(UserPass[0], UserPass[1])));
 
     }
 
@@ -311,26 +363,26 @@ public class LobbyThread extends Thread {
         client.println("proccessing forms..");
 
         String theUserToFind = client.readLine();
-        client.println(Boolean.toString(handler.findUsername(theUserToFind)));
+        client.println(Boolean.toString(userHandler.findUsername(theUserToFind)));
 
         String validPass = client.readLine();
-        client.println(Boolean.toString(handler.validatePass(validPass)));
+        client.println(Boolean.toString(userHandler.validatePass(validPass)));
 
         String validMail = client.readLine();
-        client.println(Boolean.toString(handler.validateMail(validMail)));
+        client.println(Boolean.toString(userHandler.validateMail(validMail)));
 
         String theMailToFind = client.readLine();
-        client.println(Boolean.toString(handler.findMail(theMailToFind)));
+        client.println(Boolean.toString(userHandler.findMail(theMailToFind)));
 
         String validFields = client.readLine();
         String[] splitFields = validFields.split(",", 3);
 
-        client.println(Boolean.toString(handler.validateFields(splitFields[0], splitFields[1], splitFields[2])));
+        client.println(Boolean.toString(userHandler.validateFields(splitFields[0], splitFields[1], splitFields[2])));
 
         String toRegisterFields = client.readLine();
         String[] splitRegister = toRegisterFields.split(",", 3);
 
-        client.println(Boolean.toString(handler.register(splitRegister[0], splitRegister[1], splitRegister[2])));
+        client.println(Boolean.toString(userHandler.register(splitRegister[0], splitRegister[1], splitRegister[2])));
     }
 
 }
