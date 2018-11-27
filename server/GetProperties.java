@@ -17,8 +17,10 @@ public class GetProperties {
     
     int questionsPerRound;
     int roundsPerGame;
+    
+    
         
-    GetProperties(){
+    public GetProperties(){
     Properties p = new Properties();
         try{
 

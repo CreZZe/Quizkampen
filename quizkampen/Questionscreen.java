@@ -22,7 +22,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import server.GetProperties;
+
 public class Questionscreen {
+    
 
     private enum Colors {
         GREEN("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);"),
@@ -64,8 +67,8 @@ public class Questionscreen {
     Timeline timeline;
 
     ButtonClicked buttonClicked = new ButtonClicked();
-    int time = 10;
-    int nrOfQuestions = 2;
+    int time = 20;
+    int nrOfQuestions;
     int questionCounter = 0;
     boolean wait = true;
     
@@ -79,6 +82,7 @@ public class Questionscreen {
 
     public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
         
+        
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
@@ -90,7 +94,7 @@ public class Questionscreen {
         timer = new StackPane();
         answerButtons = new GridPane();
         
-        
+        setNrOfQuestions();
 
         scoreLabels = new ArrayList();
         for (int i = 0; i < nrOfQuestions; i++) {
@@ -299,7 +303,7 @@ public class Questionscreen {
                 }
             }
             scoreLabels.get(questionCounter).setStyle(Colors.RED.toString());
-            //System.out.println("testing in timer for question done");
+            
             questionDone();
         }, new KeyValue(seconds, 1000)
         ));
@@ -336,7 +340,9 @@ public class Questionscreen {
     }
     
     public void setNrOfQuestions() {
-        nrOfQuestions = 2;
+        
+        GetProperties properties = new GetProperties();
+        nrOfQuestions = properties.getQuestionsPerRound();
         
     }
 

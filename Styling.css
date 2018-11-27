@@ -97,6 +97,7 @@
 
 .scroll-pane {
     -fx-background-color: transparent;
+    -fx-align-content: center;
 }
 
 .categoryButtons {
@@ -205,6 +206,15 @@
     
     
 }
+.activeGamesButton {
+    -fx-min-width: 335px;
+    -fx-min-height: 68px;
+    -fx-background-image: url("ActiveGamesButton.png");
+    -fx-padding: 0px;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
 #refreshButton {
     -fx-min-width: 55px;
     -fx-background-image: url("RefreshButton.png");
@@ -224,18 +234,19 @@
 }
 
 #nyttSpelButton {
-    -fx-min-width: 310px;
+    -fx-min-width: 335px;
     -fx-min-height: 68px;
     -fx-background-image: url("NyttSpelButton.png");
-    -fx-background-size: 310px;
+    -fx-background-size: stretch;
+    /*-fx-background-size: 320px;*/
     -fx-background-color: transparent;
     -fx-background-repeat: no-repeat;
 }
 
 #avatar {
     -fx-min-width: 60px;
-    -fx-min-height: 55px;
+    -fx-min-height: 60px;
     -fx-background-image: url("Avatar.png");
-    -fx-background-size: 55px;
-    -fx-background-repeat: no-repeat;
+    -fx-padding: 10px;
+    -fx-background-size: stretch;
 }
