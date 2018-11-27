@@ -69,8 +69,6 @@ public class Questionscreen {
     int questionCounter = 0;
     boolean wait = true;
     
-    
-
     public void updateButtons() {
         a.setText(ansA);
         b.setText(ansB);
@@ -80,13 +78,6 @@ public class Questionscreen {
     }
 
     public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
-        
-//        try {
-//            Thread.sleep(1000);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-        
         
         this.window = window;
         this.startScene = startScene;
@@ -289,9 +280,9 @@ public class Questionscreen {
 //        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
         root.setOnMousePressed(e -> {
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
-            Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            lobbyScene.getStylesheets().add("Styling.css");
-            window.setScene(lobbyScene);
+            Scene gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            gameScene.getStylesheets().add("Styling.css");
+            window.setScene(gameScene);
 
         });
     }
