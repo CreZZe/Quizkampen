@@ -67,9 +67,10 @@ public class Hasher {
     public static boolean testHasher(String password) {
         String[] hash = Hasher.hash(password);
         String tryHash = hashWithSalt(hash[0], password);
-//        System.out.println(tryHash.equals(hash[1]));
+        System.out.println(tryHash.equals(hash[1]));
         
      return tryHash.equals(hash[1]);
         
     }
+
 }
