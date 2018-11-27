@@ -69,10 +69,12 @@ public class Lobbyscreen {
         });
 
         newGameButton.setOnAction(e -> {
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
             Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             questionScene.getStylesheets().add("Styling.css");
             window.setScene(questionScene);
-            System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
+            
+            
         });
 
         topMenu.getChildren().add(title);

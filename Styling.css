@@ -91,6 +91,13 @@
     -fx-font-size: 14px;
     -fx-text-fill: rgb(255, 70, 70);
 }
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
 
 .categoryButtons {
     -fx-min-width: 250px;
@@ -108,39 +115,56 @@
     -fx-wrap-text: true;
 }
 
-.timeLeftLabel {
+.timerLabel {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-text-fill: black;
 }
 
-/*.chart-pie {
-    -fx-min-height: 1000px;
-    -fx-min-width: 1000px;
-    -fx-max-height: 1000px;
-    -fx-max-width: 1000px;
-}
-.chart-pie:hover {
-    -fx-opacity: 0.85;
-    -fx-cursor: hand;
-}
-
-.chart-pie:pressed {
-    -fx-opacity: 0.6;
-}
-
-
-
-.chart-pie-label {
-    -fx-fill: white;
-    -fx-font: 22px "Arial";
+.text-area {
+    -fx-max-width: 100px;
+    -fx-min-width: 100px;
+    -fx-min-height: 60px;
+    -fx-font: 12px "Arial";
     -fx-font-weight: bold;
-    -fx-alignment: CENTER_RIGHT;
-} 
-.chart-pie-label-line {
-    -fx-stroke: transparent;
-    -fx-fill: transparent;
-}*/
+    
+    -fx-background-color: transparent;
+
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+    -fx-padding:0px;
+    
+}
+.text-area *.content {
+    -fx-background-color: transparent;
+    -fx-wrap-text: true;
+}
+
+.text-area *.text {
+    -fx-text-alignment: center;
+}
+
+.gameScreenRoundLabel {
+    -fx-font: 18px "Arial";
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px 5px 0px 0px;
+    -fx-padding: 5px;
+    -fx-background-color: rgba(0, 35, 0, 0.4);
+}
+.gameScreenLabel {
+    -fx-background-radius: 5px 5px 5px 5px;
+    -fx-padding: 5px;
+    -fx-background-color: rgba(0, 35, 0, 0.4);
+    
+}
+.gameScreenCategoryLabel {
+    -fx-alignment: BASELINE_CENTER;
+    -fx-text-align: justify;
+    
+    -fx-max-width: 100px;
+    -fx-min-height: 100px;
+    
+}
 
 .questionLabel {
     -fx-background-color: rgba(0, 35, 0, 0.4); 
@@ -158,8 +182,16 @@
   -fx-opacity: 1.0 ;
 }
 
-.progressLabel {
-    -fx-min-width: 55px;
+.scoreLabel {
+    -fx-min-width: 57px;
+    -fx-min-height: 20px;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+.scoreLabelGameScreen {
+    -fx-max-width: 5000px; 
     -fx-min-height: 20px;
     -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
@@ -168,8 +200,8 @@
 }
 
 .progressBar {
-    -fx-min-width: 230px;
-    -fx-min-height: 25px;
+    -fx-min-width: 340px;
+    -fx-min-height: 30px;
     
     
 }

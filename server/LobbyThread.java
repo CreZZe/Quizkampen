@@ -47,6 +47,7 @@ public class LobbyThread extends Thread {
     //PREGAME REQUESTS
     //GAME REQUESTS
     private static final String QUESTION = "question";
+    private static final String NUMBER_OF_QUESTIONS = "nrofquestions";
     private static final String CATEGORY_PICK = "category";
     private static final String RIGHT = "right";
 
@@ -179,13 +180,13 @@ public class LobbyThread extends Thread {
         }
 
         QuestionObject currQuestion;
+        
         OUTER:
         while ((GAME_REQUEST = client.readLine()) != null) {
 
             switch (GAME_REQUEST) {
-
+                
                 case QUESTION:
-
                     currQuestion = currGame.currRound().getNextQuestion();
                     client.println(questionAndShuffledAnswers(currQuestion));
 
