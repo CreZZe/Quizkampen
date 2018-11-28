@@ -194,11 +194,18 @@ public class Gamescreen {
             Scene categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             categoryScene.getStylesheets().add("Styling.css");
             window.setScene(categoryScene);
-            System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
+            //System.out.println(Quizkampen.client.sendRequestAndGetResponse(String()));
         });
         
         giveUp.setOnAction(e -> {
             window.setScene(startScene);
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
+        });
+        
+        back.setOnAction(e -> {
+            Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            lobbyScene.getStylesheets().add("Styling.css");
+            window.setScene(lobbyScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
         });
         
