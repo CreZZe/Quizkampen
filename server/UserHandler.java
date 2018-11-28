@@ -113,6 +113,14 @@ public class UserHandler {
 
         return m.find() && m.group().equals(mail);
     }
+    
+    /*
+        Minst en stor bokstav
+        Minst en siffra
+        Minst en liten bokstav
+        
+        Minst 8 långt
+    */
 
     public boolean validatePass(String pass) {
         Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");

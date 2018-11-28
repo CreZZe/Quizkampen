@@ -1,6 +1,9 @@
 package quizkampen;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -64,6 +67,8 @@ public class Questionscreen {
 
     String rightAnswer;
     String right;
+    
+    String css;
 
     Timeline timeline;
 
@@ -81,8 +86,8 @@ public class Questionscreen {
         questionLabel.setText(question);
     }
 
-    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
-        
+    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) {
+        this.css = css;
         
         this.window = window;
         this.startScene = startScene;
@@ -136,6 +141,11 @@ public class Questionscreen {
         b.getStyleClass().add("answerButtons");
         c.getStyleClass().add("answerButtons");
         d.getStyleClass().add("answerButtons");
+        
+        a.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        b.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        c.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        d.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
 
         answerButtons.add(a, 0, 0);
         answerButtons.add(b, 1, 0);
@@ -285,8 +295,14 @@ public class Questionscreen {
 
         root.setOnMousePressed(e -> {
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
-            Scene gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            gameScene.getStylesheets().add("Styling.css");
+            Scene gameScene = null;
+            try {
+                gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Questionscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            gameScene.getStylesheets().setAll(css);
             window.setScene(gameScene);
 
         });

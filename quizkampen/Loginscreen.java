@@ -2,6 +2,7 @@ package quizkampen;
 
 import server.UserHandler;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Insets;
@@ -34,13 +35,16 @@ public class Loginscreen {
     Scene startScene;
 
     int windowWidth, windowHeight;
-
-    public Loginscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+    
+    String css;
+    
+    public Loginscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-
+        this.css = css;
+        
         handler = new UserHandler();
         root = new BorderPane();
 
@@ -72,21 +76,21 @@ public class Loginscreen {
         usernameField.setOnAction(e -> {
             try {
                 login();
-            } catch (FileNotFoundException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(Loginscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         passwordField.setOnAction(e -> {
             try {
                 login();
-            } catch (FileNotFoundException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(Loginscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
         loginButton.setOnAction(e -> {
             try {
                 login();
-            } catch (FileNotFoundException ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(Loginscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
@@ -112,7 +116,7 @@ public class Loginscreen {
         return root;
     }
 
-    private void login() throws FileNotFoundException {
+    private void login() throws FileNotFoundException, IOException {
 
         System.out.println(Quizkampen.client.sendRequestAndGetResponse("loginsubmit"));
 
@@ -123,10 +127,12 @@ public class Loginscreen {
 
         if (login) {
 
-            Lobbyscreen lby = new Lobbyscreen(window, startScene, windowWidth, windowHeight);
+            Lobbyscreen lby = new Lobbyscreen(window, startScene, windowWidth, windowHeight, css);
 
-            Scene lobbyScreen = new Scene(lby.getGUI(), windowWidth, windowHeight);
-            lobbyScreen.getStylesheets().add("Styling.css");
+            Scene lobbyScene = new Scene(lby.getGUI(), windowWidth, windowHeight);
+            
+            lobbyScene.getStylesheets().add(css);
+
             lby.updateUsernameLabel(user);
 
             Quizkampen.client.name = user;
@@ -134,7 +140,7 @@ public class Loginscreen {
 
             System.out.println("login successful");
 
-            window.setScene(lobbyScreen);
+            window.setScene(lobbyScene);
         } else {
             usernameField.setStyle(""
                     + "-fx-border-color: red;"

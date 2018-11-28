@@ -15,18 +15,37 @@ public class Quizkampen extends Application {
 
     int windowWidth = 400;
     int windowHeight = 550;
+    
+    String css;
+    
     public static Client client;
 
     @Override
     public void start(Stage primaryStage) throws IOException, InterruptedException {
         client = new Client();
 
+        SettingsLoader load = new SettingsLoader();
+        
+        if (load.getColor().equals("BLÅ"))
+            css = "default-theme.css";
+        else
+            css = "green-theme.css";
+        
         window = primaryStage;
-        Startscreen s = new Startscreen(window, windowWidth, windowHeight);
+        Startscreen s = new Startscreen(window, windowWidth, windowHeight, css);
 
         startingScene = new Scene(s.getGUI(), windowWidth, windowHeight);
         s.setScene(startingScene);
-        startingScene.getStylesheets().add("Styling.css");
+        
+        /*
+            Om properties-color = blå
+                Endast Styling.css
+        
+            Om properties-color = grön
+                Styling.css & default-theme.css
+        */
+ 
+        startingScene.getStylesheets().setAll(css);
 
         window.setTitle("Quizkampen");
         window.setMinWidth(400);

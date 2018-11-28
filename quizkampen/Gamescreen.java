@@ -1,7 +1,10 @@
 package quizkampen;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -42,14 +45,24 @@ public class Gamescreen {
     Button giveUp, nextGame, back;
 
     int nrOfRounds, nrOfQuestions;
+<<<<<<< HEAD
 
     public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+=======
+    
+    
+    public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
+>>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
         properties = new GetProperties();
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+<<<<<<< HEAD
 
+=======
+                
+>>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
         root = new BorderPane();
         sp = new ScrollPane();
         header = new HBox();
@@ -187,11 +200,25 @@ public class Gamescreen {
         root.setBottom(botMenu);
 
         nextGame.setOnAction(e -> {
+<<<<<<< HEAD
             
             Scene categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             categoryScene.getStylesheets().add("Styling.css");
             window.setScene(categoryScene);
 
+=======
+            Scene categoryScene = null;
+            
+            try {
+                categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Gamescreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            categoryScene.getStylesheets().setAll(css);
+            
+            window.setScene(categoryScene);
+>>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
         });
 
         giveUp.setOnAction(e -> {
@@ -201,8 +228,13 @@ public class Gamescreen {
 
         
         back.setOnAction(e -> {
-            Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            lobbyScene.getStylesheets().add("Styling.css");
+            Scene lobbyScene = null;
+            try {
+                lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Gamescreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            lobbyScene.getStylesheets().add(css);
             window.setScene(lobbyScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
         });

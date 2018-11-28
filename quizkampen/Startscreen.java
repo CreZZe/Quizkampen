@@ -1,6 +1,8 @@
 package quizkampen;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,14 +28,17 @@ public class Startscreen {
 
     int windowWidth, windowHeight;
 
-    public Startscreen(Stage window, int windowWidth, int windowHeight) throws IOException, InterruptedException {
+    String css;
+    
+    public Startscreen(Stage window, int windowWidth, int windowHeight, String css) throws IOException, InterruptedException {
 
         this.window = window;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        this.css = css;
 
         root = new BorderPane();
-
+        
         // Create boxes for top-, center- and bottomelements
         buttons = new VBox(30);
         text = new HBox();
@@ -54,29 +59,55 @@ public class Startscreen {
         // Add actionhandling
         nySpela.setOnAction(e -> {
 
-            Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            lobbyScene.getStylesheets().add("Styling.css");
+            Scene lobbyScene = null;
+            try {
+                lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            lobbyScene.getStylesheets().setAll(css);
+
+
             window.setScene(lobbyScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("lobby"));
 
         });
         login.setOnAction(e -> {
-            Scene loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            loginScene.getStylesheets().add("Styling.css");
+            Scene loginScene = null;
+            try {
+                loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            loginScene.getStylesheets().setAll(css);
+
+            
             window.setScene(loginScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("login"));
 
         });
         register.setOnAction(e -> {
-            Scene registerScene = new Scene(new Registerscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            registerScene.getStylesheets().add("Styling.css");
+            Scene registerScene = new Scene(new Registerscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            
+            registerScene.getStylesheets().setAll(css);
+
+            
             window.setScene(registerScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("register"));
 
         });
         settings.setOnAction(e -> {
-            Scene settingsScene = new Scene(new Settingsscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            settingsScene.getStylesheets().add("Styling.css");
+            Scene settingsScene = null;
+            try {
+                settingsScene = new Scene(new Settingsscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            settingsScene.getStylesheets().setAll(css);
+            
             window.setScene(settingsScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("settings"));
 

@@ -4,7 +4,7 @@
 */
 
 .root {
-    -fx-background-image: url("BG.png");
+    -fx-background-image: url("BG_Green.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-padding: 30;
@@ -19,7 +19,7 @@
 .button {
    -fx-font: 22px "Arial";
    -fx-font-weight: bold;
-   -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+   -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 50%, #00b300 100%);
    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
    -fx-border-radius: 3px;
    -fx-background-radius: 3px;
@@ -168,15 +168,14 @@
 }
 
 .questionLabel {
-    -fx-background-color: rgba(0, 35, 0, 0.4); 
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 80%, #0c75a6 100%);
     -fx-min-width: 340px;
     -fx-max-width: 340px;
     -fx-min-height: 150px;
     
     -fx-alignment: CENTER;
-    -fx-text-alignment: center;
     -fx-wrap-text: true;
-    -fx-font-size: 22px;
+    -fx-font-size: 25px;
     -fx-font-weight: bold;
     -fx-text-fill: white;   
 }
@@ -248,6 +247,46 @@
     -fx-min-width: 60px;
     -fx-min-height: 60px;
     -fx-background-image: url("Avatar.png");
-    -fx-padding: 10px;
-    -fx-background-size: stretch;
+    -fx-background-size: 55px;
+    -fx-background-repeat: no-repeat;
+}
+
+#synSkada > .label,
+#color > .label {
+    -fx-font-size: 22px;
+    -fx-min-width: 120px;
+    -fx-min-height: 50px;
+    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
+}
+
+#synSkada > .combo-box,
+#color > .combo-box {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0 0 0 1px;
+    -fx-text-box-border: transparent;
+    -fx-font: 18px "Arial";
+    -fx-min-width: 80px;
+    -fx-min-height: 50px;
+    
+    -fx-border-color: linear-gradient(#00ff00 0%, #00e600 20%, #666666 20%, #4d4d4d 50%, #666666 80%, #00cc00 80%, #00b300 100%);
+    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
+}
+
+#synSkada > .combo-box .list-cell,
+#color > .combo-box .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
+}
+
+#synSkada > .combo-box:hover,
+#synSkada > .combo-box .list-cell:hover,
+#color > .combo-box:hover,
+#color > .combo-box .list-cell:hover {
+    -fx-cursor: hand;
+}
+
+#synSkada > .combo-box .list-cell:selected,
+#color > .combo-box .list-cell:selected {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.5), 0, 0, 0, 0);
 }

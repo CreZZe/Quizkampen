@@ -1,5 +1,6 @@
 package quizkampen;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -27,13 +28,20 @@ public class Categoryscreen {
 
     Label category;
 
-    public Categoryscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+    String css;
+    
+    public Categoryscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
         this.window = window;
         this.startScene = startScene;
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+<<<<<<< HEAD
 
+=======
+        this.css = css;
+                
+>>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
         top = new VBox(30);
         center = new VBox(30);
 
@@ -75,8 +83,10 @@ public class Categoryscreen {
 
             Button tempButton = (Button) event.getSource();
             sendCategory(tempButton.getText());
-            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            questionScene.getStylesheets().add("Styling.css");
+            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            
+            questionScene.getStylesheets().setAll(css);
+            
             window.setScene(questionScene);
         }
     }
