@@ -37,7 +37,7 @@ public class Client {
         try {
 
             System.out.println("trying to connect to port: " + port);
-            ip = InetAddress.getLocalHost();
+            ip = InetAddress.getLocalHost();//OBS OBS HAR ANDRA FOR MULTIPLAYER
             System.out.println(ip);
             server = new Socket(ip, port);
             System.out.println("connected to server " + ip + ": " + port);
