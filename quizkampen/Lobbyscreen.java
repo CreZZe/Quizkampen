@@ -28,7 +28,7 @@ public class Lobbyscreen {
     Stage window;
     Scene startScene;
     int windowWidth, windowHeight;
-    int nrOfActiveGames = 5;
+    int nrOfActiveGames = 1;
     
 
     public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
@@ -78,11 +78,11 @@ public class Lobbyscreen {
         });
 
         newGameButton.setOnAction(e -> {
-            //System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
+            
             Scene gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             gameScene.getStylesheets().add("Styling.css");
             window.setScene(gameScene);
-            
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
             
         });
         ArrayList<Button> activeGames = new ArrayList();
