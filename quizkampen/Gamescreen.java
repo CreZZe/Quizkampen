@@ -45,24 +45,17 @@ public class Gamescreen {
     Button giveUp, nextGame, back;
 
     int nrOfRounds, nrOfQuestions;
-<<<<<<< HEAD
 
-    public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
-=======
     
     
     public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
->>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
+
         properties = new GetProperties();
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-<<<<<<< HEAD
 
-=======
-                
->>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
         root = new BorderPane();
         sp = new ScrollPane();
         header = new HBox();
@@ -200,13 +193,7 @@ public class Gamescreen {
         root.setBottom(botMenu);
 
         nextGame.setOnAction(e -> {
-<<<<<<< HEAD
-            
-            Scene categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            categoryScene.getStylesheets().add("Styling.css");
-            window.setScene(categoryScene);
 
-=======
             Scene categoryScene = null;
             
             try {
@@ -218,7 +205,7 @@ public class Gamescreen {
             categoryScene.getStylesheets().setAll(css);
             
             window.setScene(categoryScene);
->>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
+
         });
 
         giveUp.setOnAction(e -> {
