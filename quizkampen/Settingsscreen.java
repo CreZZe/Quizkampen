@@ -39,11 +39,14 @@ public class Settingsscreen {
     
     String colorValue, eyeProblemValue;
     
-    public Settingsscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
+    String css;
+    
+    public Settingsscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        this.css = css;
         
         root = new BorderPane();
          
@@ -95,6 +98,7 @@ public class Settingsscreen {
                 p.setProperty("eyeProblem", synSkadaBox.getValue().toString());
                 p.store(out, null);
                 out.close();
+                
             } catch (IOException ex) {
                 Logger.getLogger(Settingsscreen.class.getName()).log(Level.SEVERE, null, ex);
             }

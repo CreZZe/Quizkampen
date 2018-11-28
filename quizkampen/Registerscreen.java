@@ -34,7 +34,7 @@ public class Registerscreen {
 
     Button submit, exit;
 
-    public Registerscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+    public Registerscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) {
         handler = new UserHandler();
         root = new BorderPane();
 
@@ -200,54 +200,3 @@ public class Registerscreen {
     }
 
 }
-//        if (handler.validateFields(user, pass, mail)) {
-//            if (handler.validateMail(mail) && handler.validatePass(pass)) {
-//                if (handler.register(user, pass, mail)) {
-////                    write.println(user);
-////                    write.println(pass);
-////                    write.println(mail);
-//
-//                    usernameField.setText("");
-//                    passwordField.setText("");
-//                    mailField.setText("");
-//                } else { //Ha en kontroll som kanske kontrollerar om det är specifikt mailadressen eller användarnamnet som är upptaget
-//                    if (handler.findUsername(user)) {
-//                        usernameField.setStyle(""
-//                                + "-fx-border-color: red;");
-//                    }
-//
-//                    if (handler.findMail(mail)) {
-//                        mailField.setStyle(""
-//                                + "-fx-border-color: red;");
-//                    }
-//
-//                    typeContent.getChildren().add(1, alreadyInUse);
-//                }
-//            } else {
-//                if (!handler.validateMail(mail)) {
-//                    mailField.setStyle(""
-//                            + "-fx-border-color: red;");
-//                }
-//                if (!handler.validatePass(pass)) {
-//                    passwordField.setStyle(""
-//                            + "-fx-border-color: red;");
-//                }
-//            }
-//        } else {
-//            if (usernameField.getText().equals("")) {
-//                usernameField.setStyle(""
-//                        + "-fx-border-color: red;");
-//            }
-//            if (passwordField.getText().equals("")) {
-//                passwordField.setStyle(""
-//                        + "-fx-border-color: red;");
-//            }
-//            if (mailField.getText().equals("")) {
-//                mailField.setStyle(""
-//                        + "-fx-border-color: red;");
-//            }
-//        }
-//
-//    }
-//}
-//}

@@ -13,6 +13,9 @@ public class Quizkampen extends Application {
 
     int windowWidth = 400;
     int windowHeight = 550;
+    
+    String css;
+    
     public static Client client;
 
     @Override
@@ -21,8 +24,13 @@ public class Quizkampen extends Application {
 
         SettingsLoader load = new SettingsLoader();
         
+        if (load.getColor().equals("BLÅ"))
+            css = "Styling.css";
+        else
+            css = "green-theme.css";
+        
         window = primaryStage;
-        Startscreen s = new Startscreen(window, windowWidth, windowHeight);
+        Startscreen s = new Startscreen(window, windowWidth, windowHeight, css);
 
         startingScene = new Scene(s.getGUI(), windowWidth, windowHeight);
         s.setScene(startingScene);
@@ -34,11 +42,8 @@ public class Quizkampen extends Application {
             Om properties-color = grön
                 Styling.css & default-theme.css
         */
-
-        if (load.getColor().equals("BLÅ")) 
-            startingScene.getStylesheets().setAll("Styling.css");
-        else
-            startingScene.getStylesheets().setAll("Styling.css", "green-theme.css");
+ 
+        startingScene.getStylesheets().setAll(css);
 
         window.setTitle("Quizkampen");
         window.setMinWidth(400);

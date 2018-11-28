@@ -28,15 +28,16 @@ public class Startscreen {
 
     int windowWidth, windowHeight;
 
-    public Startscreen(Stage window, int windowWidth, int windowHeight) throws IOException, InterruptedException {
+    String css;
+    
+    public Startscreen(Stage window, int windowWidth, int windowHeight, String css) throws IOException, InterruptedException {
 
         this.window = window;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        this.css = css;
 
         root = new BorderPane();
-
-        SettingsLoader load = new SettingsLoader();
         
         // Create boxes for top-, center- and bottomelements
         buttons = new VBox(30);
@@ -58,16 +59,13 @@ public class Startscreen {
         nySpela.setOnAction(e -> {
             Scene lobbyScene = null;
             try {
-                lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+                lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
                 Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if (load.getColor().equals("BLÅ")) {
-                lobbyScene.getStylesheets().setAll("Styling.css");
-            } else {
-                lobbyScene.getStylesheets().setAll("Styling.css", "green-theme.css");
-            }
+            lobbyScene.getStylesheets().setAll(css);
+
             window.setScene(lobbyScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("nyspela"));
 
@@ -75,29 +73,23 @@ public class Startscreen {
         login.setOnAction(e -> {
             Scene loginScene = null;
             try {
-                loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+                loginScene = new Scene(new Loginscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
                 Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if (load.getColor().equals("BLÅ")) {
-                loginScene.getStylesheets().setAll("Styling.css");
-            } else {
-                loginScene.getStylesheets().setAll("Styling.css", "green-theme.css");
-            }
+            loginScene.getStylesheets().setAll(css);
+
             
             window.setScene(loginScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("login"));
 
         });
         register.setOnAction(e -> {
-            Scene registerScene = new Scene(new Registerscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            Scene registerScene = new Scene(new Registerscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             
-            if (load.getColor().equals("BLÅ")) {
-                registerScene.getStylesheets().setAll("Styling.css");
-            } else {
-                registerScene.getStylesheets().setAll("Styling.css", "green-theme.css");
-            }
+            registerScene.getStylesheets().setAll(css);
+
             
             window.setScene(registerScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("register"));
@@ -106,16 +98,12 @@ public class Startscreen {
         settings.setOnAction(e -> {
             Scene settingsScene = null;
             try {
-                settingsScene = new Scene(new Settingsscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+                settingsScene = new Scene(new Settingsscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
                 Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            if (load.getColor().equals("BLÅ")) {
-                settingsScene.getStylesheets().setAll("Styling.css");
-            } else {
-                settingsScene.getStylesheets().setAll("Styling.css", "green-theme.css");
-            }
+            settingsScene.getStylesheets().setAll(css);
             
             window.setScene(settingsScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("settings"));

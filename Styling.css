@@ -247,6 +247,8 @@
     -fx-min-width: 60px;
     -fx-min-height: 60px;
     -fx-background-image: url("Avatar.png");
+    -fx-background-size: 55px;
+    -fx-background-repeat: no-repeat;
 }
 
 #synSkada > .label,

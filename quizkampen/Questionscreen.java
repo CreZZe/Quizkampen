@@ -1,6 +1,9 @@
 package quizkampen;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -63,6 +66,8 @@ public class Questionscreen {
 
     String rightAnswer;
     String right;
+    
+    String css;
 
     Timeline timeline;
 
@@ -80,8 +85,8 @@ public class Questionscreen {
         questionLabel.setText(question);
     }
 
-    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
-        
+    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) {
+        this.css = css;
         
         this.window = window;
         this.startScene = startScene;
@@ -289,8 +294,14 @@ public class Questionscreen {
 //        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
         root.setOnMousePressed(e -> {
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
-            Scene gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            gameScene.getStylesheets().add("Styling.css");
+            Scene gameScene = null;
+            try {
+                gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Questionscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            gameScene.getStylesheets().setAll(css);
             window.setScene(gameScene);
 
         });

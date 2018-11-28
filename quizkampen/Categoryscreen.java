@@ -28,17 +28,16 @@ public class Categoryscreen {
 
     Label category;
 
-    SettingsLoader load;
+    String css;
     
-    public Categoryscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
+    public Categoryscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
         this.window = window;
         this.startScene = startScene;
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        
-        load = new SettingsLoader();
-        
+        this.css = css;
+                
         top = new VBox(30);
         center = new VBox(30);
         
@@ -83,12 +82,9 @@ public class Categoryscreen {
             
             Button tempButton = (Button)event.getSource();
             sendCategory(tempButton.getText());
-            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             
-            if (load.getColor().equals("BLÅ"))
-                questionScene.getStylesheets().setAll("Styling.css");
-            else
-                questionScene.getStylesheets().setAll("Styling.css", "green-theme.css");
+            questionScene.getStylesheets().setAll(css);
             
             window.setScene(questionScene);
         }

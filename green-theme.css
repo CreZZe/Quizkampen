@@ -1,24 +1,86 @@
 /* 
-    Created on : 2018-nov-26, 19:18:51
+    Created on : 2018-nov-14, 19:32:12
     Author     : 224Mi
 */
 
 .root {
-    -fx-background-image: url("images.png");
+    -fx-background-image: url("BG_Green.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
+    -fx-padding: 30;
+}
+
+.hbox {
+   -fx-max-width: 360px;
+   -fx-min-height: 48px;
+   -fx-spacing: 9px;
 }
 
 .button {
-    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 50%, #00b300 100%);
+   -fx-font: 22px "Arial";
+   -fx-font-weight: bold;
+   -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 50%, #00b300 100%);
+   -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
+   -fx-border-radius: 3px;
+   -fx-background-radius: 3px;
+   -fx-text-fill: white;
+   
+}
+
+.button:hover {
+    -fx-opacity: 0.85;
+    -fx-cursor: hand;
+}
+
+.button:pressed {
+    -fx-opacity: 0.6;
+}
+
+.label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.startingWelcome {
+    -fx-font-size: 35px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
+}
+
+.startingWelcome2 {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 0, 0.0, 0, 2);
+}
+
+.centerButtons {
+    -fx-min-width: 200px;
+    
 }
 
 .typeContent {
+    -fx-border-color: gray;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
     -fx-background-color: rgba(0, 35, 0, 0.4);
+}
+
+.headerLabel {
+    -fx-font-size: 20px;
+}
+
+.loginButtons {
+    -fx-font-size: 16px;
 }
 
 .text-field {
     -fx-background-color: rgba(110, 185, 140, 0.7);
+    -fx-font-size: 14px;
+    -fx-border-radius: 3px;
+    -fx-background-radis: 3px;
 }
 
 .text-field:focused {
@@ -26,29 +88,205 @@
 }
 
 .alreadyInUse {
+    -fx-font-size: 14px;
     -fx-text-fill: rgb(255, 70, 70);
+}
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-align-content: center;
+}
+
+.categoryButtons {
+    -fx-min-width: 250px;
+    -fx-max-width: 250px;
+    -fx-wrap-text: true;
+}
+
+.answerButtons {
+    -fx-min-width: 170px;
+    -fx-max-width: 170px;
+    -fx-min-height: 130px;
+    -fx-max-width: 130px;
+    
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.timerLabel {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
+.text-area {
+    -fx-max-width: 100px;
+    -fx-min-width: 100px;
+    -fx-min-height: 60px;
+    -fx-font: 12px "Arial";
+    -fx-font-weight: bold;
+    
+    -fx-background-color: transparent;
+
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+    -fx-padding:0px;
+    
+}
+.text-area *.content {
+    -fx-background-color: transparent;
+    -fx-wrap-text: true;
+}
+
+.text-area *.text {
+    -fx-text-alignment: center;
+}
+
+.gameScreenRoundLabel {
+    -fx-font: 18px "Arial";
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px 5px 0px 0px;
+    -fx-padding: 5px;
+    -fx-background-color: rgba(0, 35, 0, 0.4);
+}
+.gameScreenLabel {
+    -fx-background-radius: 5px 5px 5px 5px;
+    -fx-padding: 5px;
+    -fx-background-color: rgba(0, 35, 0, 0.4);
+    
+}
+.gameScreenCategoryLabel {
+    -fx-alignment: BASELINE_CENTER;
+    -fx-text-align: justify;
+    
+    -fx-max-width: 100px;
+    -fx-min-height: 100px;
+    
 }
 
 .questionLabel {
-    -fx-background-color: rgba(0, 35, 0, 0.4); 
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 80%, #0c75a6 100%);
+    -fx-min-width: 340px;
+    -fx-max-width: 340px;
+    -fx-min-height: 150px;
+    
+    -fx-alignment: CENTER;
+    -fx-wrap-text: true;
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;   
+}
+:disabled{
+  -fx-opacity: 1.0 ;
 }
 
-.progressLabel {
-    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 80%, #0c75a6 100%);
+.scoreLabel {
+    -fx-min-width: 57px;
+    -fx-min-height: 20px;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+.scoreLabelGameScreen {
+    -fx-max-width: 5000px; 
+    -fx-min-height: 20px;
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.5) , 0, 0.0 , 0 , 2 );
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+}
+
+.progressBar {
+    -fx-min-width: 340px;
+    -fx-min-height: 30px;
+    
+    
+}
+.activeGamesButton {
+    -fx-min-width: 335px;
+    -fx-min-height: 68px;
+    -fx-background-image: url("ActiveGamesButton.png");
+    -fx-padding: 0px;
+    -fx-background-size: stretch;
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+#refreshButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("RefreshButton.png");
+    -fx-background-size: 55px;
+    -fx-alignment: BASELINE_RIGHT;
+}
+#statsButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("StatsButton.png");
+    -fx-background-size: 55px;
+}
+
+#settingsButton {
+    -fx-min-width: 55px;
+    -fx-background-image: url("SettingsButton.png");
+    -fx-background-size: 55px;
+}
+
+#nyttSpelButton {
+    -fx-min-width: 335px;
+    -fx-min-height: 68px;
+    -fx-background-image: url("NyttSpelButton.png");
+    -fx-background-size: stretch;
+    /*-fx-background-size: 320px;*/
+    -fx-background-color: transparent;
+    -fx-background-repeat: no-repeat;
+}
+
+#avatar {
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-background-image: url("Avatar.png");
+    -fx-background-size: 55px;
+    -fx-background-repeat: no-repeat;
 }
 
 #synSkada > .label,
 #color > .label {
+    -fx-font-size: 22px;
+    -fx-min-width: 120px;
+    -fx-min-height: 50px;
     -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
 }
 
 #synSkada > .combo-box,
 #color > .combo-box {
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+    -fx-border-width: 0 0 0 1px;
+    -fx-text-box-border: transparent;
+    -fx-font: 18px "Arial";
+    -fx-min-width: 80px;
+    -fx-min-height: 50px;
+    
     -fx-border-color: linear-gradient(#00ff00 0%, #00e600 20%, #666666 20%, #4d4d4d 50%, #666666 80%, #00cc00 80%, #00b300 100%);
     -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
 }
 
 #synSkada > .combo-box .list-cell,
 #color > .combo-box .list-cell {
+    -fx-text-fill: white;
     -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
+}
+
+#synSkada > .combo-box:hover,
+#synSkada > .combo-box .list-cell:hover,
+#color > .combo-box:hover,
+#color > .combo-box .list-cell:hover {
+    -fx-cursor: hand;
+}
+
+#synSkada > .combo-box .list-cell:selected,
+#color > .combo-box .list-cell:selected {
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.5), 0, 0, 0, 0);
 }

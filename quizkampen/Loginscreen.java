@@ -36,15 +36,14 @@ public class Loginscreen {
 
     int windowWidth, windowHeight;
     
-    SettingsLoader load;
-
-    public Loginscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
+    String css;
+    
+    public Loginscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-
-        load = new SettingsLoader();
+        this.css = css;
         
         handler = new UserHandler();
         root = new BorderPane();
@@ -128,15 +127,12 @@ public class Loginscreen {
 
         if (login) {
 
-            Lobbyscreen lby = new Lobbyscreen(window, startScene, windowWidth, windowHeight);
+            Lobbyscreen lby = new Lobbyscreen(window, startScene, windowWidth, windowHeight, css);
 
             Scene lobbyScene = new Scene(lby.getGUI(), windowWidth, windowHeight);
             
-            if (load.getColor().equals("BLÅ")) {
-                lobbyScene.getStylesheets().add("Styling.css");
-            } else {
-                lobbyScene.getStylesheets().addAll("Styling.css", "green-theme.css");
-            }
+            lobbyScene.getStylesheets().add(css);
+
             lby.updateUsernameLabel(user);
 
             Quizkampen.client.name = user;

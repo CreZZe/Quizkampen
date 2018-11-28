@@ -45,17 +45,14 @@ public class Gamescreen {
 
     int nrOfRounds, nrOfQuestions;
     
-    SettingsLoader load;
     
-    public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
+    public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
         properties = new GetProperties();
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        
-        load = new SettingsLoader();
-        
+                
         root = new BorderPane();
         sp = new ScrollPane();
         header = new HBox();
@@ -201,14 +198,15 @@ public class Gamescreen {
             Scene categoryScene = null;
             
             try {
-                categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+                categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
                 Logger.getLogger(Gamescreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            categoryScene.getStylesheets().add("Styling.css");
+            categoryScene.getStylesheets().setAll(css);
+            
             window.setScene(categoryScene);
-            System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
+            //System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
         });
         
         giveUp.setOnAction(e -> {
