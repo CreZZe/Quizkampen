@@ -174,8 +174,9 @@
     -fx-min-height: 150px;
     
     -fx-alignment: CENTER;
+    -fx-text-alignment: center;
     -fx-wrap-text: true;
-    -fx-font-size: 25px;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
     -fx-text-fill: white;   
 }

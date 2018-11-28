@@ -206,11 +206,22 @@ public class Gamescreen {
             categoryScene.getStylesheets().setAll(css);
             
             window.setScene(categoryScene);
-            //System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
         });
         
         giveUp.setOnAction(e -> {
             window.setScene(startScene);
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
+        });
+        
+        back.setOnAction(e -> {
+            Scene lobbyScene = null;
+            try {
+                lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Gamescreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            lobbyScene.getStylesheets().add(css);
+            window.setScene(lobbyScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
         });
         

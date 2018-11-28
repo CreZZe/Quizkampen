@@ -31,7 +31,7 @@ public class Lobbyscreen {
     Stage window;
     Scene startScene;
     int windowWidth, windowHeight;
-    int nrOfActiveGames = 5;
+    int nrOfActiveGames = 1;
     
 
     public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
@@ -89,6 +89,7 @@ public class Lobbyscreen {
             }
             
             gameScene.getStylesheets().setAll(css);
+
             
             window.setScene(gameScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));

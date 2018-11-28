@@ -120,6 +120,7 @@ public class Questionscreen {
 
         questionLabel = new Label();
         questionLabel.getStyleClass().add("questionLabel");
+        
 
         cueCard = new Label(String.format("Fråga: %s", (questionCounter + 1)));
         cueCard.getStyleClass().add("questionLabel");

@@ -31,15 +31,17 @@ public class Game {
     }
 
     class Round {
+        
+        GetProperties properties = new GetProperties();
 
         QuestionObject[] questions;
         Player currPlayer;
         int score = 0;
-        int totalQ = 2;
+        int totalQ = properties.questionsPerRound;
         int currQ = -1;
 
         public Round(Player currPlayer) {
-            questions = new QuestionObject[2];
+            questions = new QuestionObject[totalQ];
             this.currPlayer = currPlayer;
 
             for (int i = 0; i < questions.length; i++) {

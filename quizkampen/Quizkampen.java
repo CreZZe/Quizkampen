@@ -25,7 +25,7 @@ public class Quizkampen extends Application {
         SettingsLoader load = new SettingsLoader();
         
         if (load.getColor().equals("BLÅ"))
-            css = "Styling.css";
+            css = "default-theme.css";
         else
             css = "green-theme.css";
         
