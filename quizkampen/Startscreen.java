@@ -22,14 +22,14 @@ public class Startscreen {
 
     HBox text, exitButton;
 
-    Button nySpela, login, register, settings, exit;
+    Button spelaGratis, login, register, settings, exit;
 
     Label startingWelcome;
 
     int windowWidth, windowHeight;
 
     String css;
-    
+
     public Startscreen(Stage window, int windowWidth, int windowHeight, String css) throws IOException, InterruptedException {
 
         this.window = window;
@@ -38,26 +38,25 @@ public class Startscreen {
         this.css = css;
 
         root = new BorderPane();
-        
+
         // Create boxes for top-, center- and bottomelements
         buttons = new VBox(30);
         text = new HBox();
         exitButton = new HBox(30);
 
         // Create buttonelements & styling
-        nySpela = new Button("SPELA GRATIS");
+        spelaGratis = new Button("SPELA GRATIS");
         login = new Button("INLOGGNING");
         register = new Button("REGISTRERING");
         settings = new Button("INSTÄLLNINGAR");
         exit = new Button("EXIT");
 
-        nySpela.getStyleClass().add("centerButtons");
+        spelaGratis.getStyleClass().add("centerButtons");
         login.getStyleClass().add("centerButtons");
         register.getStyleClass().add("centerButtons");
-        Quizkampen.client.setName(Quizkampen.client.sendRequestAndGetResponse("name"));
-        
+
         // Add actionhandling
-        nySpela.setOnAction(e -> {
+        spelaGratis.setOnAction(e -> {
 
             Scene lobbyScene = null;
             try {
@@ -65,12 +64,11 @@ public class Startscreen {
             } catch (IOException ex) {
                 Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             lobbyScene.getStylesheets().setAll(css);
 
-
             window.setScene(lobbyScene);
-            System.out.println(Quizkampen.client.sendRequestAndGetResponse("lobby"));
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("spela gratis"));
 
         });
         login.setOnAction(e -> {
@@ -80,20 +78,18 @@ public class Startscreen {
             } catch (IOException ex) {
                 Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             loginScene.getStylesheets().setAll(css);
 
-            
             window.setScene(loginScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("login"));
 
         });
         register.setOnAction(e -> {
             Scene registerScene = new Scene(new Registerscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
-            
+
             registerScene.getStylesheets().setAll(css);
 
-            
             window.setScene(registerScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("register"));
 
@@ -105,9 +101,9 @@ public class Startscreen {
             } catch (IOException ex) {
                 Logger.getLogger(Startscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             settingsScene.getStylesheets().setAll(css);
-            
+
             window.setScene(settingsScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("settings"));
 
@@ -124,7 +120,7 @@ public class Startscreen {
 
         // Add the elements to the top, center and bottom boxes
         text.getChildren().add(startingWelcome);
-        buttons.getChildren().addAll(nySpela, login, register, settings);
+        buttons.getChildren().addAll(spelaGratis, login, register, settings);
         exitButton.getChildren().add(exit);
 
         // Add the boxes to the root at the top, center and bottom respectively

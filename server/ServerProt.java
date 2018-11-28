@@ -61,6 +61,11 @@ public class ServerProt {
                 threeCategories.add(tempCat);
             }
         }
+        
+        for (String threeCategory : threeCategories) {
+            
+            System.out.println(threeCategory);
+        }
         return threeCategories;
     }
 

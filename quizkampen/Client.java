@@ -56,8 +56,9 @@ public class Client {
     }
 
     
-    public void setName(String name){
-        this.name = name;
+    public void setName(String id){
+        System.out.println(id);
+        this.name = name + " "+ id;
     }
     public String sendRequestAndGetResponse(String request) {
         try {

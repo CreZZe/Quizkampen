@@ -36,12 +36,9 @@ public class Categoryscreen {
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-<<<<<<< HEAD
 
-=======
         this.css = css;
                 
->>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
         top = new VBox(30);
         center = new VBox(30);
 

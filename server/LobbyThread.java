@@ -28,8 +28,7 @@ public class LobbyThread extends Thread {
     private static final String GAME_SCENE = "game";
     private static final String SETTINGS_SCENE = "settings";
     private static final String MAIN_MENU_SCENE = "main";
-    private static final String LOBBY_SCENE = "pregame";
-    private static final String PRE_GAME_SCENE = "pregame";
+    private static final String LOBBY_SCENE = "spela gratis";
     private static final String CATEGORY_SCENE = "category";
 //    private static final String RO
 
@@ -38,7 +37,7 @@ public class LobbyThread extends Thread {
     private static final String ROUND = "runda";
 
     //MAIN MENU REQUESTS
-    private static final String LOBBY_BUTTON = "lobby";
+    private static final String SPELA_GRATIS_BUTTON = "spela gratis";
     private static final String LOGIN_BUTTON = "login";
     private static final String REGISTER_BUTTON = "register";
     private static final String SETTINGS_BUTTON = "settings";
@@ -51,14 +50,20 @@ public class LobbyThread extends Thread {
     private static final String LOGIN_SUBMIT = "loginsubmit";
 
     //PREGAME REQUESTS
-    private static final String FIND_GAME = "findgame";
-    private static final String NEW_ROUND = "round";
+    private static final String STARTA_NYTT_SPEL = "starta nytt spel";
+    private static final String NEW_ROUND = "newround";
+    private static final String PLAYER_SCORE = "playerscore";
+    private static final String OPPONENT_SCORE = "opponentscore";
+    private static final String OPPONENT_NAME = "opponentname";
+    private static final String CATEGORY_BUTTON = "categoryscreen";
+    String SCORE_SCREEN_REQUEST = "";
 
 //GAME REQUESTS
     private static final String QUESTION = "question";
     private static final String NUMBER_OF_QUESTIONS = "nrofquestions";
     private static final String CATEGORY_PICK = "category";
     private static final String RIGHT = "right";
+    private static final String ROUND_DONE = "round done";
 
     private String scene = "";
     private String MAIN_MENU_REQUEST = "";
@@ -90,9 +95,9 @@ public class LobbyThread extends Thread {
         try {
 
             //get name request and send client name
-            if (client.readLine().equals(NAME_REQUEST)) {
-                client.println(client.getID());
-            }
+//            if (client.readLine().equals(NAME_REQUEST)) {
+//                client.println(client.getID());
+//            }
             scene = MAIN_MENU_SCENE;
 
             //PROTOCOL SHOULD GO HERE
@@ -102,8 +107,10 @@ public class LobbyThread extends Thread {
                 while (scene.equals(MAIN_MENU_SCENE)) {
 
                     switch (MAIN_MENU_REQUEST) {
-                        case LOBBY_BUTTON:
-                            takeClienToLobbyScene(MAIN_MENU_REQUEST);
+
+                        case SPELA_GRATIS_BUTTON:
+                            System.out.println("trying SPELA_GRATIS_BUTTON");
+                            takeClientToLobbyScene(MAIN_MENU_REQUEST);
                             continue MAIN_MENU_LOOP;
 
                         case REGISTER_BUTTON:
@@ -140,17 +147,24 @@ public class LobbyThread extends Thread {
 
     }
 
-    public void takeClienToLobbyScene(String MAIN_MENU_REQUEST) throws IOException {
+    public void takeClientToLobbyScene(String MAIN_MENU_REQUEST) throws IOException {
+        client.println(MAIN_MENU_REQUEST);
 
         scene = LOBBY_SCENE;
-        client.println(String.valueOf(client.getID()));
-
+//
+//        if (client.readLine().equals("name")) {
+//            client.println(String.valueOf(client.getID()));
+//
+//        }
+        System.out.println("are we in LOBBY_SCENE?");
         OUTER:
         while ((LOBBY_REQUEST = client.readLine()) != null) {
-
+            System.out.println("are we here? WHILE");
             switch (LOBBY_REQUEST) {
 
-                case FIND_GAME:
+                case STARTA_NYTT_SPEL:
+
+                    System.out.println("are we here?");
                     findNextGame(LOBBY_REQUEST);
 
                     break OUTER;
@@ -165,11 +179,13 @@ public class LobbyThread extends Thread {
                     break;
             }
         }
+
     }
 
     public void findNextGame(String LOBBY_REQUEST) throws IOException {
+        client.println("we are finding a new game");
 
-        scene = PRE_GAME_SCENE;
+        scene = LOBBY_SCENE;
 
         //Are there any games?
         System.out.println("gameList size: " + Lobby.gameList.size());
@@ -183,7 +199,7 @@ public class LobbyThread extends Thread {
                     System.out.println(client + " JOINED a game : " + currGame);
                     IN_GAME = true;
 
-//                    client.println(sendGameStats());
+//                    client.println("no stats found");
                     break;
                 }
             }
@@ -194,7 +210,6 @@ public class LobbyThread extends Thread {
                 Lobby.gameList.add(currGame);
 
                 //empty scores
-                client.println("0@@@0");
                 System.out.println(client + " ELSE starting a new game: " + currGame);
             }
         } else {
@@ -203,10 +218,77 @@ public class LobbyThread extends Thread {
             Lobby.gameList.add(currGame);
 
             //emtpy scores
-            client.println("-@@@-");
             System.out.println(client + " NO GAMES starting a new game: " + currGame);
         }
-        takeClientToCategoryScene(LOBBY_REQUEST);
+        takeClientToScoreScene(LOBBY_REQUEST);
+    }
+
+    public void takeClientToScoreScene(String LOBBY_REQUEST) throws IOException {
+
+        //opponentname
+        client.println(getOpponentName());
+
+        System.out.println("client: " + client.readLine());
+
+        //playerscore
+        client.println(currGame.currPlayer().getScores());
+
+        System.out.println("client: " + client.readLine());
+
+        //opponentscore
+        client.println(getOpponentScore());
+
+        System.out.println("client: " + client.readLine());
+
+        client.println(currGame.getAllCategories());
+
+        OUTER:
+        while ((SCORE_SCREEN_REQUEST = client.readLine()) != null) {
+            switch (SCORE_SCREEN_REQUEST) {
+
+                case "allcategories":
+                    System.out.println("we are here");
+
+                    System.out.println("GOTCHA");
+                    takeClientToCategoryScene(SCORE_SCREEN_REQUEST);
+                    
+                    break OUTER;
+            }
+
+//                    System.out.println("defaulting");
+            client.println("ASDASDASD ACTION NOT RECOGNIZED BY SERVER: " + SCORE_SCREEN_REQUEST);
+            break OUTER;
+        }
+    }
+
+    public String getOpponentScore() {
+        Game.Player p = getOpponent();
+
+        if (p == null) {
+            return "";
+        }
+
+        return p.getScores();
+    }
+
+    public String getOpponentName() {
+
+        Game.Player p = getOpponent();
+        if (p == null) {
+            return "waiting for player..";
+        }
+
+        return p.client.getID();
+    }
+
+    public Game.Player getOpponent() {
+
+        for (Game.Player player : currGame.getPlayers()) {
+            if (!player.client.equals(this.client)) {
+                return player;
+            }
+        }
+        return null;
     }
 
 //    public String sendGameStats() {
@@ -224,23 +306,33 @@ public class LobbyThread extends Thread {
 //    }
     public void takeClientToCategoryScene(String LOBBY_REQUEST) throws IOException {
         scene = CATEGORY_SCENE;
+        System.out.println(client.readLine());
+        System.out.println("are we here?");
 
         List<String> categories = questionHandler.get3Categories();
         String categoriesString = categories.get(0) + "@@@" + categories.get(1) + "@@@" + categories.get(2);
-        
         client.println(categoriesString);
-
         
+        
+//        client.println("Art@@@Celebrities@@@Animals");
         CATEGORY_PICKED = client.readLine();
+        System.out.println(CATEGORY_PICKED);
         
         nextRound(CATEGORY_PICKED);
-
+        
+        takeClientToQuestionScreen();
+    }
+    
+    public void takeClientToQuestionScreen(){
+        
+        
+        
     }
 
     public void nextRound(String CATEGORY_PICKED) throws IOException {
         client.println(CATEGORY_PICKED);
         QuestionObject currQuestion;
-        currGame.currPlayer().currRound().generateQuestionsFromCategory(CATEGORY_PICK);
+        currGame.currRound().generateQuestionsFromCategory(CATEGORY_PICK);
 
         OUTER:
         while ((GAME_REQUEST = client.readLine()) != null) {
@@ -249,23 +341,24 @@ public class LobbyThread extends Thread {
 
                 case QUESTION:
 
-                    currQuestion = currGame.currPlayer().currRound().getNextQuestion();
-                    client.println(questionAndShuffledAnswers(currQuestion));
-
+//                    currQuestion = currGame.currPlayer().currRound().getNextQuestion();
+//                    client.println(questionAndShuffledAnswers(currQuestion));
                     //send right answer
                     if (client.readLine().equals(RIGHT)) {
-                        client.println(currQuestion.correctAnswer);
+//                        client.println(currQuestion.correctAnswer);
                         String theirAnswer = client.readLine();
 
                         if (theirAnswer.equals(RIGHT)) {
-                            currGame.currPlayer().score();
-                            client.println(String.valueOf(currGame.currPlayer().getScore()));
+                            currGame.currPlayer().score(true);
+
+                        } else {
+                            currGame.currPlayer().score(false);
                         }
                     }
                     break;
 
 //                case ROUND_OVER:
-//                    client.println(currGame.currRound().currPlayer.score);
+//                    client.println(currGame.currPlayer().getScore());
 //                    break;
                 case BACK:
                     client.println(BACK);
@@ -398,6 +491,7 @@ public class LobbyThread extends Thread {
         scene = REGISTER_SCENE;
 
         client.println(MAIN_MENU_REQUEST);
+
         OUTER:
         while ((REGISTER_REQUEST = client.readLine()) != null) {
 

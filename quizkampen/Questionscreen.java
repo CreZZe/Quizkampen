@@ -288,23 +288,23 @@ public class Questionscreen {
     }
 
     private void RoundDone() {
+        
         timeline.stop();
         cueCard.setText("Rundan slut!");
         cueCard.setDisable(true);
         questionLabel.setDisable(true);
 
         root.setOnMousePressed(e -> {
-            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
             Scene gameScene = null;
             try {
-                gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+                gameScene = new Scene(new Scorescreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
                 Logger.getLogger(Questionscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             
             gameScene.getStylesheets().setAll(css);
             window.setScene(gameScene);
-
+            Quizkampen.client.sendRequestAndGetResponse("round done");
         });
     }
 

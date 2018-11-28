@@ -21,7 +21,7 @@ public class Lobbyscreen {
     VBox content, center, activeGamesButtons;
 
     Label title, avatar, userName;
-    
+
     ArrayList<String> games;
 
     Button refreshButton, statsButton, settingsButton;
@@ -32,19 +32,20 @@ public class Lobbyscreen {
     Scene startScene;
     int windowWidth, windowHeight;
     int nrOfActiveGames = 1;
-    
 
     public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
+
+//        Quizkampen.client.setName(Quizkampen.client.sendRequestAndGetResponse("name"));
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        
+
         root = new BorderPane();
 
         content = new VBox(0);
         activeGamesButtons = new VBox(0);
-        
+
         activeGamesButtons.setSpacing(0);
 
         topMenu = new HBox();
@@ -82,18 +83,18 @@ public class Lobbyscreen {
 
         newGameButton.setOnAction(e -> {
 
-            Scene gameScene = null;
+            Scene scoreScene = null;
             try {
-                gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
+                System.out.println(Quizkampen.client.sendRequestAndGetResponse("starta nytt spel"));
+
+                scoreScene = new Scene(new Scorescreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
                 Logger.getLogger(Lobbyscreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            gameScene.getStylesheets().setAll(css);
 
-            
-            window.setScene(gameScene);
-            System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
+            scoreScene.getStylesheets().setAll(css);
+
+            window.setScene(scoreScene);
         });
         ArrayList<Button> activeGames = new ArrayList();
         for (int i = 1; i < nrOfActiveGames; i++) {
@@ -102,14 +103,12 @@ public class Lobbyscreen {
             game.getStyleClass().add("activeGamesButton");
             game.setStyle("-fx-padding: 0px;");
         }
-        
+
         ScrollPane sp = new ScrollPane();
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         sp.setFitToWidth(true);
         sp.setFitToHeight(true);
-        
-        
 
         topMenu.getChildren().add(title);
         topMenu.getChildren().add(refreshButton);
@@ -123,21 +122,21 @@ public class Lobbyscreen {
         content.getChildren().add(user);
         content.getChildren().add(newGameButton);
         content.getChildren().addAll(activeGamesButtons);
-        
+
         sp.setContent(content);
-        
+
         root.setTop(topMenu);
         root.setCenter(sp);
         root.setBottom(exitButton);
 
     }
-    
-    public void updateUsernameLabel(String userName){
+
+    public void updateUsernameLabel(String userName) {
         this.userName.setText(userName);
     }
-    
+
     public void getCurrentGames() {
-        
+
     }
 
     public BorderPane getGUI() {

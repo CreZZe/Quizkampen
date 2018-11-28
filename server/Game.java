@@ -13,8 +13,7 @@ public class Game {
 
     class Player {
 
-        Round currRound;
-        List<Round> roundList;
+        String scores = "";
 
         String category;
 
@@ -22,51 +21,54 @@ public class Game {
 
         public Player(ClientHandler client) {
             this.client = client;
-            roundList = new ArrayList<>();
 
-            nextRound();
         }
 
-        private void nextRound() {
-            currRound = new Round();
-            roundList.add(currRound);
+        public void score(boolean b) {
+            scores += (b == true ? 1 : 0);
         }
 
-        public void score() {
-            currRound.score();
+        public String getScores() {
+
+            return scores;
+
         }
+//
+//        private void nextRound() {
+//            currRound = new Round();
+//            roundList.add(currRound);
+//        }
 
-        public boolean isRoundFinished() {
-
-            return currRound.isRoundFinished();
-        }
-
-        public boolean areAllRoundsFinished() {
-
-            return roundList.stream().allMatch(t -> t.isRoundFinished());
-        }
-
-        public Round currRound() {
-            return currRound;
-        }
-
-        public int getScore() {
-            return currRound.getScore();
-        }
-
+//        public void score(boolean b) {
+//            currRound.score(b);
+//        }
+//        public boolean isRoundFinished() {
+//
+//            return currRound.isRoundFinished();
+//        }
+//        public Round currRound() {
+//            return currRound;
+//        }
+//        
+//        public String getScores(){
+//            
+//          
+//            return currRound.scores;
+//            
+//        }
     }
 
     class Round {
-        
-        GetProperties properties = new GetProperties();
 
-        
+        public boolean isFinished = false;
+        GetProperties properties = new GetProperties();
+        private String category;
+
         public ServerProt QuestionGenerator;
-        int score;
 
         QuestionObject[] questions;
 
-        int totalQ = 2;
+        int totalQ = properties.questionsPerRound;
         int currQ = -1;
 
         public boolean isRoundFinished() {
@@ -75,11 +77,25 @@ public class Game {
 
         }
 
+        public String getAllCategories() {
+//            String toReturn = "";
+//            for (QuestionObject question : questions) {
+//                
+//                toReturn += question.category+"@@@";
+//                
+//            }
+            return category;
+        }
+
         public Round() {
+
             QuestionGenerator = new ServerProt();
-            questions = new QuestionObject[2];
+            questions = new QuestionObject[totalQ];
 
+        }
 
+        public void finishRound() {
+            this.isFinished = true;
         }
 
         public void generateQuestionsFromCategory(String CATEGORY) {
@@ -97,28 +113,27 @@ public class Game {
 
         }
 
-        public void score() {
-            score++;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
     }
 
     private List<Player> playerList;
-    
+    private List<Round> roundList;
+
     private Player currPlayer;
+    private Round currRound;
+
+    public Round currRound() {
+        return currRound;
+    }
 
     public Game(ClientHandler client) {
         playerList = new ArrayList<>();
+        roundList = new ArrayList<>();
 
         currPlayer = new Player(client);
         playerList.add(currPlayer);
 
         System.out.println("players: " + playerList.size());
-        System.out.println("first round");
+//        System.out.println("first round");
 
     }
 
@@ -127,7 +142,7 @@ public class Game {
         playerList.add(currPlayer);
 
         System.out.println("players: " + playerList.size());
-        System.out.println("second round");
+//        System.out.println("second round");
 
     }
 
@@ -137,11 +152,28 @@ public class Game {
 
     public boolean isJoinable(ClientHandler client) {
 
-        return playerList.size() < 2 && currPlayer().isRoundFinished();
+        return playerList.size() < 2;
     }
 
     public Player currPlayer() {
         return currPlayer;
+    }
+
+    public boolean areAllRoundsFinished() {
+
+        return roundList.stream().allMatch(t -> t.isRoundFinished());
+    }
+
+    public String getAllCategories() {
+        String category = "";
+
+        for (Round round : roundList) {
+
+            category += round.category + "@@@";
+        }
+//        System.out.println(category);
+        return category;
+
     }
 
 }

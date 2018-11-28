@@ -19,11 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import server.GetProperties;
 
-public class Gamescreen {
+public class Scorescreen {
 
-    
     GetProperties properties;
-    
 
     BorderPane root;
     GridPane answerButtons;
@@ -42,27 +40,17 @@ public class Gamescreen {
     Scene startScene;
     int windowWidth, windowHeight;
 
-    Button giveUp, nextGame, back;
+    Button giveUp, newRound, back;
 
     int nrOfRounds, nrOfQuestions;
-<<<<<<< HEAD
 
-    public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
-=======
-    
-    
-    public Gamescreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
->>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
+    public Scorescreen(Stage window, Scene startScene, int windowWidth, int windowHeight, String css) throws IOException {
         properties = new GetProperties();
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-<<<<<<< HEAD
 
-=======
-                
->>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
         root = new BorderPane();
         sp = new ScrollPane();
         header = new HBox();
@@ -70,18 +58,20 @@ public class Gamescreen {
         center = new VBox(10);
 
         userName = new Label(getUsername());
-        opponentName = new Label(getOpponentName());
 
         giveUp = new Button("Ge upp");
-        nextGame = new Button("Nästa Runda");
+        newRound = new Button("Nästa Runda");
         back = new Button("<");
 
         nrOfRounds = getNrOfRounds();
         nrOfQuestions = getNrOfQuestions();
 
+        opponentName = new Label(getOpponentName());
         playerScore = getPlayerScore();
-        opponentScore = getopponentScore();
-        categories = getCategories();
+        opponentScore = getOpponentScore();
+
+        categories = getAllCategories();
+
         int playerTotScore = 0;
         int opponentTotScore = 0;
 
@@ -184,7 +174,7 @@ public class Gamescreen {
 
         botMenu.getChildren().add(back);
         botMenu.getChildren().add(giveUp);
-        botMenu.getChildren().add(nextGame);
+        botMenu.getChildren().add(newRound);
 
         totalScore.getStyleClass().add("startingWelcome2");
         totalScore.setStyle("-fx-padding: 10px;");
@@ -199,26 +189,21 @@ public class Gamescreen {
         root.setCenter(sp);
         root.setBottom(botMenu);
 
-        nextGame.setOnAction(e -> {
-<<<<<<< HEAD
-            
-            Scene categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            categoryScene.getStylesheets().add("Styling.css");
-            window.setScene(categoryScene);
+        newRound.setOnAction(e -> {
 
-=======
             Scene categoryScene = null;
-            
+
             try {
+
                 categoryScene = new Scene(new Categoryscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
-                Logger.getLogger(Gamescreen.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Scorescreen.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             categoryScene.getStylesheets().setAll(css);
-            
+
             window.setScene(categoryScene);
->>>>>>> 51a3ac6dee7a185e489daa91b1b3891cfb5f1bec
+
         });
 
         giveUp.setOnAction(e -> {
@@ -226,13 +211,12 @@ public class Gamescreen {
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
         });
 
-        
         back.setOnAction(e -> {
             Scene lobbyScene = null;
             try {
                 lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight, css).getGUI(), windowWidth, windowHeight);
             } catch (IOException ex) {
-                Logger.getLogger(Gamescreen.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Scorescreen.class.getName()).log(Level.SEVERE, null, ex);
             }
             lobbyScene.getStylesheets().add(css);
             window.setScene(lobbyScene);
@@ -241,42 +225,86 @@ public class Gamescreen {
 
     }
 
-    private ArrayList<String> getCategories() {
-        ArrayList<String> temp = new ArrayList(Arrays.asList("Japanese Anime & Manga", "Videogames"));
+    private ArrayList<String> getAllCategories() {
+
+        String allCat = Quizkampen.client.sendRequestAndGetResponse("allcategories");
         ArrayList<String> tempReturn = new ArrayList();
+
+        ArrayList<String> temp = new ArrayList(Arrays.asList("Japanese Anime & Manga", "Videogames"));
+
         for (int i = 0; i < nrOfRounds; i++) {
             tempReturn.add("");
         }
-        for (int i = 0; i < temp.size(); i++) {
-            tempReturn.set(i, temp.get(i));
+
+        if (allCat.equals("")) {
+
+            return tempReturn;
+        }
+        String[] allCatArr = allCat.split("@@@");
+
+        for (int i = 0; i < allCatArr.length; i++) {
+            tempReturn.set(i, allCatArr[i]);
         }
         return tempReturn;
     }
 
     private ArrayList<Boolean> getPlayerScore() {
-        ArrayList<Boolean> temp = new ArrayList(Arrays.asList(true, true));
+
+        String ourScores = Quizkampen.client.sendRequestAndGetResponse("playerscore");
+
+        ArrayList<Boolean> temp = new ArrayList<>();
+        System.out.println("myScore : " + ourScores);
+        for (int i = 0; i < ourScores.length(); i++) {
+            char aScore = ourScores.charAt(i);
+
+            if (aScore == '1') {
+                temp.add(true);
+            } else {
+                temp.add(false);
+            }
+
+        }
+
         ArrayList<Boolean> tempReturn = new ArrayList();
 
-        for (int i = 0; i < (nrOfQuestions*nrOfRounds); i++) {
+        for (int i = 0; i < (nrOfQuestions * nrOfRounds); i++) {
 
             tempReturn.add(null);
         }
+
+        System.out.println(temp.size());
         for (int i = 0; i < temp.size(); i++) {
+            System.out.println(i + ": we are here");
             tempReturn.set(i, temp.get(i));
         }
 
         return tempReturn;
     }
 
-    private ArrayList<Boolean> getopponentScore() {
-        ArrayList<Boolean> temp = new ArrayList(Arrays.asList(false, true));
+    private ArrayList<Boolean> getOpponentScore() {
+        String theirScores = Quizkampen.client.sendRequestAndGetResponse("opponentscore");
+
+        ArrayList<Boolean> temp = new ArrayList<>();
+        System.out.println("their score: " + theirScores);
+        for (int i = 0; i < theirScores.length(); i++) {
+
+            char aScore = theirScores.charAt(i);
+
+            if (aScore == '1') {
+                temp.add(true);
+            } else {
+                temp.add(false);
+            }
+
+        }
+
         ArrayList<Boolean> tempReturn = new ArrayList();
 
-        for (int i = 0; i < (nrOfQuestions*nrOfRounds); i++) {
+        for (int i = 0; i < (nrOfQuestions * nrOfRounds); i++) {
 
             tempReturn.add(null);
         }
-        for (int i = 0; i < temp.size(); i++) {
+        for (int i = 0; i < temp.size() - 1; i++) {
             tempReturn.set(i, temp.get(i));
         }
 
@@ -284,23 +312,21 @@ public class Gamescreen {
     }
 
     private String getUsername() {
-        return "xXx420_DABxXx";
+        return Quizkampen.client.name;
     }
 
     private String getOpponentName() {
-        return "kalleKarlsson__";
+        return Quizkampen.client.sendRequestAndGetResponse("opponent name");
     }
 
-    
-    
-     private int getNrOfRounds() {
-         
+    private int getNrOfRounds() {
+
         return properties.getRoundsPerGame();
 
     }
 
     private int getNrOfQuestions() {
-        
+
         return properties.getQuestionsPerRound();
     }
 
