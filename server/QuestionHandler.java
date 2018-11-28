@@ -23,12 +23,12 @@ public class QuestionHandler {
 //        System.out.println(questionsInfo.get(1).getAnswer3());
 //    }
 
-    Path currentRelativePath = Paths.get("");
+    public Path currentRelativePath = Paths.get("");
     //BELOW IS THE POSITION FOR THE FOLDER CONTAINING THE QUESTIONS
 
     //below is for the active project
     //Folder was moved by niklas
-    String questionsFolder = currentRelativePath.toAbsolutePath().toString() + "/src/server/DB/Questions/";
+    public String questionsFolder = currentRelativePath.toAbsolutePath().toString() + "/src/server/DB/Questions/";
     //this is for my testing folder
     //String questionsFolder = currentRelativePath.toAbsolutePath().toString()+"\\src\\test03\\Questions\\";
 
@@ -37,13 +37,13 @@ public class QuestionHandler {
     int numberOfCategories = 0;
     int[] numberOfQuestionsPerCategory;
 
-    List<String> categories = new LinkedList<>();
+    public List<String> categories = new LinkedList<>();
 
-    List<QuestionObject> questionsInfo = new LinkedList<>();
+    public List<QuestionObject> questionsInfo = new LinkedList<>();
 
-    QuestionObject CurrentQuestion;
+    public QuestionObject CurrentQuestion;
 
-    List<List<QuestionObject>> questionsPerCategory = new LinkedList<>();
+    public List<List<QuestionObject>> questionsPerCategory = new LinkedList<>();
 
     public void setPath(String path) {
         questionsFolder = currentRelativePath.toAbsolutePath().toString() + "/" + path;

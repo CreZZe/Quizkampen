@@ -9,8 +9,8 @@ import java.util.List;
 
 public class ServerProt {
 
-    QuestionHandler q;
-    QuestionObject currentQuestion;
+    public QuestionHandler q;
+    public QuestionObject currentQuestion;
 
     ServerProt() {
         q = new QuestionHandler();
@@ -68,4 +68,12 @@ public class ServerProt {
         int random = (int) (Math.random() * q.getCategoryAmount());
         return this.getCategories().get(random);
     }
+//    public static void main(String args[]){
+//        ServerProt p = new ServerProt();
+//        System.out.println(p.get3Categories());
+//        System.out.println(p.getQandA(p.getACategory()));
+//        QuestionObject qo = p.getQuestionObject(p.getACategory());
+//        System.out.println(qo.getQandA());
+//        System.out.println(qo.getCorrectAnswer());
+//    }
 }
