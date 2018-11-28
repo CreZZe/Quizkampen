@@ -49,9 +49,11 @@ public class Startscreen {
         nySpela.getStyleClass().add("centerButtons");
         login.getStyleClass().add("centerButtons");
         register.getStyleClass().add("centerButtons");
-
+        Quizkampen.client.setName(Quizkampen.client.sendRequestAndGetResponse("name"));
+        
         // Add actionhandling
         nySpela.setOnAction(e -> {
+
             Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             lobbyScene.getStylesheets().add("Styling.css");
             window.setScene(lobbyScene);

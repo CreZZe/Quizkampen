@@ -27,7 +27,7 @@ public class Lobby extends Thread {
     public static List<Game> gameList;
     private LobbyThread lt;
 
-    public Lobby(int roundsPerGame, int questionsPerGame) {
+    public Lobby(int roundsPerGame, int questionsPerGame, String clientName) {
         clientList = new ArrayList<>();
         lobbyThreads = new ArrayList<>();
         gameList = new ArrayList<>();

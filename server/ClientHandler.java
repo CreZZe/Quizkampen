@@ -14,8 +14,8 @@ import java.net.Socket;
 public class ClientHandler {
     
     //Class to keep track of individual clients
-    
-    private boolean AUTHORIZED_USER;
+    private String name; 
+    private boolean AUTH = false;
     //if authoirzed we can read and write statistics, saved games, etc for the specific user
     //such as
     private int totalScore;
@@ -23,9 +23,21 @@ public class ClientHandler {
     private int gamesWon;
     private int gamesLost;
     private Game[] currentGames; //game saves - read this value when user is authorized 
+    private String ID;
+    
+    public synchronized String getID(){
+        return ID;
+    }
     
     
+    public synchronized void auth(String user){
+        AUTH = true;
+        setID(user);
+    }
     
+    private synchronized void setID(String user){
+        ID = user;
+    }
     
     private Socket clientSocket;
     private PrintWriter toClient;
@@ -36,11 +48,12 @@ public class ClientHandler {
     
     
 
-    public ClientHandler(Socket socket) throws IOException {
+    public ClientHandler(Socket socket, int ID) throws IOException {
 
         clientSocket = socket;
         toClient = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
         fromClient = new BufferedReader(new InputStreamReader(clientSocket.getInputStream(), "UTF-8"));
+        this.ID = String.valueOf(ID);
     }
 
     public void println(String input) {

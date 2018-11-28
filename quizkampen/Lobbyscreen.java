@@ -78,7 +78,7 @@ public class Lobbyscreen {
         });
 
         newGameButton.setOnAction(e -> {
-            //System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("findgame"));
             Scene gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
             gameScene.getStylesheets().add("Styling.css");
             window.setScene(gameScene);

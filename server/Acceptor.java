@@ -26,6 +26,7 @@ public class Acceptor {
     private int port = 0;
     private ServerSocket listener;
     private ClientHandler clientHandler;
+    private int ID = 0;
 
     public Acceptor(int port) throws IOException {
         lobby = new Lobby();
@@ -37,7 +38,7 @@ public class Acceptor {
     private void startInfiniteListenAndAcceptLoop() throws IOException {
         System.out.println("now listening for connections on port: " + port + "..");
         while (true) {
-            clientHandler = new ClientHandler(listener.accept());
+            clientHandler = new ClientHandler(listener.accept(),ID++);
             //Row above is BLOCKING until a client tries to connect to us
             //When a client connects, listener.accept() is invoked, 
             //which outputs a "Socket" which we use as input in a ClientHandler instance constructor

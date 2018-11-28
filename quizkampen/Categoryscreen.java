@@ -84,14 +84,14 @@ public class Categoryscreen {
     private void getCategories() {
 
         String[] categories = Quizkampen.client.sendRequestAndGetResponse("category").split("@@@", 3);
-
+        
         category1 = categories[0];
         category2 = categories[1];
         category3 = categories[2];
     }
 
     private void sendCategory(String category) {
-        System.out.println(category);
+        Quizkampen.client.sendRequestAndGetResponse(category);
     }
 
     public BorderPane getGUI() {

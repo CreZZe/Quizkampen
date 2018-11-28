@@ -13,7 +13,8 @@ public class Game {
 
     class Player {
 
-        int scorePerRound = 0;
+        Round currRound;
+        List<Round> roundList;
 
         String category;
 
@@ -21,65 +22,97 @@ public class Game {
 
         public Player(ClientHandler client) {
             this.client = client;
+            roundList = new ArrayList<>();
 
+            nextRound();
         }
 
-        public void incrementScore() {
-            scorePerRound++;
+        private void nextRound() {
+            currRound = new Round();
+            roundList.add(currRound);
+        }
+
+        public void score() {
+            currRound.score();
+        }
+
+        public boolean isRoundFinished() {
+
+            return currRound.isRoundFinished();
+        }
+
+        public boolean areAllRoundsFinished() {
+
+            return roundList.stream().allMatch(t -> t.isRoundFinished());
+        }
+
+        public Round currRound() {
+            return currRound;
+        }
+
+        public int getScore() {
+            return currRound.getScore();
         }
 
     }
 
     class Round {
 
+        
+        public ServerProt QuestionGenerator;
+        int score;
+
         QuestionObject[] questions;
-        Player currPlayer;
-        int score = 0;
         int totalQ = 2;
         int currQ = -1;
 
-        public Round(Player currPlayer) {
-            questions = new QuestionObject[2];
-            this.currPlayer = currPlayer;
+        public boolean isRoundFinished() {
 
+            return currQ + 1 == totalQ;
+
+        }
+
+        public Round() {
+            QuestionGenerator = new ServerProt();
+            questions = new QuestionObject[2];
+
+        }
+
+        public void generateQuestionsFromCategory(String CATEGORY) {
+            System.out.println(CATEGORY);
             for (int i = 0; i < questions.length; i++) {
-                questions[i] = QuestionGenerator.getQuestionObject(QuestionGenerator.getACategory());
+                questions[i] = QuestionGenerator.getQuestionObject(CATEGORY);
 
             }
-//            questions[0].printMe();
         }
 
         public QuestionObject getNextQuestion() {
             currQ++;
+            System.out.println(questions[currQ]);
             return questions[currQ];
 
         }
 
-        public void incrementScore() {
-            currPlayer.incrementScore();
+        public void score() {
+            score++;
         }
 
-        public boolean isRoundFinished() {
-
-        return currQ+1 == totalQ;
+        public int getScore() {
+            return score;
         }
 
     }
 
-    private List<Round> roundList;
     private List<Player> playerList;
-    public static ServerProt QuestionGenerator = new ServerProt();
+    
     private Player currPlayer;
-    private Round currRound;
 
     public Game(ClientHandler client) {
         playerList = new ArrayList<>();
-        roundList = new ArrayList<>();
 
         currPlayer = new Player(client);
-        currRound = new Round(currPlayer);
         playerList.add(currPlayer);
-        roundList.add(currRound);
+
         System.out.println("players: " + playerList.size());
         System.out.println("first round");
 
@@ -87,31 +120,20 @@ public class Game {
 
     public void add(ClientHandler client) {
         currPlayer = new Player(client);
-        currRound = new Round(currPlayer);
         playerList.add(currPlayer);
-        roundList.add(currRound);
 
         System.out.println("players: " + playerList.size());
         System.out.println("second round");
 
     }
 
-    public boolean isJoinable(ClientHandler client) {
-//        for (Player player : playerList) {
-//            if (player.client.equals(client)){
-//                return false;
-//            }
-//        }
-
-        return playerList.size() < 2 && currRound().isRoundFinished();
+    public List<Player> getPlayers() {
+        return playerList;
     }
-    
-    
 
-    public Round currRound() {
-        return currRound;
-    
-    
+    public boolean isJoinable(ClientHandler client) {
+
+        return playerList.size() < 2 && currPlayer().isRoundFinished();
     }
 
     public Player currPlayer() {

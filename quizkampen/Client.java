@@ -55,6 +55,10 @@ public class Client {
 
     }
 
+    
+    public void setName(String name){
+        this.name = name;
+    }
     public String sendRequestAndGetResponse(String request) {
         try {
             toServer.println(request);
@@ -62,6 +66,7 @@ public class Client {
             String response = fromServer.readLine();
             
             Quizkampen.printStackTrace();
+            
             return response;
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
