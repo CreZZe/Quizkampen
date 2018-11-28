@@ -12,57 +12,106 @@ import java.util.Map;
 public class Game {
 
     class Player {
-        
-        
-        
-        int currRound = 1;
-        String category;
 
-        Map<String, Integer> roundScores = new HashMap<>();
+        int scorePerRound = 0;
+
+        String category;
 
         ClientHandler client;
 
         public Player(ClientHandler client) {
             this.client = client;
-            category = QuestionGenerator.getACategory();
-            QuestionObject question = QuestionGenerator.getQuestionObject(category);
 
         }
 
+        public void incrementScore() {
+            scorePerRound++;
+        }
+
     }
-    
+
     class Round {
-        
-        List<QuestionObject> questionList;
 
-        public Round() {
-        questionList = new ArrayList<>();
-        questionList.add(QuestionGenerator.getQuestionObject(QuestionGenerator.getACategory()));
-        questionList.add(QuestionGenerator.getQuestionObject(QuestionGenerator.getACategory()));        
+        QuestionObject[] questions;
+        Player currPlayer;
+        int score = 0;
+        int totalQ = 2;
+        int currQ = -1;
+
+        public Round(Player currPlayer) {
+            questions = new QuestionObject[2];
+            this.currPlayer = currPlayer;
+
+            for (int i = 0; i < questions.length; i++) {
+                questions[i] = QuestionGenerator.getQuestionObject(QuestionGenerator.getACategory());
+
+            }
+//            questions[0].printMe();
         }
-        
-        
-        
-        
+
+        public QuestionObject getNextQuestion() {
+            currQ++;
+            return questions[currQ];
+
+        }
+
+        public void incrementScore() {
+            currPlayer.incrementScore();
+        }
+
+        public boolean isRoundFinished() {
+
+        return currQ+1 == totalQ;
+        }
+
     }
-    
-    List<Round> roundList;
-    List<Player> playerList;
-    ServerProt QuestionGenerator = new ServerProt();
+
+    private List<Round> roundList;
+    private List<Player> playerList;
+    public static ServerProt QuestionGenerator = new ServerProt();
+    private Player currPlayer;
+    private Round currRound;
 
     public Game(ClientHandler client) {
-        playerList.add(new Player(client));
+        playerList = new ArrayList<>();
+        roundList = new ArrayList<>();
+
+        currPlayer = new Player(client);
+        currRound = new Round(currPlayer);
+        playerList.add(currPlayer);
+        roundList.add(currRound);
+        System.out.println("players: " + playerList.size());
+        System.out.println("first round");
 
     }
 
-    public void join(ClientHandler client) {
-        System.out.println(client + " joined " + this);
+    public void add(ClientHandler client) {
+        currPlayer = new Player(client);
+        currRound = new Round(currPlayer);
+        playerList.add(currPlayer);
+        roundList.add(currRound);
 
-        playerList.add(new Player(client));
+        System.out.println("players: " + playerList.size());
+        System.out.println("second round");
+
     }
 
-    public boolean isJoinable() {
-        return playerList.size() < 2;
+    public boolean isJoinable(ClientHandler client) {
+//        for (Player player : playerList) {
+//            if (player.client.equals(client)){
+//                return false;
+//            }
+//        }
+
+        return playerList.size() < 2 && currRound().isRoundFinished();
+    }
+
+    public Round currRound() {
+        return currRound;
+    }
+
+    public Player currPlayer() {
+        return currPlayer;
     }
 
 }

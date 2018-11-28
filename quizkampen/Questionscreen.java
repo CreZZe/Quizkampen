@@ -1,9 +1,6 @@
 package quizkampen;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -12,6 +9,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,80 +17,118 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import server.GetProperties;
+
 public class Questionscreen {
+    
+
+    private enum Colors {
+        GREEN("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);"),
+        RED("-fx-background-color: linear-gradient(#FF3939 0%, #D83030 25%, #BF2B2B 50%, #AA2626 100%);"),
+        BLUE("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        private final String stringValue;
+
+        Colors(final String s) {
+            stringValue = s;
+        }
+
+        public String toString() {
+            return stringValue;
+        }
+    }
 
     BorderPane root;
     GridPane answerButtons;
     HBox header;
+    VBox headDivider;
+    StackPane timer;
 
     Stage window;
     Scene startScene;
     int windowWidth, windowHeight;
 
-    ProgressBar pb;
-    Label questionLabel, cueCard, score1, score2;
+    ProgressBar timerBar;
+    Label questionLabel, cueCard, timerLabel;
+    ArrayList<Label> scoreLabels;
 
     Button a, b, c, d;
     ArrayList<Button> buttonArray;
 
     String question, ansA, ansB, ansC, ansD;
-    String question2, ansA2, ansB2, ansC2, ansD2;
+
     String rightAnswer;
+    String right;
 
     Timeline timeline;
-    boolean first = true;
+
     ButtonClicked buttonClicked = new ButtonClicked();
-    int time = 10;
-
-    SettingsLoader load;
+    int time = 20;
+    int nrOfQuestions;
+    int questionCounter = 0;
+    boolean wait = true;
     
-    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
-        load = new SettingsLoader();
-        
-        buttonArray = new ArrayList();
+    public void updateButtons() {
+        a.setText(ansA);
+        b.setText(ansB);
+        c.setText(ansC);
+        d.setText(ansD);
+        questionLabel.setText(question);
+    }
 
+    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+        
+        
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
 
-        getQnA();
+        root = new BorderPane();
+        header = new HBox();
+        headDivider = new VBox();
+        timer = new StackPane();
+        answerButtons = new GridPane();
+        
+        setNrOfQuestions();
 
-        a = new Button(ansA);
-        b = new Button(ansB);
-        c = new Button(ansC);
-        d = new Button(ansD);
+        scoreLabels = new ArrayList();
+        for (int i = 0; i < nrOfQuestions; i++) {
+            Label score = new Label();
+            score.getStyleClass().add("scoreLabel");
+            scoreLabels.add(score);
+        }
 
+        timerBar = new ProgressBar();
+        timerBar.getStyleClass().add("progressBar");
+        timerBar.setProgress(0);
+
+        timerLabel = new Label();
+        timerLabel.getStyleClass().add("timerLabel");
+
+        timer.getChildren().add(timerBar);
+        timer.getChildren().add(timerLabel);
+
+        questionLabel = new Label();
+        questionLabel.getStyleClass().add("questionLabel");
+
+        cueCard = new Label(String.format("Fråga: %s", (questionCounter + 1)));
+        cueCard.getStyleClass().add("questionLabel");
+
+        a = new Button();
+        b = new Button();
+        c = new Button();
+        d = new Button();
+
+        buttonArray = new ArrayList();
         buttonArray.add(a);
         buttonArray.add(b);
         buttonArray.add(c);
         buttonArray.add(d);
-
-        root = new BorderPane();
-        answerButtons = new GridPane();
-
-        pb = new ProgressBar();
-        pb.setProgress(0);
-
-        header = new HBox();
-        score1 = new Label();
-        score2 = new Label();
-
-        header.getChildren().add(score1);
-        header.getChildren().add(score2);
-        header.getChildren().add(pb);
-
-        score1.getStyleClass().add("progressLabel");
-        score2.getStyleClass().add("progressLabel");
-        pb.getStyleClass().add("progressBar");
-
-        questionLabel = new Label(question);
-        cueCard = new Label("Fråga 1");
-        questionLabel.getStyleClass().add("questionLabel");
-        cueCard.getStyleClass().add("questionLabel");
 
         a.getStyleClass().add("answerButtons");
         b.getStyleClass().add("answerButtons");
@@ -104,63 +140,64 @@ public class Questionscreen {
         c.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
         d.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
 
-        a.setOnAction(buttonClicked);
-        b.setOnAction(buttonClicked);
-        c.setOnAction(buttonClicked);
-        d.setOnAction(buttonClicked);
-
         answerButtons.add(a, 0, 0);
         answerButtons.add(b, 1, 0);
         answerButtons.add(c, 0, 1);
         answerButtons.add(d, 1, 1);
 
+        header.getChildren().addAll(scoreLabels);
+
+        headDivider.getChildren().add(header);
+        headDivider.getChildren().add(timer);
+        headDivider.setAlignment(Pos.TOP_LEFT);
         answerButtons.setVisible(false);
 
+        root.setTop(headDivider);
+        root.setCenter(cueCard);
+        root.setBottom(answerButtons);
+
         cueCard.setOnMousePressed(e -> {
-            generateQuestionsAndAnswers();
+            
+            getQnA();
+            updateButtons();
             timer();
+            setRight();
+            
             root.setCenter(questionLabel);
             questionLabel.setDisable(true);
             header.setVisible(true);
+            headDivider.setVisible(true);
             answerButtons.setVisible(true);
-
+            System.out.println("");
         });
-
-        root.setTop(header);
-        root.setCenter(cueCard);
-        root.setBottom(answerButtons);
-    }
-    
-    public void generateQuestionsAndAnswers(){
-        Quizkampen.client.sendRequestAndGetResponse("question");
         
+
+        a.setOnAction(buttonClicked);
+        b.setOnAction(buttonClicked);
+        c.setOnAction(buttonClicked);
+        d.setOnAction(buttonClicked);
     }
 
     public class ButtonClicked implements EventHandler<ActionEvent> {
 
         @Override
         public void handle(ActionEvent event) {
+            //            Quizkampen.client.sendRequestAndGetResponse()            
             timeline.stop();
 
             for (Button btn : buttonArray) {
-                if (btn.getText().equals(getRightAnswer())) {
-                    btn.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
-                    if (first) {
+                if (btn.getText().equals(right)) {
+                    btn.setStyle(Colors.GREEN.toString());
+
+                    if (((Button) event.getSource()).equals(btn)) {
+                        btn.setStyle(Colors.GREEN.toString());
                         if (((Button) event.getSource()).equals(btn)) {
-                            score1.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
-                        } else {
-                            ((Button) event.getSource()).setStyle("-fx-background-color: red;");
-                            score1.setStyle("-fx-background-color: red;");
+                            scoreLabels.get(questionCounter).setStyle(Colors.GREEN.toString());
                         }
                     } else {
-                        if (((Button) event.getSource()).equals(btn)) {
-                            score2.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
-                        } else {
-                            ((Button) event.getSource()).setStyle("-fx-background-color: red;");
-                            score2.setStyle("-fx-background-color: red;");
-                        }
+                        ((Button) event.getSource()).setStyle(Colors.RED.toString());
+                        scoreLabels.get(questionCounter).setStyle(Colors.RED.toString());
                     }
-
                 }
             }
             questionDone();
@@ -168,39 +205,39 @@ public class Questionscreen {
     }
 
     private void questionDone() {
-        timeline.stop();
-
         for (Button btn : buttonArray) {
-            if (btn.getText().equals(getRightAnswer())) {
-                btn.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
+            if (btn.getText().equals(right)) {
+                btn.setStyle(Colors.GREEN.toString());
             }
         }
-
+        questionCounter++;
+        cueCard.setDisable(false);
+        wait = false;
         a.setDisable(true);
         b.setDisable(true);
         c.setDisable(true);
         d.setDisable(true);
 
         root.setOnMousePressed(e -> {
-            if (first) {
-                cueCard.setText("Fråga 2");
-                root.setCenter(cueCard);
-                answerButtons.setVisible(false);
-                a.setDisable(false);
-                b.setDisable(false);
-                c.setDisable(false);
-                d.setDisable(false);
-
-            } else {
-                //cueCard.setText("Rond slut!");
-                root.setCenter(cueCard);
-                answerButtons.setVisible(false);
-                RoundDone();
+            if (!wait) {
+                if (questionCounter < nrOfQuestions) {
+                    cueCard.setText(String.format("Fråga: %s", questionCounter + 1));
+                    root.setCenter(cueCard);
+                    answerButtons.setVisible(false);
+                    a.setDisable(false);
+                    b.setDisable(false);
+                    c.setDisable(false);
+                    d.setDisable(false);
+                } else {
+                    root.setCenter(cueCard);
+                    answerButtons.setVisible(false);
+                    RoundDone();
+                }
             }
         });
 
         cueCard.setOnMouseClicked(e -> {
-            if (first) {
+            if (questionCounter < nrOfQuestions) {
                 reset();
             } else {
                 RoundDone();
@@ -209,31 +246,38 @@ public class Questionscreen {
     }
 
     private void reset() {
-        first = false;
+        questionLabel.setDisable(false);
+        timeline.stop();
         questionLabel.setText(question);
-        questionLabel.setDisable(true);
+
+        cueCard.setDisable(true);
         root.setCenter(questionLabel);
         header.setVisible(true);
         answerButtons.setVisible(true);
 
-        header.getChildren().remove(pb);
-        pb = new ProgressBar();
-        pb.setProgress(0);
-        pb.getStyleClass().add("progressBar");
-        header.getChildren().add(pb);
+        timer.getChildren().remove(timerBar);
+        timerBar = new ProgressBar();
+        timerBar.setProgress(0);
+        timerBar.getStyleClass().add("progressBar");
 
-        a.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
-        b.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
-        c.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
-        d.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        timer.getChildren().remove(timerBar);
+        timer.getChildren().remove(timerLabel);
+        timer.getChildren().add(timerBar);
+        timer.getChildren().add(timerLabel);
 
-        getQnA();
+        a.setStyle(Colors.BLUE.toString());
+        b.setStyle(Colors.BLUE.toString());
+        c.setStyle(Colors.BLUE.toString());
+        d.setStyle(Colors.BLUE.toString());
 
         a.setDisable(false);
         b.setDisable(false);
         c.setDisable(false);
         d.setDisable(false);
+
+        questionLabel.setDisable(true);
         timer();
+        wait = true;
     }
 
     private void RoundDone() {
@@ -241,73 +285,70 @@ public class Questionscreen {
         cueCard.setText("Rundan slut!");
         cueCard.setDisable(true);
         questionLabel.setDisable(true);
-        
-        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
-        
+
+//        System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
         root.setOnMousePressed(e -> {
-            Scene lobbyScene = null;
-            try {
-                lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            } catch (IOException ex) {
-                Logger.getLogger(Questionscreen.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(Quizkampen.client.sendRequestAndGetResponse("back"));
+            Scene gameScene = new Scene(new Gamescreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            gameScene.getStylesheets().add("Styling.css");
+            window.setScene(gameScene);
+
+        });
+    }
+
+    private void timer() {
+
+        IntegerProperty seconds = new SimpleIntegerProperty();
+        timerBar.progressProperty().bind(seconds.divide(1000.0));
+
+        timeline = new Timeline(new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)), new KeyFrame(Duration.seconds(time), e -> {
+            for (Button btn : buttonArray) {
+                if (btn.getText().equals(right)) {
+                    btn.setStyle(Colors.GREEN.toString());
+                }
             }
+            scoreLabels.get(questionCounter).setStyle(Colors.RED.toString());
             
-            if (load.getColor().equals("BLÅ"))
-                lobbyScene.getStylesheets().setAll("Styling.css");
-            else
-                lobbyScene.getStylesheets().setAll("Styling.css", "green-theme.css");
-            
-            window.setScene(lobbyScene);
+            questionDone();
+        }, new KeyValue(seconds, 1000)
+        ));
+
+        timeline.setCycleCount(1);
+        timeline.play();
+
+        timerBar.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
+            double progress = newValue == null ? 0 : newValue.doubleValue();
+            int red = (int) (progress * 2 * 255);
+            int green = 510 - red;
+            timerBar.setStyle(String.format("-fx-accent: rgba(%s, %s, 0, 1);", red, green));
+            int sLeft = time - (int) (progress * time);
+
+            timerLabel.setText("" + sLeft);
         });
     }
 
     private void getQnA() {
-        
-        
-        if (first) {
-            question = "lorem ipsum 1?";
-            ansA = "Right answer";
-            ansB = "Wrong anser 1";
-            ansC = "Wrong answer 2";
-            ansD = "Wrong answer 3";
+        String questionsAndAnswers = Quizkampen.client.sendRequestAndGetResponse("question");
+        System.out.println("recieved: " + questionsAndAnswers);
+        String[] arr = questionsAndAnswers.split("@@@", 5);
 
-        } else {
-            question = "lorem ipsum 2?";
-            ansA = "Right answer";
-            ansB = "Wrong anser 1";
-            ansC = "Wrong answer 2";
-            ansD = "Wrong answer 3";
-        }
+        question = arr[0];
+        ansA = arr[1];
+        ansB = arr[2];
+        ansC = arr[3];
+        ansD = arr[4];
     }
 
-    private String getRightAnswer() {
-        return "Right answer";
+    public void setRight() {
+        right = Quizkampen.client.sendRequestAndGetResponse("right");
+        System.out.println("recieved: " + right);
     }
-
-    private void timer() {
+    
+    public void setNrOfQuestions() {
         
-        IntegerProperty seconds = new SimpleIntegerProperty();
-        pb.progressProperty().bind(seconds.divide(10000.0));
-
-        timeline = new Timeline(new KeyFrame(Duration.ZERO, new KeyValue(seconds, 0)), new KeyFrame(Duration.seconds(time), e -> {
-            for (Button btn : buttonArray) {
-                if (btn.getText().equals(getRightAnswer())) {
-                    btn.setStyle("-fx-background-color: linear-gradient(#7FDB1D 0%, #6FBF1A 25%, #66AF18 50%, #5A9A15 100%);");
-                }
-            }
-            if (first) { score1.setStyle("-fx-background-color: red;"); }
-            else { score2.setStyle("-fx-background-color: red;"); }
-            questionDone();
-        }, new KeyValue(seconds, 10000)
-        ));
-        timeline.setCycleCount(1);
-        timeline.play();
-        pb.progressProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            double progress = newValue == null ? 0 : newValue.doubleValue();
-            int red = (int) (progress*2*255);
-            int green = 510-red;
-            pb.setStyle(String.format("-fx-accent: rgba(%s, %s, 0, 1);", red, green));
-        });
+        GetProperties properties = new GetProperties();
+        nrOfQuestions = properties.getQuestionsPerRound();
+        
     }
 
     public BorderPane getGUI() {

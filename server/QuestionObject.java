@@ -10,13 +10,10 @@
  */
 package server;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class QuestionObject {
@@ -24,11 +21,12 @@ public class QuestionObject {
     String category;
     String question;
 
-    String correctAnswer, answer2, answer3, answer4;
+    String correctAnswer, answer1, answer2, answer3, answer4;
 
-    Map<String, Boolean> mapAnswers = new HashMap<>();
+    Map<String, Boolean> mapAnswers;
 
     QuestionObject(String c, String q, String a1, String a2, String a3, String a4) {
+        mapAnswers = new HashMap<>();
         category = c;
         question = q;
 //        correctAnswer = a1.substring(1, a1.length());
@@ -36,15 +34,16 @@ public class QuestionObject {
 //        answer3 = a3.substring(1, a3.length());
 //        answer4 = a4.substring(1, a4.length());
 
+        correctAnswer = a1;
+        answer1 = a1;
+        answer2 = a2;
+        answer3 = a3;
+        answer4 = a4;
+
         mapAnswers.put(answer2, Boolean.FALSE);
         mapAnswers.put(answer3, Boolean.FALSE);
         mapAnswers.put(answer4, Boolean.FALSE);
         mapAnswers.put(correctAnswer, Boolean.TRUE);
-
-        correctAnswer = a1;
-        answer2 = a2;
-        answer3 = a3;
-        answer4 = a4;
 
     }
 
@@ -52,12 +51,21 @@ public class QuestionObject {
         List<String> fragan = new LinkedList<>();
         fragan.add(category);
         fragan.add(question);
-        fragan.add(correctAnswer);
+        fragan.add(answer1);
         fragan.add(answer2);
         fragan.add(answer3);
         fragan.add(answer4);
 
         return fragan;
+    }
+    public void ShuffleAnswers(){
+        List<String> l = new LinkedList<>();
+        l.add(answer1);l.add(answer2);l.add(answer3);l.add(answer4);
+        Collections.shuffle(l);
+        answer1=l.get(0);
+        answer2=l.get(1);
+        answer3=l.get(2);
+        answer4=l.get(3);
     }
 
     public boolean checkAnswer(String check) {
@@ -74,6 +82,10 @@ public class QuestionObject {
 
     public String getCorrectAnswer() {
         return correctAnswer;
+    }
+
+    public String getAnswer1() {
+        return answer1;
     }
 
     public String getAnswer2() {
@@ -102,6 +114,5 @@ public class QuestionObject {
         System.out.println(answer4);
         this.checkAnswer(correctAnswer);
     }
-    
 
 }
