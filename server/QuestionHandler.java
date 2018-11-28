@@ -84,7 +84,7 @@ public class QuestionHandler {
                     String t[];
                     while ((templine = r.readLine()) != null) {
                         counter++;
-                        t = templine.split("##\u0025#", 5);
+                        t = templine.split("##\u0025#", 5); 
                         //if(t.length>5){
 //                           OBS OBS OM DENNA PUNKT NAS SO AR FRAGORNA FEL FORMATERADE
                         // }
