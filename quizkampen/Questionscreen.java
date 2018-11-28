@@ -1,6 +1,9 @@
 package quizkampen;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -44,7 +47,11 @@ public class Questionscreen {
     ButtonClicked buttonClicked = new ButtonClicked();
     int time = 10;
 
-    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+    SettingsLoader load;
+    
+    public Questionscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
+        load = new SettingsLoader();
+        
         buttonArray = new ArrayList();
 
         this.window = window;
@@ -91,6 +98,11 @@ public class Questionscreen {
         b.getStyleClass().add("answerButtons");
         c.getStyleClass().add("answerButtons");
         d.getStyleClass().add("answerButtons");
+        
+        a.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        b.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        c.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
+        d.setStyle("-fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 50%, #0c75a6 100%);");
 
         a.setOnAction(buttonClicked);
         b.setOnAction(buttonClicked);
@@ -233,8 +245,18 @@ public class Questionscreen {
         System.out.println(Quizkampen.client.sendRequestAndGetResponse("round is done over here"));
         
         root.setOnMousePressed(e -> {
-            Scene lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            lobbyScene.getStylesheets().add("Styling.css");
+            Scene lobbyScene = null;
+            try {
+                lobbyScene = new Scene(new Lobbyscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Questionscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if (load.getColor().equals("BLÅ"))
+                lobbyScene.getStylesheets().setAll("Styling.css");
+            else
+                lobbyScene.getStylesheets().setAll("Styling.css", "green-theme.css");
+            
             window.setScene(lobbyScene);
         });
     }

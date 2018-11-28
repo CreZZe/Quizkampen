@@ -1,5 +1,8 @@
 package quizkampen;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -25,12 +28,14 @@ public class Lobbyscreen {
     Scene startScene;
     int windowWidth, windowHeight;
 
-    public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+    public Lobbyscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
         this.window = window;
         this.startScene = startScene;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
 
+        SettingsLoader load = new SettingsLoader();
+        
         root = new BorderPane();
 
         content = new VBox(20);
@@ -69,8 +74,18 @@ public class Lobbyscreen {
         });
 
         newGameButton.setOnAction(e -> {
-            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            questionScene.getStylesheets().add("Styling.css");
+            Scene questionScene = null;
+            try {
+                questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Lobbyscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if (load.getColor().equals("BLÅ")) 
+                questionScene.getStylesheets().setAll("Styling.css");
+            else
+                questionScene.getStylesheets().setAll("Styling.css", "green-theme.css");
+            
             window.setScene(questionScene);
             System.out.println(Quizkampen.client.sendRequestAndGetResponse("newGame"));
         });

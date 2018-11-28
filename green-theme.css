@@ -1,0 +1,54 @@
+/* 
+    Created on : 2018-nov-26, 19:18:51
+    Author     : 224Mi
+*/
+
+.root {
+    -fx-background-image: url("images.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+}
+
+.button {
+    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 50%, #00b300 100%);
+}
+
+.typeContent {
+    -fx-background-color: rgba(0, 35, 0, 0.4);
+}
+
+.text-field {
+    -fx-background-color: rgba(110, 185, 140, 0.7);
+}
+
+.text-field:focused {
+    -fx-background-color: rgba(150, 225, 180, 0.7);
+}
+
+.alreadyInUse {
+    -fx-text-fill: rgb(255, 70, 70);
+}
+
+.questionLabel {
+    -fx-background-color: rgba(0, 35, 0, 0.4); 
+}
+
+.progressLabel {
+    -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 25%, #0e86bc 80%, #0c75a6 100%);
+}
+
+#synSkada > .label,
+#color > .label {
+    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
+}
+
+#synSkada > .combo-box,
+#color > .combo-box {
+    -fx-border-color: linear-gradient(#00ff00 0%, #00e600 20%, #666666 20%, #4d4d4d 50%, #666666 80%, #00cc00 80%, #00b300 100%);
+    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
+}
+
+#synSkada > .combo-box .list-cell,
+#color > .combo-box .list-cell {
+    -fx-background-color: linear-gradient(#00ff00 0%, #00e600 25%, #00cc00 80%, #00b300 100%);
+}

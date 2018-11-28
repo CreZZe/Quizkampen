@@ -1,5 +1,8 @@
 package quizkampen;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -34,13 +37,16 @@ public class Categoryscreen {
 
     Label category;
 
-    public Categoryscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) {
+    SettingsLoader load;
+    
+    public Categoryscreen(Stage window, Scene startScene, int windowWidth, int windowHeight) throws IOException {
         this.window = window;
         this.startScene = startScene;
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         
+        load = new SettingsLoader();
         
         top = new VBox(30);
         center = new VBox(30);
@@ -128,8 +134,18 @@ public class Categoryscreen {
             
             Button tempButton = (Button)event.getSource();
             sendCategory(tempButton.getText());
-            Scene questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
-            questionScene.getStylesheets().add("Styling.css");
+            Scene questionScene = null;
+            try {
+                questionScene = new Scene(new Questionscreen(window, startScene, windowWidth, windowHeight).getGUI(), windowWidth, windowHeight);
+            } catch (IOException ex) {
+                Logger.getLogger(Categoryscreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            if (load.getColor().equals("BLÅ"))
+                questionScene.getStylesheets().setAll("Styling.css");
+            else
+                questionScene.getStylesheets().setAll("Styling.css", "green-theme.css");
+            
             window.setScene(questionScene);
         }
     }

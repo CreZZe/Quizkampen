@@ -220,10 +220,6 @@
     -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 20%, #0e86bc 80%, #0c75a6 100%);
 }
 
-#synSwitch {
-    height: 50px;
-}
-
 #synSkada > .combo-box,
 #color > .combo-box {
     -fx-background-radius: 0;
@@ -235,9 +231,6 @@
     -fx-min-width: 80px;
     -fx-min-height: 50px;
     -fx-background-color: linear-gradient(#12a8ed 0%, #1097d5 20%, #0e86bc 50%, #0c75a6 100%);
-}
-#synSkada > .combo-box .list-view {
-    //-fx-background-color: black;
 }
 
 #synSkada > .combo-box .list-cell,
