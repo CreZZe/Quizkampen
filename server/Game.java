@@ -57,12 +57,15 @@ public class Game {
     }
 
     class Round {
+        
+        GetProperties properties = new GetProperties();
 
         
         public ServerProt QuestionGenerator;
         int score;
 
         QuestionObject[] questions;
+<<<<<<< HEAD
         int totalQ = 2;
         int currQ = -1;
 
@@ -75,6 +78,16 @@ public class Game {
         public Round() {
             QuestionGenerator = new ServerProt();
             questions = new QuestionObject[2];
+=======
+        Player currPlayer;
+        int score = 0;
+        int totalQ = properties.questionsPerRound;
+        int currQ = -1;
+
+        public Round(Player currPlayer) {
+            questions = new QuestionObject[totalQ];
+            this.currPlayer = currPlayer;
+>>>>>>> 1ec7ab0f3286075b6278cc6390cfda117137a887
 
         }
 
