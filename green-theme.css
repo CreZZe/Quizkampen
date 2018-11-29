@@ -4,7 +4,7 @@
 */
 
 .root {
-    -fx-background-image: url("BG.png");
+    -fx-background-image: url("BG_Green.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-padding: 30;
